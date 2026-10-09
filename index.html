@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '5aca9df202'; window.__BUILT__ = '2026-10-09 22:36';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '488c58143f'; window.__BUILT__ = '2026-10-09 22:39';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -312,6 +312,7 @@ html[data-tab="ws"] .lvl-h[data-l="1"]{ --lh:95; } html[data-tab="ws"] .lvl-h[da
 /* ---- catalog colours: section = level/CR hue, tile = its category (icon) hue ---- */
 .tile{ background:color-mix(in oklab, hsl(var(--h, 30) 42% 45%) 12%, var(--surface)); border-color:color-mix(in oklab, hsl(var(--h, 30) 38% 58%) 34%, var(--line)); }
 .tile .nm .tr{ color:hsl(var(--h, 30) 18% 68%); }
+.tile .tg.lv{ color:hsl(var(--h, 30) 35% 74%); border-color:hsl(var(--h, 30) 25% 36%); }
 .tile.on{ border-color:var(--acc); box-shadow:inset 3px 0 0 var(--acc); }
 html[data-tab="sp"] [data-l="0"]{ --lh:38; } html[data-tab="sp"] [data-l="1"]{ --lh:150; } html[data-tab="sp"] [data-l="2"]{ --lh:185; }
 html[data-tab="sp"] [data-l="3"]{ --lh:220; } html[data-tab="sp"] [data-l="4"]{ --lh:262; } html[data-tab="sp"] [data-l="5"]{ --lh:310; }
@@ -5315,6 +5316,12 @@ const SP = (() => {
     const map = {}; for (const k in m) for (const id of m[k]) map[id] = k;
     return id => { const k = map[id] || 'spark'; return { k, h: hue[k] }; };
   })();
+  // spell cards are tinted by what the spell does (SPELL_COLOR = 'role') or by school ('school'); icons keep their own type colour
+  const SPELL_COLOR = 'school';
+  const ROLE_HUE = { aoe: 5, dmg: 280, heal: 140, fx: 205 };
+  const role = s => s.fx && s.fx[0] === 'İyileştirme' ? 'heal' : s.fx && s.fx[0] === 'Hasar' ? (s.ar && s.ar[0] === 'Alan' ? 'aoe' : 'dmg') : 'fx';
+  const SCHOOL_HUE = {"Abjuration":225,"Conjuration":45,"Divination":175,"Enchantment":325,"Evocation":8,"Illusion":270,"Necromancy":80,"Transmutation":140};
+  const spellHue = s => SPELL_COLOR === 'school' ? (SCHOOL_HUE[s.schoolEn] ?? 30) : ROLE_HUE[role(s)];
   const lvlName = l => l === 0 ? '<span lang="en">Cantrip</span>' : l + '. Seviye';
   // cantrips and Fey Touched spells (from: 'FT') are always prepared and don't count against the daily number
   const always = s => s.lvl === 0 || !!s.from;
@@ -5333,12 +5340,12 @@ const SP = (() => {
     const right = always(s)
       ? `<span class="always">Her zaman<br>hazır</span>`
       : `<button class="pick" data-c="sp" data-pick="${s.id}" aria-pressed="${on}" aria-label="Hazırla: ${esc(s.en)}"><span><svg aria-hidden="true"><use href="#i-check"/></svg></span></button>`;
-    return `<div class="tile${on ? ' on' : ''}" data-id="${s.id}" style="--h:${ICON(s.id).h}">
+    return `<div class="tile${on ? ' on' : ''}" data-id="${s.id}" style="--h:${spellHue(s)}">
       <button class="open" data-c="sp" data-open="${s.id}">${icon(s)}<span class="nm"><span class="en" lang="en">${esc(s.en)}</span><span class="tr">${esc(s.tr)}</span>${tags(s, true)}</span></button>
       ${right}</div>`;
   }
   const C = {
-    k: 'sp', hue: id => ICON(id).h, all: $('#spAll'), prep: $('#spPrep'), tools: $('#spTools'), q: $('#spQ'),
+    k: 'sp', hue: id => spellHue(BY[id]), all: $('#spAll'), prep: $('#spPrep'), tools: $('#spTools'), q: $('#spQ'),
     sub: 'prep', filter: 'all', query: '', qKey: '', confirming: false, BY,
     stats: '<div class="st"><span>Saldırı</span><b>+9</b></div><div class="st"><span>DC</span><b>17</b></div>',
     segLabels: () => ['Tümü', `${items.length} büyü`, 'Hazır', `${count()}/${state.limit}`, count() > state.limit],
@@ -5636,7 +5643,7 @@ function toggleIn(C, id) {
    ===================================================================== */
 // Values read from the sheet's form fields (details_*_total / *_proficiency).
 // soft hue per ability (ability cards, skill rows, skill sheet icon)
-const AB_HUE = {"STR":12,"DEX":160,"CON":32,"INT":225,"WIS":120,"CHA":305};
+const AB_HUE = {"STR":0,"DEX":180,"CON":50,"INT":235,"WIS":110,"CHA":295};
 const SKILLS = [
   ['Acrobatics','Akrobasi','DEX',7,1], ['Animal Handling','Hayvan Eğitimi','WIS',5,0], ['Arcana','Arkana','INT',2,0],
   ['Athletics','Atletizm','STR',6,1], ['Deception','Aldatma','CHA',1,0], ['History','Tarih','INT',2,0],
