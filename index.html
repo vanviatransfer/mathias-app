@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'e7be31e577'; window.__BUILT__ = '2026-10-09 22:42';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '8b60de6538'; window.__BUILT__ = '2026-10-09 22:48';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -327,6 +327,10 @@ html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data
 .chips.mv .chip{ border-color:hsl(200 18% 30%); }
 /* sheet: the open item's hue on its fact boxes */
 .sheet .in .fact:not(.key){ background:color-mix(in oklab, hsl(var(--h, 30) 40% 45%) 7%, var(--bg)); }
+
+/* Wild Shape role tag (same hue as the card) */
+.tg.role{ background:hsl(var(--h, 30) 26% 24%); color:hsl(var(--h, 30) 40% 80%); }
+.rules .legend{ list-style:none; margin-left:-18px; display:flex; flex-wrap:wrap; gap:4px; align-items:center; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -5476,6 +5480,23 @@ const WS = (() => {
     const map = {}; for (const k in m) for (const id of m[k]) map[id] = k;
     return id => { const k = map[id] || 'paw'; return { k, h: hue[k] }; };
   })();
+  // Card colour = what the form is for at the table (user's request), first match wins:
+  // flies → Uçan · mainly aquatic → Yüzen · spider climb / web / burrow / swarm → Özellikli · lots of HP → Tank · big damage → Hasar · else Dengeli
+  const ROLES = [['Uçan', 205], ['Yüzen', 168], ['Özellikli', 305], ['Tank', 255], ['Hasar', 8], ['Dengeli', 100]];
+  const ROLE_HUE = Object.fromEntries(ROLES);
+  const role = b => {
+    if (b._role) return b._role;
+    const s = b.spd, names = [...b.traits, ...b.acts].map(t => t[0]).join('|');
+    let r;
+    if (s.fly) r = 'Uçan';
+    else if (s.swim && (s.swim > (s.walk || 0) || /Water Breathing/.test(names))) r = 'Yüzen';
+    else if (s.burrow || /Spider Climb|Web/.test(names) || /^swarm|swarm$/.test(b.id)) r = 'Özellikli';
+    else if (b.hp >= 60 && b.dpr[0] < 25) r = 'Tank';
+    else if (b.dpr[0] >= 20) r = 'Hasar';
+    else if (b.hp >= 60) r = 'Tank';
+    else r = 'Dengeli';
+    return (b._role = r);
+  };
   const MOVES = [['fly','Uçan','uçma'],['swim','Yüzen','yüzme'],['climb','Tırmanan','tırmanma'],['burrow','Kazan','kazma']];
   const DMG = { bludgeoning:'ezme', piercing:'delme', slashing:'kesme', poison:'zehir', cold:'soğuk', fire:'ateş', lightning:'şimşek', acid:'asit', thunder:'gök gürültüsü', necrotic:'nekrotik', psychic:'psişik', radiant:'ışıltı', force:'kuvvet' };
   const COND = { blinded:'kör', charmed:'büyülenmiş', deafened:'sağır', exhaustion:'bitkinlik', frightened:'korkmuş', grappled:'kavranmış', paralyzed:'felçli', petrified:'taşlaşmış', poisoned:'zehirli', prone:'yere serili', restrained:'kısıtlı', stunned:'sersem', unconscious:'baygın', incapacitated:'etkisiz' };
@@ -5489,15 +5510,15 @@ const WS = (() => {
   const mvTags = b => MOVES.filter(([k]) => b.spd[k]).map(([k, , l]) => `<span class="tg">${l[0].toUpperCase() + l.slice(1)} ${b.spd[k]}</span>`).join('');
   function tile(b) {
     const on = isSel(b.id);
-    return `<div class="tile${on ? ' on' : ''}" data-id="${b.id}" style="--h:${ICON(b.id).h}">
+    return `<div class="tile${on ? ' on' : ''}" data-id="${b.id}" style="--h:${ROLE_HUE[role(b)]}">
       <button class="open" data-c="ws" data-open="${b.id}">${icon(b)}<span class="nm"><span class="en" lang="en">${esc(b.en)}</span>${b.tr !== b.en ? `<span class="tr">${esc(b.tr)}</span>` : ''}
         <span class="qs">AC <b>${b.ac}</b> · Can <b>${b.hp}</b> · Hasar <b>~${b.dpr[0]}</b></span>
-        <span class="tags"><span class="tg lv">CR ${b.cr} · ${esc(b.size)}</span>${mvTags(b)}</span></span></button>
+        <span class="tags"><span class="tg role">${role(b)}</span><span class="tg lv">CR ${b.cr} · ${esc(b.size)}</span>${mvTags(b)}</span></span></button>
       <button class="pick" data-c="ws" data-pick="${b.id}" aria-pressed="${on}" aria-label="Seç: ${esc(b.en)}"><span><svg aria-hidden="true"><use href="#i-check"/></svg></span></button></div>`;
   }
   const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, , l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
   const C = {
-    k: 'ws', hue: id => ICON(id).h, all: $('#wsAll'), prep: $('#wsPrep'), tools: $('#wsTools'), q: $('#wsQ'),
+    k: 'ws', hue: id => ROLE_HUE[role(BY[id])], all: $('#wsAll'), prep: $('#wsPrep'), tools: $('#wsTools'), q: $('#wsQ'),
     sub: 'prep', filter: 'all', move: '', query: '', qKey: '', confirming: false, BY,
     stats: '<div class="st"><span>Maks CR</span><b>3</b></div><div class="st"><span>Hak</span><b>2</b></div>',
     segLabels: () => ['Tümü', `${items.length} hayvan`, 'Seçili', `${count()} form`, false],
@@ -5538,6 +5559,7 @@ const WS = (() => {
           <li><b>AC = hayvanın AC'si + 5</b> (WIS, masa kuralı) · saldırılar büyülü (Primal Strike)</li>
           <li>INT / WIS / CHA senin · kurtarma ve becerilerde <b>yüksek olan</b> yazılı · Algı +9</li>
           <li>Druid 9: en fazla <b>CR 3</b>; CR 4 Druid 12'de açılır</li>
+          <li class="legend">Kart rengi = rolü: ${ROLES.map(([n, h]) => `<span class="tg role" style="--h:${h}">${n}</span>`).join(' ')}</li>
           <li>Hayvanın canını alırsın; 0'a düşünce dönersin, <b>artan hasar</b> kendi canına geçer. Bonus aksiyonla erken dönebilirsin</li>
           <li>Formda <b>büyü yapamazsın</b> ve konuşamazsın; önceden başlattığın konsantrasyon sürer</li>
           <li><span lang="en">Combat Wild Shape</span>: formdayken <b>bonus aksiyon + bir büyü slotu</b> → slot seviyesi başına <b>1d8 can</b></li>
@@ -5577,7 +5599,7 @@ const WS = (() => {
       return `
         <div class="sh-top">${icon(b)}<div><h2 id="shName" lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · ${esc(b.size)}${b.ed ? ' · ' + b.ed : ''}</p></div>
           <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
-        <span class="tags">${b.role.split(' · ').map(r => `<span class="tg">${esc(r)}</span>`).join('')}</span>
+        <span class="tags"><span class="tg role" style="--h:${ROLE_HUE[role(b)]}">${role(b)}</span>${b.role.split(' · ').map(r => `<span class="tg">${esc(r)}</span>`).join('')}</span>
         <dl class="facts">
           <div class="fact key k-dmg"><dt>Tur başı hasar</dt><dd>~${b.dpr[0]}<small>${esc(b.dpr[1])}</small></dd></div>
           <div class="fact key"><dt>AC · Can</dt><dd>AC ${b.ac} · ${b.hp} can<small>${acSub} · ${esc(b.hd)}</small></dd></div>
