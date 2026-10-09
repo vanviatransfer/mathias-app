@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true;</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '1560340998'; window.__BUILT__ = '2026-10-09 15:06';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -228,6 +228,12 @@ nav .wrap{ grid-template-columns:repeat(3,1fr); }
 .desc i{ color:var(--muted); }
 .act button[disabled]{ background:var(--line); color:var(--muted); }
 
+/* güncel sürümü çek */
+.upd{ flex-basis:100%; min-height:48px; border-radius:12px; background:var(--acc); color:var(--acc-ink); font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px; }
+.upd svg{ width:20px; height:20px; }
+.upd.spin svg{ animation:spin 1s linear infinite; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
 /* character */
 .install{ margin-top:12px; border-color:var(--acc); display:grid; gap:8px; }
 .install p{ margin:0; font-size:.92rem; }
@@ -290,6 +296,7 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
   <symbol id="i-horn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2 3-1 6 2 7M17 3c2 3 1 6-2 7"/><path d="M8 10c0 6 2 10 4 10s4-4 4-10c-1-.7-2.5-1-4-1s-3 .3-4 1z"/><circle cx="10.3" cy="13" r=".6" fill="currentColor"/><circle cx="13.7" cy="13" r=".6" fill="currentColor"/></symbol>
   <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.5" r="3.5"/><path d="M5 20.5c.6-4 3.3-6.5 7-6.5s6.4 2.5 7 6.5"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></symbol>
  </defs>
 </svg>
 
@@ -317,6 +324,7 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
 
 <main class="wrap" id="main">
  <div class="view" id="charView">
+  <div class="card install" id="updBanner" hidden><p><b>Yeni sürüm hazır.</b> Güncellemek için dokun; notların ve seçimlerin silinmez.</p><div class="row"><button class="mini pri" data-update="apply">Güncelle</button></div></div>
   <div class="card install" id="install" hidden></div>
   <section class="card build-card">Human <span lang="en">Druid (Circle of the Moon)</span> 9 / <span lang="en">Monk</span> 1</section>
 
@@ -372,6 +380,8 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
    <button class="mini" data-backup="import">Yedeği geri yükle</button>
    <input type="file" id="importFile" accept="application/json,.json" hidden>
    <p id="storeState"></p>
+   <button class="upd" id="updBtn" data-update="check" hidden><svg aria-hidden="true"><use href="#i-refresh"/></svg>Güncel sürümü çek</button>
+   <p id="verLine"></p>
   </div>
   <p class="src">Kaynak: karakter sayfası (Aurora Builder), sayfa 1.</p>
  </div>
@@ -5564,6 +5574,42 @@ async function installAction(a) {
   renderInstall();
 }
 
+/* ---------- güncel sürümü çek ----------
+   The installed app compares its own build id with the one in the live index.html (fetched past every cache).
+   Newer → refresh the service worker, drop the old cache and reload. Notes and selections live in localStorage and stay.
+   On launch it checks quietly and shows a banner when a newer build is out. Only in the https build. */
+const BUILD = window.__BUILD__ || '', BUILT = window.__BUILT__ || '';
+let updBusy = false;
+async function liveBuild() {
+  const r = await fetch('index.html?u=' + Date.now(), { cache: 'no-store' });
+  if (!r.ok) throw new Error('http ' + r.status);
+  return ((await r.text()).match(/__BUILD__ = '([0-9a-f]+)'/) || [])[1] || '';
+}
+async function applyUpdate() {
+  try { const reg = navigator.serviceWorker && await navigator.serviceWorker.getRegistration(); if (reg) await reg.update(); } catch (e) {}
+  try { for (const k of await caches.keys()) if (k.startsWith('mathias-') && k !== 'mathias-fonts') await caches.delete(k); } catch (e) {}
+  location.reload();
+}
+async function updateAction(a) {
+  if (a === 'apply') { toast('Güncelleniyor…'); return applyUpdate(); }
+  if (updBusy) return;
+  if (!navigator.onLine) { toast('İnternet yok; güncellemek için bağlan.'); return; }
+  updBusy = true; $('#updBtn').classList.add('spin');
+  try {
+    const live = await liveBuild();
+    if (live && live !== BUILD) { toast('Yeni sürüm bulundu, yükleniyor…'); await applyUpdate(); return; }
+    toast(`Zaten en güncel sürüm (${BUILD}).`);
+  } catch (e) { toast('Sunucuya ulaşılamadı, sonra tekrar dene.'); }
+  updBusy = false; $('#updBtn').classList.remove('spin');
+}
+function initUpdate() {
+  if (!window.__PWA__) return;
+  $('#updBtn').hidden = false;
+  $('#verLine').textContent = `Sürüm ${BUILD} · ${BUILT}`;
+  if (!navigator.onLine) return;
+  liveBuild().then(live => { if (live && live !== BUILD) $('#updBanner').hidden = false; }).catch(() => {});
+}
+
 /* =====================================================================
    Tabs, header, sheet
    ===================================================================== */
@@ -5644,7 +5690,7 @@ addEventListener('popstate', () => { if (skipPop) { skipPop--; return; } closeSh
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],#scrim');
+  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],#scrim');
   if (!t) return;
   const C = CATS[t.dataset.c];
   if (t.dataset.pick) return toggleIn(C, t.dataset.pick);
@@ -5664,6 +5710,7 @@ document.addEventListener('click', e => {
   if (t.dataset.tab) return go(t.dataset.tab);
   if (t.dataset.sub) return go(tab, t.dataset.sub);
   if (t.dataset.inv) return invAction(t);
+  if (t.dataset.update) return updateAction(t.dataset.update);
   if (t.dataset.install) return installAction(t.dataset.install);
   if (t.dataset.backup === 'export') return exportData();
   if (t.dataset.backup === 'import') return $('#importFile').click();
@@ -5682,6 +5729,7 @@ for (const C of [SP, WS]) {
 for (const C of [SP, WS]) { C.renderChips(); C.buildAll(); applyFilter(C); }
 renderInv();
 renderInstall();
+initUpdate();
 for (const C of Object.values(CATS)) C.renderPrep();
 // Storage check shown on the character page, so a phone test shows at once whether notes will be kept.
 (function(){
