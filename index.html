@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '1560340998'; window.__BUILT__ = '2026-10-09 15:06';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'b8142c8065'; window.__BUILT__ = '2026-10-09 15:09';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -5613,9 +5613,8 @@ function initUpdate() {
 /* =====================================================================
    Tabs, header, sheet
    ===================================================================== */
-const TAB_KEY = 'mathias-app-tab-v1';
-let tab = (load(TAB_KEY, 'char'));
-if (!['char','sp','ws'].includes(tab)) tab = 'char';
+// The app always opens on the Karakter tab (user's request); the last tab is not remembered.
+let tab = 'char';
 const scrollMem = {};
 const viewKey = () => tab === 'char' ? 'char' : tab + CATS[tab].sub;
 
@@ -5643,7 +5642,7 @@ function go(nextTab, nextSub) {
   scrollMem[viewKey()] = window.scrollY;
   // entering Büyüler / Wild Shape from another tab always opens the selected list first (user's request)
   if (C && nextTab !== tab) C.sub = 'prep';
-  tab = nextTab; store(TAB_KEY, tab);
+  tab = nextTab;
   if (C && nextSub) C.sub = nextSub;
   if (C) C.confirming = false;
   if (C && C.sub === 'prep') C.renderPrep();
