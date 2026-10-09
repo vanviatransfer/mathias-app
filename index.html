@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '2d57a8327a'; window.__BUILT__ = '2026-10-09 22:28';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '5aca9df202'; window.__BUILT__ = '2026-10-09 22:36';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -308,6 +308,24 @@ html[data-tab="sp"] .lvl-h[data-l="0"]{ --lh:38; } html[data-tab="sp"] .lvl-h[da
 html[data-tab="sp"] .lvl-h[data-l="3"]{ --lh:220; } html[data-tab="sp"] .lvl-h[data-l="4"]{ --lh:262; } html[data-tab="sp"] .lvl-h[data-l="5"]{ --lh:310; }
 html[data-tab="ws"] .lvl-h[data-l="1"]{ --lh:95; } html[data-tab="ws"] .lvl-h[data-l="2"]{ --lh:40; } html[data-tab="ws"] .lvl-h[data-l="3"]{ --lh:15; } html[data-tab="ws"] .lvl-h[data-l="4"]{ --lh:340; }
 .sum{ background:color-mix(in oklab, var(--acc) 6%, var(--surface)); border-color:color-mix(in oklab, var(--acc) 22%, var(--line)); }
+
+/* ---- catalog colours: section = level/CR hue, tile = its category (icon) hue ---- */
+.tile{ background:color-mix(in oklab, hsl(var(--h, 30) 42% 45%) 12%, var(--surface)); border-color:color-mix(in oklab, hsl(var(--h, 30) 38% 58%) 34%, var(--line)); }
+.tile .nm .tr{ color:hsl(var(--h, 30) 18% 68%); }
+.tile.on{ border-color:var(--acc); box-shadow:inset 3px 0 0 var(--acc); }
+html[data-tab="sp"] [data-l="0"]{ --lh:38; } html[data-tab="sp"] [data-l="1"]{ --lh:150; } html[data-tab="sp"] [data-l="2"]{ --lh:185; }
+html[data-tab="sp"] [data-l="3"]{ --lh:220; } html[data-tab="sp"] [data-l="4"]{ --lh:262; } html[data-tab="sp"] [data-l="5"]{ --lh:310; }
+html[data-tab="ws"] [data-l="1"]{ --lh:95; } html[data-tab="ws"] [data-l="2"]{ --lh:40; } html[data-tab="ws"] [data-l="3"]{ --lh:15; } html[data-tab="ws"] [data-l="4"]{ --lh:340; }
+.view section[data-l] > .list, .lvl-h[data-l] + .list{ border-left:2px solid hsl(var(--lh, 38) 25% 32%); padding-left:8px; }
+.lvl-h[data-l] small{ color:hsl(var(--lh, 38) 16% 62%); }
+.chip[data-f]:not([data-f="all"]){ --lh:38; border-color:hsl(var(--lh) 22% 32%); color:hsl(var(--lh) 30% 70%); }
+html[data-tab="sp"] .chip[data-f="0"]{ --lh:38; } html[data-tab="sp"] .chip[data-f="1"]{ --lh:150; } html[data-tab="sp"] .chip[data-f="2"]{ --lh:185; }
+html[data-tab="sp"] .chip[data-f="3"]{ --lh:220; } html[data-tab="sp"] .chip[data-f="4"]{ --lh:262; } html[data-tab="sp"] .chip[data-f="5"]{ --lh:310; }
+html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data-f="2"]{ --lh:40; } html[data-tab="ws"] .chip[data-f="3"]{ --lh:15; } html[data-tab="ws"] .chip[data-f="4"]{ --lh:340; }
+.chip[data-f]:not([data-f="all"])[aria-pressed="true"]{ background:hsl(var(--lh) 30% 62%); border-color:hsl(var(--lh) 30% 62%); color:#1b1612; }
+.chips.mv .chip{ border-color:hsl(200 18% 30%); }
+/* sheet: the open item's hue on its fact boxes */
+.sheet .in .fact:not(.key){ background:color-mix(in oklab, hsl(var(--h, 30) 40% 45%) 7%, var(--bg)); }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -5315,12 +5333,12 @@ const SP = (() => {
     const right = always(s)
       ? `<span class="always">Her zaman<br>hazır</span>`
       : `<button class="pick" data-c="sp" data-pick="${s.id}" aria-pressed="${on}" aria-label="Hazırla: ${esc(s.en)}"><span><svg aria-hidden="true"><use href="#i-check"/></svg></span></button>`;
-    return `<div class="tile${on ? ' on' : ''}" data-id="${s.id}">
+    return `<div class="tile${on ? ' on' : ''}" data-id="${s.id}" style="--h:${ICON(s.id).h}">
       <button class="open" data-c="sp" data-open="${s.id}">${icon(s)}<span class="nm"><span class="en" lang="en">${esc(s.en)}</span><span class="tr">${esc(s.tr)}</span>${tags(s, true)}</span></button>
       ${right}</div>`;
   }
   const C = {
-    k: 'sp', all: $('#spAll'), prep: $('#spPrep'), tools: $('#spTools'), q: $('#spQ'),
+    k: 'sp', hue: id => ICON(id).h, all: $('#spAll'), prep: $('#spPrep'), tools: $('#spTools'), q: $('#spQ'),
     sub: 'prep', filter: 'all', query: '', qKey: '', confirming: false, BY,
     stats: '<div class="st"><span>Saldırı</span><b>+9</b></div><div class="st"><span>DC</span><b>17</b></div>',
     segLabels: () => ['Tümü', `${items.length} büyü`, 'Hazır', `${count()}/${state.limit}`, count() > state.limit],
@@ -5332,7 +5350,7 @@ const SP = (() => {
       let html = '';
       for (const l of [0,1,2,3,4,5]) {
         const list = items.filter(s => s.lvl === l);
-        html += `<section data-l="${l}"><h2 class="lvl-h" data-l="${l}">${lvlName(l)}${l ? ` <small data-cnt="${l}"></small>` : ''}</h2><div class="list">${list.map(tile).join('')}</div></section>`;
+        html += `<section data-l="${l}"><h2 class="lvl-h" data-l="${l}">${lvlName(l)}${l ? ` <small data-cnt="${l}"></small>` : ''}</h2><div class="list" data-l="${l}">${list.map(tile).join('')}</div></section>`;
       }
       C.all.innerHTML = html + `<p class="empty" data-nohits hidden></p>`;
       C.updateCounts();
@@ -5374,7 +5392,7 @@ const SP = (() => {
         const list = items.filter(s => s.lvl === l && isSel(s.id));
         if (!list.length) continue;
         const ft = list.filter(s => s.from).length;
-        html += `<h2 class="lvl-h" data-l="${l}">${lvlName(l)}${l === 0 ? ' <small>her zaman hazır</small>' : ` <small>${list.length - ft}${ft ? ` + ${ft} <span lang="en">Fey Touched</span>` : ''}</small>`}</h2><div class="list">${list.map(tile).join('')}</div>`;
+        html += `<h2 class="lvl-h" data-l="${l}">${lvlName(l)}${l === 0 ? ' <small>her zaman hazır</small>' : ` <small>${list.length - ft}${ft ? ` + ${ft} <span lang="en">Fey Touched</span>` : ''}</small>`}</h2><div class="list" data-l="${l}">${list.map(tile).join('')}</div>`;
       }
       if (!n) html += `<p class="empty">Henüz büyü hazırlamadın. “Tümü” görünümünde bir büyünün yanındaki daireye dokun.</p>`;
       C.prep.innerHTML = html;
@@ -5464,7 +5482,7 @@ const WS = (() => {
   const mvTags = b => MOVES.filter(([k]) => b.spd[k]).map(([k, , l]) => `<span class="tg">${l[0].toUpperCase() + l.slice(1)} ${b.spd[k]}</span>`).join('');
   function tile(b) {
     const on = isSel(b.id);
-    return `<div class="tile${on ? ' on' : ''}" data-id="${b.id}">
+    return `<div class="tile${on ? ' on' : ''}" data-id="${b.id}" style="--h:${ICON(b.id).h}">
       <button class="open" data-c="ws" data-open="${b.id}">${icon(b)}<span class="nm"><span class="en" lang="en">${esc(b.en)}</span>${b.tr !== b.en ? `<span class="tr">${esc(b.tr)}</span>` : ''}
         <span class="qs">AC <b>${b.ac}</b> · Can <b>${b.hp}</b> · Hasar <b>~${b.dpr[0]}</b></span>
         <span class="tags"><span class="tg lv">CR ${b.cr} · ${esc(b.size)}</span>${mvTags(b)}</span></span></button>
@@ -5472,7 +5490,7 @@ const WS = (() => {
   }
   const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, , l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
   const C = {
-    k: 'ws', all: $('#wsAll'), prep: $('#wsPrep'), tools: $('#wsTools'), q: $('#wsQ'),
+    k: 'ws', hue: id => ICON(id).h, all: $('#wsAll'), prep: $('#wsPrep'), tools: $('#wsTools'), q: $('#wsQ'),
     sub: 'prep', filter: 'all', move: '', query: '', qKey: '', confirming: false, BY,
     stats: '<div class="st"><span>Maks CR</span><b>3</b></div><div class="st"><span>Hak</span><b>2</b></div>',
     segLabels: () => ['Tümü', `${items.length} hayvan`, 'Seçili', `${count()} form`, false],
@@ -5485,7 +5503,7 @@ const WS = (() => {
       let html = '';
       for (const c of CRS) {
         const list = items.filter(b => b.cr === c);
-        html += `<section data-l="${c}"><h2 class="lvl-h" data-l="${c}">CR ${c} <small data-cnt="${c}"></small></h2><div class="list">${list.map(tile).join('')}</div></section>`;
+        html += `<section data-l="${c}"><h2 class="lvl-h" data-l="${c}">CR ${c} <small data-cnt="${c}"></small></h2><div class="list" data-l="${c}">${list.map(tile).join('')}</div></section>`;
       }
       C.all.innerHTML = html + `<p class="empty" data-nohits hidden></p>`;
       C.updateCounts();
@@ -5525,7 +5543,7 @@ const WS = (() => {
       for (const c of CRS) {
         const list = items.filter(b => b.cr === c && isSel(b.id));
         if (!list.length) continue;
-        html += `<h2 class="lvl-h" data-l="${c}">CR ${c} <small>${list.length}</small></h2><div class="list">${list.map(tile).join('')}</div>`;
+        html += `<h2 class="lvl-h" data-l="${c}">CR ${c} <small>${list.length}</small></h2><div class="list" data-l="${c}">${list.map(tile).join('')}</div>`;
       }
       if (!n) html += `<p class="empty">Henüz form seçmedin. “Tümü” görünümünde bir hayvanın yanındaki daireye dokun.</p>`;
       C.prep.innerHTML = html;
@@ -5901,6 +5919,7 @@ function openSheet(C, id) {
   clearTimeout(hideT);
   openRef = { c: C, id };
   $('#sheetIn').innerHTML = C.fill(id);
+  const hue = C.hue && C.hue(id); if (hue != null) $('#sheetIn').style.setProperty('--h', hue); else $('#sheetIn').style.removeProperty('--h');
   scrim.hidden = false; sheet.hidden = false; sheet.style.transform = '';
   document.documentElement.classList.add('sheet-open');
   background().forEach(el => { el.inert = true; });
