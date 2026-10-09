@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '1f847641b7'; window.__BUILT__ = '2026-10-09 22:06';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '2d57a8327a'; window.__BUILT__ = '2026-10-09 22:28';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -271,6 +271,43 @@ nav .wrap{ grid-template-columns:repeat(3,1fr); }
 .data{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .data p{ margin:0; font-size:.82rem; color:var(--muted); flex-basis:100%; }
 textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outline-offset:1px; }
+
+/* ---- section colours (soft, low saturation; revert: git tag renk-oncesi) ---- */
+.sec{ --sh:30; }
+.sec > .lvl-h{ color:hsl(var(--sh) 38% 74%); }
+.sec > .lvl-h::after{ background:hsl(var(--sh) 22% 30%); }
+.sec > .lvl-h small{ color:hsl(var(--sh) 14% 62%); }
+.sec .card, .sec .quick div{ background:color-mix(in oklab, hsl(var(--sh) 40% 45%) 8%, var(--surface)); border-color:color-mix(in oklab, hsl(var(--sh) 35% 55%) 26%, var(--line)); }
+.quick div{ background:color-mix(in oklab, hsl(32 40% 45%) 7%, var(--surface)); border-color:color-mix(in oklab, hsl(32 35% 55%) 22%, var(--line)); }
+.quick dd{ color:hsl(32 52% 72%); }
+/* one item = one hue: abilities and skills by ability, features by source */
+.ih{ background:color-mix(in oklab, hsl(var(--ih) 40% 45%) 10%, var(--surface)) !important; border-color:color-mix(in oklab, hsl(var(--ih) 35% 58%) 30%, var(--line)) !important; }
+.abl .ih b, .abl .ih span{ color:hsl(var(--ih) 42% 74%); }
+.abl .ih.pr{ border-color:hsl(var(--ih) 38% 62%) !important; box-shadow:inset 0 0 0 1px hsl(var(--ih) 38% 62% / .35); }
+.abl .ih.pr em{ color:hsl(var(--ih) 45% 76%); }
+.skills .ih i, .skills .ih small{ color:hsl(var(--ih) 30% 66%); }
+.skills .ih.pr{ border-color:hsl(var(--ih) 36% 56%) !important; }
+.skills .ih.pr i, .skills .ih.pr em{ color:hsl(var(--ih) 45% 74%); }
+.feat.ih h3 > span:first-child{ color:hsl(var(--ih) 40% 80%); }
+.feat.ih .tg:not(.lv){ background:hsl(var(--ih) 25% 24%); color:hsl(var(--ih) 45% 80%); }
+.atkc{ border-color:color-mix(in oklab, hsl(8 40% 60%) 40%, var(--line)) !important; }
+.atkc .hit{ color:hsl(8 50% 74%); }
+/* rest card: short / long / third block */
+.rest h3:nth-of-type(1){ color:hsl(185 40% 70%); } .rest ul:nth-of-type(1){ border-left:2px solid hsl(185 30% 40%); }
+.rest h3:nth-of-type(2){ color:hsl(250 40% 76%); } .rest ul:nth-of-type(2){ border-left:2px solid hsl(250 25% 45%); }
+.rest h3:nth-of-type(3){ color:hsl(340 35% 74%); } .rest ul:nth-of-type(3){ border-left:2px solid hsl(340 22% 42%); }
+.rest ul{ padding-left:22px; border-radius:2px; }
+/* items vs notes */
+.inv:nth-child(1){ --ih:42; } .inv:nth-child(2){ --ih:200; }
+.inv{ background:color-mix(in oklab, hsl(var(--ih) 40% 45%) 9%, var(--surface)) !important; border-color:color-mix(in oklab, hsl(var(--ih) 35% 58%) 28%, var(--line)) !important; }
+.inv h3{ color:hsl(var(--ih) 40% 74%); }
+/* catalog level / CR headings */
+.lvl-h[data-l]{ --lh:38; color:hsl(var(--lh) 38% 72%); }
+.lvl-h[data-l]::after{ background:hsl(var(--lh) 22% 30%); }
+html[data-tab="sp"] .lvl-h[data-l="0"]{ --lh:38; } html[data-tab="sp"] .lvl-h[data-l="1"]{ --lh:150; } html[data-tab="sp"] .lvl-h[data-l="2"]{ --lh:185; }
+html[data-tab="sp"] .lvl-h[data-l="3"]{ --lh:220; } html[data-tab="sp"] .lvl-h[data-l="4"]{ --lh:262; } html[data-tab="sp"] .lvl-h[data-l="5"]{ --lh:310; }
+html[data-tab="ws"] .lvl-h[data-l="1"]{ --lh:95; } html[data-tab="ws"] .lvl-h[data-l="2"]{ --lh:40; } html[data-tab="ws"] .lvl-h[data-l="3"]{ --lh:15; } html[data-tab="ws"] .lvl-h[data-l="4"]{ --lh:340; }
+.sum{ background:color-mix(in oklab, var(--acc) 6%, var(--surface)); border-color:color-mix(in oklab, var(--acc) 22%, var(--line)); }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -349,20 +386,25 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
   </dl>
   <p class="sub">Zırh: <span lang="en">Unarmored Defense (Monk)</span> → AC 18 (10 + DEX 3 + WIS 5). Uçma, tırmanma, yüzme hızı yok.</p>
 
+  <section class="sec" style="--sh:38">
   <h2 class="lvl-h">Yetenekler <small>● = kurtarmada yeterli</small></h2>
   <div class="abl">
-   <div><span>STR</span><b>15</b><i>+2</i><em>Kurtarma +2</em></div>
-   <div><span>DEX</span><b>16</b><i>+3</i><em>Kurtarma +3</em></div>
-   <div><span>CON</span><b>18</b><i>+4</i><em>Kurtarma +4</em></div>
-   <div class="pr"><span>INT</span><b>14</b><i>+2</i><em>● Kurtarma +6</em></div>
-   <div class="pr"><span>WIS</span><b>20</b><i>+5</i><em>● Kurtarma +9</em></div>
-   <div><span>CHA</span><b>12</b><i>+1</i><em>Kurtarma +1</em></div>
+   <div class="ih" style="--ih:12"><span>STR</span><b>15</b><i>+2</i><em>Kurtarma +2</em></div>
+   <div class="ih" style="--ih:160"><span>DEX</span><b>16</b><i>+3</i><em>Kurtarma +3</em></div>
+   <div class="ih" style="--ih:32"><span>CON</span><b>18</b><i>+4</i><em>Kurtarma +4</em></div>
+   <div class="ih pr" style="--ih:225"><span>INT</span><b>14</b><i>+2</i><em>● Kurtarma +6</em></div>
+   <div class="ih pr" style="--ih:120"><span>WIS</span><b>20</b><i>+5</i><em>● Kurtarma +9</em></div>
+   <div class="ih" style="--ih:305"><span>CHA</span><b>12</b><i>+1</i><em>Kurtarma +1</em></div>
   </div>
   <p class="sub"><span lang="en">War Caster</span>: konsantrasyon için CON kurtarmasında <b>avantaj</b>.</p>
 
+  </section>
+  <section class="sec" style="--sh:150">
   <h2 class="lvl-h">Beceriler <small>● yeterli · dokun: ayrıntı</small></h2>
   <ul class="skills" id="skills"></ul>
 
+  </section>
+  <section class="sec" style="--sh:8">
   <h2 class="lvl-h">Saldırılar</h2>
   <div class="card atkc">
    <div class="arow"><b lang="en">Unarmed Strike</b><span>5 ft</span><span class="hit">+7</span><span class="dmg">1d4+3 ezme</span></div>
@@ -370,29 +412,38 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
    <p>Büyü saldırısı <b>+9</b> · büyü kurtarma <b>DC 17</b> (Bilgelik).</p>
   </div>
 
+  </section>
+  <section class="sec" style="--sh:205">
   <h2 class="lvl-h">Dinlenmeler</h2>
   <div class="card rest">
    <h3>Kısa dinlenme <small>en az 1 saat</small></h3>
    <ul>
     <li><span lang="en">Wild Shape</span>'in <b>2 hakkı</b> geri gelir.</li>
     <li>İstersen <b>can zarı</b> harca: her zar için <b>1d8 at, +4 ekle</b>, o kadar can kazan. 10 zarın var.</li>
+    <li>Harcanan zarlar kısa dinlenmede <b>geri gelmez</b>. Uzun dinlenmenin sonunda en fazla <b>toplam zarının yarısı</b> geri gelir (10 zar → en fazla 5, en az 1).</li>
    </ul>
    <h3>Uzun dinlenme <small>8 saat</small></h3>
    <ul>
     <li>Canın tamamen dolar; büyü slotları (4/3/3/3/1), <span lang="en">Fey Touched</span> büyüleri ve <span lang="en">Wild Shape</span> hakları geri gelir.</li>
-    <li>Harcadığın can zarlarından <b>5'i</b> geri gelir.</li>
+    <li>Harcadığın can zarlarından <b>en fazla 5'i</b> geri gelir (toplamın yarısı).</li>
     <li>Hazırladığın büyüleri <b>yalnız uzun dinlenmenin sonunda</b> değiştirebilirsin; kısa dinlenmede değişmez.</li>
    </ul>
    <h3>Konsantrasyon</h3>
    <ul><li>Hasar alınca CON kurtarması: DC 10 ya da hasarın yarısı (hangisi yüksekse). <span lang="en">War Caster</span> ile <b>avantajlı</b>.</li></ul>
   </div>
 
+  </section>
+  <section class="sec" style="--sh:42">
   <h2 class="lvl-h">Eşyalar ve notlar</h2>
   <div class="inv" id="inv"></div>
 
+  </section>
+  <section class="sec" style="--sh:265">
   <h2 class="lvl-h">Özellikler</h2>
   <div class="feats" id="feats"></div>
 
+  </section>
+  <section class="sec" style="--sh:85">
   <h2 class="lvl-h">Yeterlilikler ve diller</h2>
   <div class="card prof">
    <p><b>Zırh:</b> <span lang="en">Light Armor, Medium Armor, Shields</span></p>
@@ -401,6 +452,8 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
    <p><b>Diller:</b> <span lang="en">Common, Draconic, Sylvan, Druidic</span></p>
   </div>
 
+  </section>
+  <section class="sec" style="--sh:215">
   <h2 class="lvl-h">Veri</h2>
   <div class="card data">
    <p>Eşyalar, notlar, hazırlanan büyüler ve seçili formlar bu telefonda saklanır. Telefon değiştirirken ya da uygulamayı silmeden önce yedek al.</p>
@@ -411,6 +464,7 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
    <button class="upd" id="updBtn" data-update="check" hidden><svg aria-hidden="true"><use href="#i-refresh"/></svg>Güncel sürümü çek</button>
    <p id="verLine"></p>
   </div>
+  </section>
   <p class="src">Kaynak: karakter sayfası (Aurora Builder), sayfa 1.</p>
  </div>
  <div class="view" id="spAll" hidden></div>
@@ -5278,7 +5332,7 @@ const SP = (() => {
       let html = '';
       for (const l of [0,1,2,3,4,5]) {
         const list = items.filter(s => s.lvl === l);
-        html += `<section data-l="${l}"><h2 class="lvl-h">${lvlName(l)}${l ? ` <small data-cnt="${l}"></small>` : ''}</h2><div class="list">${list.map(tile).join('')}</div></section>`;
+        html += `<section data-l="${l}"><h2 class="lvl-h" data-l="${l}">${lvlName(l)}${l ? ` <small data-cnt="${l}"></small>` : ''}</h2><div class="list">${list.map(tile).join('')}</div></section>`;
       }
       C.all.innerHTML = html + `<p class="empty" data-nohits hidden></p>`;
       C.updateCounts();
@@ -5320,7 +5374,7 @@ const SP = (() => {
         const list = items.filter(s => s.lvl === l && isSel(s.id));
         if (!list.length) continue;
         const ft = list.filter(s => s.from).length;
-        html += `<h2 class="lvl-h">${lvlName(l)}${l === 0 ? ' <small>her zaman hazır</small>' : ` <small>${list.length - ft}${ft ? ` + ${ft} <span lang="en">Fey Touched</span>` : ''}</small>`}</h2><div class="list">${list.map(tile).join('')}</div>`;
+        html += `<h2 class="lvl-h" data-l="${l}">${lvlName(l)}${l === 0 ? ' <small>her zaman hazır</small>' : ` <small>${list.length - ft}${ft ? ` + ${ft} <span lang="en">Fey Touched</span>` : ''}</small>`}</h2><div class="list">${list.map(tile).join('')}</div>`;
       }
       if (!n) html += `<p class="empty">Henüz büyü hazırlamadın. “Tümü” görünümünde bir büyünün yanındaki daireye dokun.</p>`;
       C.prep.innerHTML = html;
@@ -5431,7 +5485,7 @@ const WS = (() => {
       let html = '';
       for (const c of CRS) {
         const list = items.filter(b => b.cr === c);
-        html += `<section data-l="${c}"><h2 class="lvl-h">CR ${c} <small data-cnt="${c}"></small></h2><div class="list">${list.map(tile).join('')}</div></section>`;
+        html += `<section data-l="${c}"><h2 class="lvl-h" data-l="${c}">CR ${c} <small data-cnt="${c}"></small></h2><div class="list">${list.map(tile).join('')}</div></section>`;
       }
       C.all.innerHTML = html + `<p class="empty" data-nohits hidden></p>`;
       C.updateCounts();
@@ -5471,7 +5525,7 @@ const WS = (() => {
       for (const c of CRS) {
         const list = items.filter(b => b.cr === c && isSel(b.id));
         if (!list.length) continue;
-        html += `<h2 class="lvl-h">CR ${c} <small>${list.length}</small></h2><div class="list">${list.map(tile).join('')}</div>`;
+        html += `<h2 class="lvl-h" data-l="${c}">CR ${c} <small>${list.length}</small></h2><div class="list">${list.map(tile).join('')}</div>`;
       }
       if (!n) html += `<p class="empty">Henüz form seçmedin. “Tümü” görünümünde bir hayvanın yanındaki daireye dokun.</p>`;
       C.prep.innerHTML = html;
@@ -5563,6 +5617,8 @@ function toggleIn(C, id) {
    Karakter: skills, features, items & notes
    ===================================================================== */
 // Values read from the sheet's form fields (details_*_total / *_proficiency).
+// soft hue per ability (ability cards, skill rows, skill sheet icon)
+const AB_HUE = {"STR":12,"DEX":160,"CON":32,"INT":225,"WIS":120,"CHA":305};
 const SKILLS = [
   ['Acrobatics','Akrobasi','DEX',7,1], ['Animal Handling','Hayvan Eğitimi','WIS',5,0], ['Arcana','Arkana','INT',2,0],
   ['Athletics','Atletizm','STR',6,1], ['Deception','Aldatma','CHA',1,0], ['History','Tarih','INT',2,0],
@@ -5572,7 +5628,7 @@ const SKILLS = [
   ['Sleight of Hand','El Çabukluğu','DEX',3,0], ['Stealth','Gizlilik','DEX',3,0], ['Survival','Hayatta Kalma','WIS',9,1],
 ];
 $('#skills').innerHTML = SKILLS.map(([en, tr, ab, v, p]) =>
-  `<li class="${p ? 'pr' : ''}"><button class="skb" data-c="sk" data-open="${en.toLowerCase().replace(/ /g, '-')}"><i aria-hidden="true">${p ? '●' : '○'}</i><span><b lang="en">${en}</b><small>${tr} · ${ab}</small></span><em>+${v}</em></button></li>`).join('');
+  `<li class="ih${p ? ' pr' : ''}" style="--ih:${AB_HUE[ab]}"><button class="skb" data-c="sk" data-open="${en.toLowerCase().replace(/ /g, '-')}"><i aria-hidden="true">${p ? '●' : '○'}</i><span><b lang="en">${en}</b><small>${tr} · ${ab}</small></span><em>+${v}</em></button></li>`).join('');
 // Skills open the same bottom sheet: long description, uses, and notes that only apply to this character.
 const SKILL_NOTES = {
  "acrobatics": "<span lang=\"en\">Wild Shape</span>'te DEX hayvandan gelir; formun penceresinde hesaplı değer (yeterlilik +4 ile) yazar.",
@@ -5594,7 +5650,7 @@ const SK = (() => {
       const s = INFO[id], r = ROW[id], ab = AB[s.ab];
       const prof = r.p === 2 ? 'Uzmanlık (×2)' : r.p ? 'Yeterli' : 'Yok';
       return `
-        <div class="sh-top"><span class="ic" style="--h:${ab[2]}" aria-hidden="true"><b class="ab-ic">${s.ab}</b></span><div><h2 id="shName" lang="en">${esc(s.en)}</h2><p>${esc(s.tr)} · ${ab[0]} (<span lang="en">${ab[1]}</span>)</p></div>
+        <div class="sh-top"><span class="ic" style="--h:${AB_HUE[s.ab]}" aria-hidden="true"><b class="ab-ic">${s.ab}</b></span><div><h2 id="shName" lang="en">${esc(s.en)}</h2><p>${esc(s.tr)} · ${ab[0]} (<span lang="en">${ab[1]}</span>)</p></div>
           <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
         <dl class="facts">
           <div class="fact key"><dt>Bonus</dt><dd>+${r.v}</dd></div>
@@ -5611,6 +5667,8 @@ const SK = (() => {
 })();
 
 // Features & traits: short original Turkish summaries of the sheet's text. Feats first (user's request).
+// soft hue per feature source
+const SRC_HUE = {"Feat":45,"Druid":115,"Moon":230,"Monk":18,"Outlander":30,"Ranger":140,"Gloom Stalker":265,"Rogue":350,"Wood Elf":95,"Urchin":30};
 const FEATS = [
   ['Fey Touched', 'Feat', 'Bilgelik', '<span lang="en">Misty Step</span> ve <span lang="en">Identify</span>: her biri uzun dinlenmede <b>bir kez slotsuz</b>. Uygun seviyedeki slotlarla da yapılabilir.'],
   ['War Caster', 'Feat', '', 'Konsantrasyon kurtarmalarında <b>avantaj</b>. Ellerin doluyken (silah, kalkan) somatik bileşen yapabilirsin. Biri erişimini terk edip fırsat saldırısı tetiklediğinde, saldırı yerine <b>reaksiyonla</b> ona 1 aksiyonluk, yalnız onu hedefleyen bir büyü yapabilirsin.'],
@@ -5625,7 +5683,7 @@ const FEATS = [
   ['Martial Arts', 'Monk', '', 'Zırh ve kalkan yokken, silahsız ya da monk silahıyla: silahsız vuruş <b>1d4+3</b>, saldırı <b>+7</b>; STR ya da DEX kullanabilirsin. Saldırı aksiyonunda silahsız ya da monk silahıyla saldırınca, <b>bonus aksiyonla</b> bir silahsız vuruş daha yaparsın (o tur bonus aksiyonunu başka işe harcamadıysan).'],
 ];
 $('#feats').innerHTML = FEATS.map(([n, src, use, d]) =>
-  `<article class="card feat"><h3><span lang="en">${n}</span><span class="tg">${src}</span>${use ? `<span class="tg lv">${use}</span>` : ''}</h3><p>${d}</p></article>`).join('');
+  `<article class="card feat ih" style="--ih:${SRC_HUE[src] ?? 30}"><h3><span lang="en">${n}</span><span class="tg">${src}</span>${use ? `<span class="tg lv">${use}</span>` : ''}</h3><p>${d}</p></article>`).join('');
 
 // Items & notes: typed by hand, kept in this browser/app's storage.
 const INV_KEY = 'mathias-inventory-v1';
