@@ -229,6 +229,10 @@ nav .wrap{ grid-template-columns:repeat(3,1fr); }
 .act button[disabled]{ background:var(--line); color:var(--muted); }
 
 /* character */
+.install{ margin-top:12px; border-color:var(--acc); display:grid; gap:8px; }
+.install p{ margin:0; font-size:.92rem; }
+.install .row{ display:flex; gap:8px; }
+.install .pri{ min-height:44px; padding:6px 16px; }
 .build-card{ margin-top:12px; font-weight:700; }
 .inv{ display:grid; gap:8px; }
 .inv h3{ margin:0; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--acc); }
@@ -313,6 +317,7 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
 
 <main class="wrap" id="main">
  <div class="view" id="charView">
+  <div class="card install" id="install" hidden></div>
   <section class="card build-card">Human <span lang="en">Druid (Circle of the Moon)</span> 9 / <span lang="en">Monk</span> 1</section>
 
   <dl class="quick">
@@ -5526,6 +5531,36 @@ $('#importFile').addEventListener('change', async e => {
   } catch (err) { toast('Bu dosya bir Mathias yedeği değil.'); }
 });
 
+/* ---------- install banner ----------
+   Android Chrome: keep its beforeinstallprompt event and show our own button that opens the real install dialog.
+   iPhone Safari has no such event, so show the Share → Add to Home Screen steps instead.
+   Hidden when already running as an installed app, in the single-file copy, or after "Gizle". */
+const INSTALL_KEY = 'mathias-install-hidden-v1';
+const standalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+let installEvt = null;
+function renderInstall() {
+  const box = $('#install');
+  if (standalone() || load(INSTALL_KEY, false) || !window.__PWA__) { box.hidden = true; return; }
+  if (installEvt) {
+    box.innerHTML = `<p><b>Uygulama olarak yükle</b>: ana ekranda simgesiyle tam ekran açılır, internetsiz çalışır, notların kalıcı olur.</p>
+      <div class="row"><button class="mini pri" data-install="go">Uygulamayı yükle</button><button class="mini" data-install="hide">Gizle</button></div>`;
+  } else if (isIOS) {
+    box.innerHTML = `<p><b>iPhone’a yükle</b>: Safari’de <b>Paylaş</b> düğmesine (kare ve yukarı ok) dokun → <b>Ana Ekrana Ekle</b> → <b>Ekle</b>. Sonra uygulamayı ana ekrandaki simgeden aç; notların orada kalıcı olur.</p>
+      <div class="row"><button class="mini" data-install="hide">Gizle</button></div>`;
+  } else { box.hidden = true; return; }
+  box.hidden = false;
+}
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; renderInstall(); });
+addEventListener('appinstalled', () => { installEvt = null; renderInstall(); toast('Uygulama yüklendi. Ana ekrandaki simgeden aç.'); });
+async function installAction(a) {
+  if (a === 'hide') { store(INSTALL_KEY, true); renderInstall(); return; }
+  if (!installEvt) return;
+  installEvt.prompt();
+  try { const r = await installEvt.userChoice; if (r && r.outcome === 'accepted') installEvt = null; } catch (e) {}
+  renderInstall();
+}
+
 /* =====================================================================
    Tabs, header, sheet
    ===================================================================== */
@@ -5604,7 +5639,7 @@ addEventListener('popstate', () => { if (skipPop) { skipPop--; return; } closeSh
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],#scrim');
+  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],#scrim');
   if (!t) return;
   const C = CATS[t.dataset.c];
   if (t.dataset.pick) return toggleIn(C, t.dataset.pick);
@@ -5624,6 +5659,7 @@ document.addEventListener('click', e => {
   if (t.dataset.tab) return go(t.dataset.tab);
   if (t.dataset.sub) return go(tab, t.dataset.sub);
   if (t.dataset.inv) return invAction(t);
+  if (t.dataset.install) return installAction(t.dataset.install);
   if (t.dataset.backup === 'export') return exportData();
   if (t.dataset.backup === 'import') return $('#importFile').click();
 });
@@ -5640,6 +5676,7 @@ for (const C of [SP, WS]) {
 
 for (const C of [SP, WS]) { C.renderChips(); C.buildAll(); applyFilter(C); }
 renderInv();
+renderInstall();
 // Storage check shown on the character page, so a phone test shows at once whether notes will be kept.
 (function(){
   let ok = false;
