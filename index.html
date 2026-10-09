@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '78c047db80'; window.__BUILT__ = '2026-10-09 19:28';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'ba8e020077'; window.__BUILT__ = '2026-10-09 22:04';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -242,8 +242,10 @@ nav .wrap{ grid-template-columns:repeat(3,1fr); }
 .uses{ margin:0; padding-left:18px; display:grid; gap:4px; font-size:.95rem; }
 
 /* character */
-.rest{ display:grid; gap:6px; }
-.rest p{ margin:0; font-size:.92rem; line-height:1.5; }
+.rest{ display:grid; gap:4px; }
+.rest h3{ margin:4px 0 0; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--acc); }
+.rest h3 small{ text-transform:none; letter-spacing:0; color:var(--muted); font-weight:500; margin-left:4px; }
+.rest ul{ margin:0; padding-left:18px; display:grid; gap:3px; font-size:.92rem; line-height:1.45; }
 .install{ margin-top:12px; border-color:var(--acc); display:grid; gap:8px; }
 .install p{ margin:0; font-size:.92rem; }
 .install .row{ display:flex; gap:8px; }
@@ -370,9 +372,19 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
 
   <h2 class="lvl-h">Dinlenmeler</h2>
   <div class="card rest">
-   <p><b>Kısa dinlenme</b> (1 saat): <span lang="en">Wild Shape</span> <b>2 hakkı</b> yenilenir. Can zarı harcayabilirsin: zar başına <b>1d8+4</b> can.</p>
-   <p><b>Uzun dinlenme</b> (8 saat): tüm can · büyü slotları <b>4/3/3/3/1</b> · <span lang="en">Fey Touched</span> (<span lang="en">Identify, Misty Step</span> birer kez slotsuz) · <span lang="en">Wild Shape</span> hakları · en fazla <b>5 can zarı</b> (10'un yarısı) geri gelir. Sonunda hazırladığın büyüleri değiştirebilirsin.</p>
-   <p><b>Konsantrasyon</b>: hasar alınca CON kurtarması (DC 10 ya da hasarın yarısı, hangisi yüksekse), <span lang="en">War Caster</span> ile <b>avantajlı</b>. Aynı anda tek konsantrasyon büyüsü.</p>
+   <h3>Kısa dinlenme <small>en az 1 saat</small></h3>
+   <ul>
+    <li><span lang="en">Wild Shape</span>'in <b>2 hakkı</b> geri gelir.</li>
+    <li>İstersen <b>can zarı</b> harca: her zar için <b>1d8 at, +4 ekle</b>, o kadar can kazan. 10 zarın var.</li>
+   </ul>
+   <h3>Uzun dinlenme <small>8 saat</small></h3>
+   <ul>
+    <li>Canın tamamen dolar; büyü slotları (4/3/3/3/1), <span lang="en">Fey Touched</span> büyüleri ve <span lang="en">Wild Shape</span> hakları geri gelir.</li>
+    <li>Harcadığın can zarlarından <b>5'i</b> geri gelir.</li>
+    <li>Hazırladığın büyüleri <b>yalnız uzun dinlenmenin sonunda</b> değiştirebilirsin; kısa dinlenmede değişmez.</li>
+   </ul>
+   <h3>Konsantrasyon</h3>
+   <ul><li>Hasar alınca CON kurtarması: DC 10 ya da hasarın yarısı (hangisi yüksekse). <span lang="en">War Caster</span> ile <b>avantajlı</b>.</li></ul>
   </div>
 
   <h2 class="lvl-h">Eşyalar ve notlar</h2>
