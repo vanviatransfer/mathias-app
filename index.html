@@ -298,8 +298,8 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
   <div class="hd">
    <div class="who" id="hdChar"><h1 lang="en">Mathias</h1><p>Level 10 · Human · Druid 9 / Monk 1</p></div>
    <div class="seg" id="seg" role="group" aria-label="Görünüm" hidden>
-    <button data-sub="all"><span id="segA"></span><small id="segAc"></small></button>
     <button data-sub="prep"><span id="segP"></span><small id="segPc"></small></button>
+    <button data-sub="all"><span id="segA"></span><small id="segAc"></small></button>
    </div>
    <div class="stats" id="stats"></div>
   </div>
@@ -5133,7 +5133,7 @@ const SP = (() => {
   }
   const C = {
     k: 'sp', all: $('#spAll'), prep: $('#spPrep'), tools: $('#spTools'), q: $('#spQ'),
-    sub: 'all', filter: 'all', query: '', qKey: '', confirming: false, BY,
+    sub: 'prep', filter: 'all', query: '', qKey: '', confirming: false, BY,
     stats: '<div class="st"><span>Saldırı</span><b>+9</b></div><div class="st"><span>DC</span><b>17</b></div>',
     segLabels: () => ['Tümü', `${items.length} büyü`, 'Hazır', `${count()}/${state.limit}`, count() > state.limit],
     renderChips() {
@@ -5229,12 +5229,15 @@ const WS = (() => {
   const BY = Object.fromEntries(items.map(b => [b.id, b]));
   const KEY = 'mathias-wildshape-selected-v1';
   // Wild Shape PDF'indeki formlar ilk açılışta seçili gelir
-  const DEFAULT = ['giant-scorpion','bristled-moorbounder','giant-eagle','giant-snapping-turtle','killer-whale'];
+  const DEFAULT = ['giant-scorpion','bristled-moorbounder','giant-eagle','giant-snapping-turtle','killer-whale','spotted-lion','sword-spider'];
   const CRS = [1, 2, 3, 4];
   const state = { sel: DEFAULT.filter(id => BY[id]) };
   const saved = load(KEY, null);
   if (saved && Array.isArray(saved.sel)) state.sel = saved.sel.filter(id => BY[id]);
   const save = () => store(KEY, state);
+  // 2026-10: Murat asked for Spotted Lion and Sword Spider among the selected forms; add them once to an older saved list.
+  const MIGR = 'mathias-wildshape-migr-1';
+  if (!load(MIGR, false)) { for (const id of ['spotted-lion','sword-spider']) if (BY[id] && !state.sel.includes(id)) state.sel.push(id); if (saved) save(); store(MIGR, true); }
   const ICON = (() => {
     const m = {
       wing: ['giant-eagle','giant-vulture','giant-swan','quetzalcoatlus'],
@@ -5272,7 +5275,7 @@ const WS = (() => {
   const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, , l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
   const C = {
     k: 'ws', all: $('#wsAll'), prep: $('#wsPrep'), tools: $('#wsTools'), q: $('#wsQ'),
-    sub: 'all', filter: 'all', move: '', query: '', qKey: '', confirming: false, BY,
+    sub: 'prep', filter: 'all', move: '', query: '', qKey: '', confirming: false, BY,
     stats: '<div class="st"><span>Maks CR</span><b>3</b></div><div class="st"><span>Hak</span><b>2</b></div>',
     segLabels: () => ['Tümü', `${items.length} hayvan`, 'Seçili', `${count()} form`, false],
     renderChips() {
@@ -5592,6 +5595,8 @@ function go(nextTab, nextSub) {
   const C = CATS[nextTab];
   if (nextTab === tab && (!C || nextSub === undefined || nextSub === C.sub)) return;
   scrollMem[viewKey()] = window.scrollY;
+  // entering Büyüler / Wild Shape from another tab always opens the selected list first (user's request)
+  if (C && nextTab !== tab) C.sub = 'prep';
   tab = nextTab; store(TAB_KEY, tab);
   if (C && nextSub) C.sub = nextSub;
   if (C) C.confirming = false;
@@ -5677,6 +5682,7 @@ for (const C of [SP, WS]) {
 for (const C of [SP, WS]) { C.renderChips(); C.buildAll(); applyFilter(C); }
 renderInv();
 renderInstall();
+for (const C of Object.values(CATS)) C.renderPrep();
 // Storage check shown on the character page, so a phone test shows at once whether notes will be kept.
 (function(){
   let ok = false;
