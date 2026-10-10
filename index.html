@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '01ebe5122d'; window.__BUILT__ = '2026-10-11 00:20';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '8acbad5f5d'; window.__BUILT__ = '2026-10-11 00:21';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -5814,7 +5814,7 @@ const WS = (() => {
           <li class="legend">Kart rengi = rolü: ${ROLES.map(([n, h]) => `<span class="tg role" style="--h:${h}">${n}</span>`).join(' ')}</li>
           <li>Hayvanın canını alırsın; 0'a düşünce dönersin, <b>artan hasar</b> kendi canına geçer. Bonus aksiyonla erken dönebilirsin</li>
           <li>Formda <b>büyü yapamazsın</b> ve konuşamazsın; önceden başlattığın konsantrasyon sürer</li>
-          <li><span lang="en">Combat Wild Shape</span>: formdayken <b>bonus aksiyon + bir büyü slotu</b> → slot seviyesi başına <b>1d8 can</b></li>
+          <li><span lang="en">Combat Wild Shape</span>: formdayken <b>bonus aksiyon + bir büyü slotu</b> → slot seviyesi başına <b>2d8 can</b> (masa kuralı, <span lang="en">Cure Wounds</span> gücünde; kitapta 1d8)</li>
           <li>Boyut ve kapladığı alan: <b>Orta 5 ft</b> (1 kare) · <b>Büyük 10×10 ft</b> (2×2) · <b>Devasa 15×15 ft</b> (3×3); Mathias Orta. Bir boy küçüğün alanından <b>sıkışarak</b> geçebilirsin: her 1 ft 2 ft sayılır, saldırı ve DEX kurtarmasında dezavantaj, sana saldırılar avantajlı</li>
           <li>Sınıf, ırk ve feat özelliklerin sürer (hayvanın yapabildiği kadarıyla); eşyalar forma karışır, takılı kalır ya da düşer (sen seçersin)</li>
         </ul></section>`;
@@ -5839,8 +5839,8 @@ const WS = (() => {
           ${uses}`;
         return;
       }
-      const cws = `<div class="cws"><h3><span lang="en">Combat Wild Shape</span> <small>bonus aksiyon · bir slot harca → slot seviyesi başına <b>1d8</b> can (zar otomatik atılır)</small></h3>
-          <div class="cws-b">${SLOTS.max.map((n, i) => { const l = i + 1, left = SLOTS.left(l); return `<button class="mini" data-cws="${l}" style="--lh:${[0, 150, 185, 220, 262, 310][l]}"${left ? '' : ' disabled'} aria-label="${l}. seviye slot harca, ${l}d8 can"><b>${l}. sv</b><small>${l}d8 · ${left}/${n}</small></button>`; }).join('')}</div>
+      const cws = `<div class="cws"><h3><span lang="en">Combat Wild Shape</span> <small>bonus aksiyon · bir slot harca → slot seviyesi başına <b>2d8</b> can (masa kuralı; zar otomatik atılır)</small></h3>
+          <div class="cws-b">${SLOTS.max.map((n, i) => { const l = i + 1, left = SLOTS.left(l); return `<button class="mini" data-cws="${l}" style="--lh:${[0, 150, 185, 220, 262, 310][l]}"${left ? '' : ' disabled'} aria-label="${l}. seviye slot harca, ${2 * l}d8 can"><b>${l}. sv</b><small>${2 * l}d8 · ${left}/${n}</small></button>`; }).join('')}</div>
           ${ACT.lastCws ? `<p class="note">Son: ${esc(ACT.lastCws)}</p>` : ''}</div>`;
       C.act.innerHTML = `<div data-concbar>${concBar()}</div><div class="card act-card" style="--h:${ROLE_HUE[role(b)]}">
           <div class="sh-top">${icon(b)}<div><h2 lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · AC <b>${b.ac}</b></p></div>
@@ -5892,13 +5892,13 @@ const WS = (() => {
     restUses() { ACT.uses = [0, 0]; saveAct(); },
     // concentration save in beast form uses the form's CON save
     formConSave: () => { const b = BY[ACT.id]; return b ? `hayvanın CON ${sg(b.sv[2])}, War Caster ile avantajlı` : CON_SAVE; },
-    // Combat Wild Shape: bonus action, spend a slot → 1d8 per slot level to the form
+    // Combat Wild Shape: bonus action, spend a slot → 2d8 per slot level to the form (DM house rule: as strong as Cure Wounds; the book says 1d8)
     combatHeal(l) {
       const b = BY[ACT.id]; if (!b) return;
       if (!SLOTS.spend(l)) { toast(`${l}. seviye slotun kalmadı`); return; }
-      const rolls = Array.from({ length: l }, () => 1 + Math.floor(Math.random() * 8)), sum = rolls.reduce((a, x) => a + x, 0);
+      const rolls = Array.from({ length: 2 * l }, () => 1 + Math.floor(Math.random() * 8)), sum = rolls.reduce((a, x) => a + x, 0);
       const before = ACT.cur; ACT.cur = Math.min(b.hp, ACT.cur + sum); saveAct();
-      ACT.lastCws = `${l}. sv slot · ${l}d8 (${rolls.join(' + ')}) = ${sum} → +${ACT.cur - before} can${ACT.cur - before < sum ? ' (form canı doldu)' : ''}`;
+      ACT.lastCws = `${l}. sv slot · ${2 * l}d8 (${rolls.join(' + ')}) = ${sum} → +${ACT.cur - before} can${ACT.cur - before < sum ? ' (form canı doldu)' : ''}`;
       C.renderAct(); syncChrome(); SLOTS.refresh();
       toast('Combat Wild Shape: ' + ACT.lastCws);
       focusQuiet(C.act.querySelector(`[data-cws="${l}"]`) || C.act.querySelector('.cws button'));
@@ -6049,7 +6049,7 @@ const FEATS = [
   ['Fey Touched', 'Feat', 'Bilgelik', '<span lang="en">Misty Step</span> ve <span lang="en">Identify</span>: her biri uzun dinlenmede <b>bir kez slotsuz</b>. Uygun seviyedeki slotlarla da yapılabilir.'],
   ['War Caster', 'Feat', '', 'Konsantrasyon kurtarmalarında <b>avantaj</b>. Ellerin doluyken (silah, kalkan) somatik bileşen yapabilirsin. Biri erişimini terk edip fırsat saldırısı tetiklediğinde, saldırı yerine <b>reaksiyonla</b> ona 1 aksiyonluk, yalnız onu hedefleyen bir büyü yapabilirsin.'],
   ['Wild Shape', 'Druid', 'Bonus aksiyon · 2 / kısa dinlenme', 'Daha önce gördüğün bir hayvana dönüşürsün, en fazla <b>4 saat</b>. Bonus aksiyonla erken dönebilirsin; bilincini kaybedince, 0 cana düşünce ya da ölünce otomatik dönersin.'],
-  ['Combat Wild Shape', 'Moon', 'Bonus aksiyon', 'Wild Shape’i <b>bonus aksiyonla</b> kullanırsın. Formdayken bonus aksiyonla bir büyü slotu harcayıp <b>slot seviyesi başına 1d8 can</b> kazanırsın.'],
+  ['Combat Wild Shape', 'Moon', 'Bonus aksiyon', 'Wild Shape’i <b>bonus aksiyonla</b> kullanırsın. Formdayken bonus aksiyonla bir büyü slotu harcayıp <b>slot seviyesi başına 2d8 can</b> kazanırsın (masa kuralı, <span lang="en">Cure Wounds</span> gücünde; kitapta 1d8).'],
   ['Circle Forms', 'Moon', '', 'Wild Shape ile en fazla <b>CR 3</b> hayvana dönüşebilirsin.'],
   ['Primal Strike', 'Moon', '', 'Hayvan formundaki saldırıların, büyüsüz saldırılara direnç ve bağışıklığı aşmak için <b>büyülü</b> sayılır.'],
   ['Spellcasting', 'Druid', 'Bilgelik', 'Ritüel etiketli ve <b>hazırladığın</b> druid büyülerini slotsuz, <b>+10 dk</b>’da ritüel olarak yapabilirsin. Uzun dinlenmenin sonunda druid listesinden <b>14 büyü</b> hazırlarsın (WIS 5 + druid 9); slotlar uzun dinlenmede yenilenir; odak olarak druidic focus kullanırsın. Büyü saldırısı <b>+9</b>, DC <b>17</b>.'],
