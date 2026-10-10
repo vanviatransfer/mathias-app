@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'd85274fff1'; window.__BUILT__ = '2026-10-11 01:05';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '8e153bf728'; window.__BUILT__ = '2026-10-11 01:11';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -457,24 +457,26 @@ nav button{ white-space:nowrap; }
 .gv{ font-size:.85rem; color:hsl(45 45% 70%); font-variant-numeric:tabular-nums; }
 .gv b{ color:hsl(45 65% 72%); }
 /* ---- bildirim (toast): magical, noticeable; only transform + opacity animate (GPU, no layout work) ---- */
-.toast{ width:max-content; max-width:calc(100% - 32px); text-wrap:balance; padding:11px 18px 11px 40px; border-radius:14px; font-size:.95rem; font-weight:600; line-height:1.35; overflow:hidden;
-  background:color-mix(in oklab, var(--acc) 20%, #140f0b); color:var(--ink); border:1px solid color-mix(in oklab, var(--acc) 75%, transparent);
-  box-shadow:0 10px 30px rgba(0,0,0,.6), 0 0 22px color-mix(in oklab, var(--acc) 38%, transparent);
-  transform:translate(-50%,24px) scale(.92); transition:opacity .25s, transform .25s; will-change:transform, opacity; }
+.toast{ --tc:var(--acc); --ty:24px; width:max-content; max-width:calc(100% - 32px); text-wrap:balance; padding:11px 18px 11px 40px; border-radius:14px; font-size:.95rem; font-weight:600; line-height:1.35; overflow:hidden;
+  background:color-mix(in oklab, var(--tc) 20%, #140f0b); color:var(--ink); border:1px solid color-mix(in oklab, var(--tc) 75%, transparent);
+  box-shadow:0 10px 30px rgba(0,0,0,.6), 0 0 22px color-mix(in oklab, var(--tc) 38%, transparent);
+  transform:translate(-50%,var(--ty)) scale(.92); transition:opacity .25s, transform .25s; will-change:transform, opacity; }
 .toast.show{ transform:translate(-50%,0) scale(1); animation:tpop .45s cubic-bezier(.2,1.5,.45,1); }
 /* rune star on the left */
-.toast::before{ content:"✦"; position:absolute; left:14px; top:50%; margin-top:-.6em; font-size:1.05rem; line-height:1.2; color:var(--acc); }
+.toast::before{ content:"✦"; position:absolute; left:14px; top:50%; margin-top:-.6em; font-size:1.05rem; line-height:1.2; color:var(--tc); }
 .toast.show::before{ animation:tstar 1.1s ease-out; }
 /* light sweep across, once */
 .toast::after{ content:""; position:absolute; inset:0; pointer-events:none; transform:translateX(-110%);
-  background:linear-gradient(105deg, transparent 30%, color-mix(in oklab, var(--acc) 30%, rgba(255,245,215,.45)) 50%, transparent 70%); }
+  background:linear-gradient(105deg, transparent 30%, color-mix(in oklab, var(--tc) 30%, rgba(255,245,215,.45)) 50%, transparent 70%); }
 .toast.show::after{ animation:tsweep 1s .12s ease-out; }
 /* a few sparks drifting up */
-.toast .spk{ position:absolute; bottom:4px; width:5px; height:5px; border-radius:50%; background:color-mix(in oklab, var(--acc) 60%, #fff4d6); opacity:0; pointer-events:none; }
+.toast .spk{ position:absolute; bottom:4px; width:5px; height:5px; border-radius:50%; background:color-mix(in oklab, var(--tc) 60%, #fff4d6); opacity:0; pointer-events:none; }
 .toast .spk:nth-of-type(1){ left:18%; } .toast .spk:nth-of-type(2){ left:42%; width:4px; height:4px; } .toast .spk:nth-of-type(3){ left:66%; } .toast .spk:nth-of-type(4){ left:86%; width:3px; height:3px; }
 .toast.show .spk{ animation:tspark 1.1s ease-out forwards; }
 .toast.show .spk:nth-of-type(2){ animation-delay:.12s; } .toast.show .spk:nth-of-type(3){ animation-delay:.24s; } .toast.show .spk:nth-of-type(4){ animation-delay:.06s; }
-@keyframes tpop{ from{ transform:translate(-50%,26px) scale(.82); opacity:0; } }
+/* while typing (Eşya & Not, or the keyboard is up) the notice shows at the top so the keyboard can't hide it */
+.toast.top{ top:calc(env(safe-area-inset-top,0px) + 10px); bottom:auto; --ty:-24px; }
+@keyframes tpop{ from{ transform:translate(-50%,calc(var(--ty) * 1.1)) scale(.82); opacity:0; } }
 @keyframes tstar{ 0%{ transform:scale(.2) rotate(-120deg); opacity:0; } 45%{ transform:scale(1.5) rotate(15deg); opacity:1; } 100%{ transform:scale(1) rotate(0); } }
 @keyframes tsweep{ to{ transform:translateX(110%); } }
 @keyframes tspark{ 0%{ transform:translateY(0) scale(.4); opacity:0; } 25%{ opacity:1; } 100%{ transform:translateY(-26px) scale(1); opacity:0; } }
@@ -5427,9 +5429,32 @@ const askPersist = () => { if (persistAsked) return; persistAsked = true; try { 
 let toastT;
 // Bildirim: text + four sparks; the animation restarts on every new message so a repeat is noticed too. Stays a bit longer (2.8 s).
 const SPARKS = '<i class="spk" aria-hidden="true"></i>'.repeat(4);
+// Notice colour follows what the message is about (fixed per kind, never random); hues are the app's own:
+// warning red · damage rose · concentration violet · Wild Shape leather · rest sky · heal/Combat Wild Shape green ·
+// gold · items amber · notes blue · spells moss · forms indigo · backup/update steel. Unknown → the tab's accent.
+const TOAST_HUES = [
+  [/Kaydedilemedi|olmalı|Önce |kalmadı|kalmamıştı|dolu \(|Yeterli altın yok|ulaşılamadı|İnternet yok|Boş bırakılamaz|bir \S+ yedeği değil|Değer bir sayı/, 2],
+  [/^−\d+ hasar|formu düştü/, 345],
+  [/konsantrasyon/i, 275],
+  [/Uzun dinlenme|Slotlar yenilendi|hakları yenilendi/, 200],
+  [/formuna dönüştün|formundan çıktın/, 28],
+  [/ gp|Kesende/, 46],
+  [/Combat Wild Shape/, 140],
+  [/^Not /, 210],
+  [/^Eşya |Değişiklik kaydedildi/, 36],
+  [/hazırlandı|hazırlıktan çıkarıldı|bilinenlere eklendi|bilinenlerden çıkarıldı/, 150],
+  [/seçildi|seçimden çıkarıldı|Seçim temizlendi/, 250],
+  [/Yedek|sürüm|Güncelleniyor|yüklendi|yükleniyor/i, 220],
+];
+const toastHue = msg => { for (const [re, h] of TOAST_HUES) if (re.test(msg)) return h; return null; };
+// keyboard up = the visual viewport is much shorter than the window, or a text field has focus
+const typing = () => tab === 'inv' || /^(INPUT|TEXTAREA)$/.test((document.activeElement || {}).tagName || '') || (window.visualViewport && visualViewport.height < innerHeight * 0.75);
 function toast(msg) {
   const t = $('#toast');
   t.classList.remove('show'); void t.offsetWidth;
+  const hue = toastHue(msg);
+  if (hue === null) t.style.removeProperty('--tc'); else t.style.setProperty('--tc', `hsl(${hue} 52% 64%)`);
+  t.classList.toggle('top', typing());
   t.textContent = msg; t.insertAdjacentHTML('beforeend', SPARKS);
   t.classList.add('show');
   clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2800);
