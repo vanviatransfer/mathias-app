@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '8b60de6538'; window.__BUILT__ = '2026-10-09 22:48';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '4b97ec6998'; window.__BUILT__ = '2026-10-10 10:32';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -331,6 +331,80 @@ html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data
 /* Wild Shape role tag (same hue as the card) */
 .tg.role{ background:hsl(var(--h, 30) 26% 24%); color:hsl(var(--h, 30) 40% 80%); }
 .rules .legend{ list-style:none; margin-left:-18px; display:flex; flex-wrap:wrap; gap:4px; align-items:center; }
+
+/* ---- can (hit points): header button, sheet / Aktif widget ---- */
+html{ overscroll-behavior-x:none; }
+.hpst{ border-color:color-mix(in oklab, hsl(350 45% 62%) 55%, var(--line)); }
+.hpst b small{ font-size:.9rem; color:var(--muted); font-family:var(--body); font-weight:500; }
+.hpst.hurt b{ color:hsl(40 70% 70%); } .hpst.low b, .hpst.down b{ color:var(--warn); }
+.hpst.low, .hpst.down{ border-color:var(--warn); }
+.hpw{ display:grid; gap:8px; margin:12px 0 4px; }
+.hp-big{ display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+.hp-big b{ font-family:var(--display); font-size:2.6rem; line-height:1; color:hsl(140 35% 72%); font-variant-numeric:tabular-nums; }
+.hp-big small{ font-size:1.2rem; color:var(--muted); font-weight:700; font-variant-numeric:tabular-nums; }
+.hp-big span{ margin-left:auto; font-size:.85rem; color:var(--muted); }
+.hpw.hurt .hp-big b{ color:hsl(40 70% 70%); } .hpw.low .hp-big b, .hpw.down .hp-big b{ color:var(--warn); }
+.hp-bar{ height:10px; background:var(--line); border-radius:99px; overflow:hidden; }
+.hp-bar i{ display:block; height:100%; background:hsl(140 35% 55%); border-radius:99px; transition:width .2s; }
+.hpw.hurt .hp-bar i{ background:hsl(40 60% 58%); } .hpw.low .hp-bar i, .hpw.down .hp-bar i{ background:var(--warn); }
+.hp-in{ display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:6px; }
+.hp-in input{ min-width:0; width:100%; min-height:48px; border:1px solid var(--ctl); background:var(--bg); color:var(--ink); border-radius:10px; padding:8px 12px; font:inherit; font-size:1.2rem; font-weight:700; font-variant-numeric:tabular-nums; }
+.hb{ min-height:48px; padding:6px 14px; border-radius:10px; font-weight:700; white-space:nowrap; }
+.dmgb{ background:var(--warn); color:var(--warn-ink); }
+.healb{ background:hsl(140 30% 58%); color:#0f1b14; }
+.hp-more{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+.hp-more .mini{ min-height:40px; }
+.hp-log{ list-style:none; margin:0; padding:0; display:grid; gap:4px; font-size:.9rem; }
+.hp-log li{ display:grid; grid-template-columns:3.2em minmax(0,1fr) auto auto; gap:8px; align-items:baseline; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:4px 10px; }
+.hp-log b{ font-variant-numeric:tabular-nums; } .hp-log b.m{ color:var(--warn); } .hp-log b.p{ color:hsl(140 35% 68%); }
+.hp-log small{ color:var(--muted); font-variant-numeric:tabular-nums; }
+
+/* ---- spell slots: boxes, ✕ = spent ---- */
+.slots{ margin-top:12px; display:grid; gap:8px; border-color:color-mix(in oklab, var(--acc) 40%, var(--line)) !important; }
+.slots h3, .uses-card h3{ margin:0; font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--acc); }
+.slots h3 small{ display:block; text-transform:none; letter-spacing:0; color:var(--muted); font-weight:500; font-size:.8rem; margin-top:1px; }
+.srow{ --lh:38; display:grid; grid-template-columns:4.6em minmax(0,1fr) auto; align-items:center; gap:8px; padding:4px 0; border-top:1px solid var(--line); }
+.srow .sl{ font-family:var(--display); font-weight:700; color:hsl(var(--lh) 38% 74%); line-height:1.1; }
+.srow .sl small{ display:block; font-family:var(--body); font-weight:500; font-size:.7rem; color:var(--muted); }
+.srow .left{ font-size:.85rem; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap; }
+.srow .left b{ font-size:1.15rem; color:var(--ink); }
+.boxes{ display:flex; flex-wrap:wrap; gap:8px; }
+.box{ width:42px; height:42px; border-radius:9px; border:2px solid hsl(var(--lh) 32% 56%); background:color-mix(in oklab, hsl(var(--lh) 40% 45%) 14%, var(--bg)); display:grid; place-items:center; }
+.box svg{ width:26px; height:26px; opacity:0; color:var(--warn); stroke-width:3; }
+.box.used{ background:var(--bg); border-color:color-mix(in oklab, var(--warn) 45%, var(--line)); }
+.box.used svg{ opacity:1; }
+.srow.ft{ --lh:300; grid-template-columns:4.6em minmax(0,1fr) auto; }
+.srow.ft .sl{ font-size:.85rem; }
+.fb{ display:grid; justify-items:center; gap:2px; }
+.fb small{ font-size:.68rem; color:var(--muted); white-space:nowrap; }
+.srest{ justify-self:start; min-height:40px; }
+.slots .confirm{ margin-top:2px; }
+
+/* bottom rules card + swipe */
+.rules-card{ margin-top:22px; }
+.rules-card h3{ margin:0; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--acc); }
+.sw-l{ animation:swl .2s ease-out; } .sw-r{ animation:swr .2s ease-out; }
+@keyframes swl{ from{ transform:translateX(28px); opacity:.35; } }
+@keyframes swr{ from{ transform:translateX(-28px); opacity:.35; } }
+@media (prefers-reduced-motion: reduce){ .sw-l, .sw-r{ animation:none; } }
+.act.two{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.act button.sec2{ background:transparent; color:var(--acc); border:1px solid var(--acc); }
+
+/* ---- Wild Shape: Aktif page ---- */
+.act-card{ margin-top:12px; display:grid; gap:4px; border-color:color-mix(in oklab, hsl(var(--h) 38% 58%) 50%, var(--line)) !important; background:color-mix(in oklab, hsl(var(--h) 42% 45%) 10%, var(--surface)) !important; }
+.act-card .sh-top .mini{ margin-left:auto; align-self:center; }
+.act-card .end{ justify-self:start; min-height:40px; margin-top:4px; }
+.act-card .confirm{ margin-top:4px; }
+.act-detail{ margin-top:6px; }
+.act-detail .fact:not(.key){ background:color-mix(in oklab, hsl(var(--h, 30) 40% 45%) 7%, var(--bg)); }
+.uses-card{ margin-top:10px; display:grid; gap:6px; }
+.uses-card .srow{ --lh:28; border-top:0; grid-template-columns:auto minmax(0,1fr) auto; }
+.uses-card .sl{ font-size:.95rem; }
+.uses-card .note{ margin:0; }
+.uses-card .mini{ justify-self:start; min-height:40px; }
+.tile.shift{ width:100%; text-align:left; }
+.tile.shift .go{ margin-left:auto; flex:0 0 auto; font-weight:700; color:var(--acc); border:1px solid var(--acc); border-radius:9px; padding:6px 12px; }
+.seg button span{ white-space:nowrap; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -375,10 +449,7 @@ html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data
  <div class="wrap">
   <div class="hd">
    <div class="who" id="hdChar"><h1 lang="en">Mathias</h1><p>Level 10 · Human · Druid 9 / Monk 1</p></div>
-   <div class="seg" id="seg" role="group" aria-label="Görünüm" hidden>
-    <button data-sub="prep"><span id="segP"></span><small id="segPc"></small></button>
-    <button data-sub="all"><span id="segA"></span><small id="segAc"></small></button>
-   </div>
+   <div class="seg" id="seg" role="group" aria-label="Görünüm" hidden></div>
    <div class="stats" id="stats"></div>
   </div>
   <div class="tools" id="spTools" hidden>
@@ -492,6 +563,7 @@ html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data
  </div>
  <div class="view" id="spAll" hidden></div>
  <div class="view" id="spPrep" hidden></div>
+ <div class="view" id="wsAct" hidden></div>
  <div class="view" id="wsAll" hidden></div>
  <div class="view" id="wsPrep" hidden></div>
 </main>
@@ -5281,6 +5353,93 @@ function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.ad
 const sheet = $('#sheet'), scrim = $('#scrim');
 let openRef = null; // { c: catalog, id }
 
+/* ---------- can (hit points): character, and the active Wild Shape form ---------- */
+// Damage / healing is typed in and kept on this phone. The header shows remaining / full.
+const HP_KEY = 'mathias-hp-v1';
+const HP = { max: 88, cur: 88, log: [] };
+(function(){ const v = load(HP_KEY, null); if (v && Number.isFinite(v.cur)) HP.cur = Math.max(0, Math.min(HP.max, Math.round(v.cur))); if (v && Array.isArray(v.log)) HP.log = v.log.slice(0, 8); })();
+const saveHp = () => { store(HP_KEY, { cur: HP.cur, log: HP.log }); askPersist(); };
+const hpTone = (cur, max) => cur <= 0 ? 'down' : cur * 2 <= max ? 'low' : cur < max ? 'hurt' : 'full';
+// change the character's hit points by d (negative = damage); logged so a typo can be undone
+function changeHp(d, note) {
+  const prev = HP.cur;
+  HP.cur = Math.max(0, Math.min(HP.max, HP.cur + d));
+  HP.log.unshift({ d: HP.cur - prev, raw: d, to: HP.cur, at: Date.now(), note: note || '' });
+  HP.log = HP.log.slice(0, 8);
+  saveHp();
+}
+function hpWidget(w, cur, max) {
+  return `<div class="hpw ${hpTone(cur, max)}">
+    <div class="hp-big"><b>${cur}</b><small>/ ${max}</small><span>${cur >= max ? 'can tam' : cur <= 0 ? 'baygın · 0 can' : `${max - cur} hasar almış`}</span></div>
+    <div class="hp-bar" role="progressbar" aria-label="Can" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${cur}"><i style="width:${Math.max(0, Math.min(100, cur / max * 100))}%"></i></div>
+    <div class="hp-in"><input id="hpIn-${w}" type="number" inputmode="numeric" min="1" max="999" placeholder="Miktar" aria-label="Hasar ya da iyileşme miktarı" enterkeyhint="done">
+      <button class="hb dmgb" data-hp="dmg" data-w="${w}">− Hasar</button><button class="hb healb" data-hp="heal" data-w="${w}">+ İyileş</button></div>
+  </div>`;
+}
+const hhmm = t => { try { return new Date(t).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
+// the character's hit points open in the bottom sheet (tap "Can" in the header)
+const HPS = {
+  k: 'hp', back: () => $('#hpBtn'),
+  fill() {
+    return `
+      <div class="sh-top"><span class="ic" style="--h:350" aria-hidden="true"><svg><use href="#i-heart"/></svg></span><div><h2 id="shName">Can</h2><p lang="en">Hit Points</p></div>
+        <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+      ${hpWidget('char', HP.cur, HP.max)}
+      <div class="hp-more"><button class="mini" data-hp="full" data-w="char">Tam can (uzun dinlenme)</button>${HP.log.length ? '<button class="mini" data-hp="undo" data-w="char">Son işlemi geri al</button>' : ''}</div>
+      ${HP.log.length ? `<div class="blk"><h3>Son işlemler</h3><ul class="hp-log">${HP.log.map(l => `<li><b class="${l.raw < 0 ? 'm' : 'p'}">${l.raw < 0 ? '−' + (-l.raw) : '+' + l.raw}</b><span>${esc(l.note || (l.raw < 0 ? 'hasar' : 'iyileşme'))}</span><span>→ ${l.to}/${HP.max}</span><small>${hhmm(l.at)}</small></li>`).join('')}</ul></div>` : ''}
+      <p class="note">Miktarı yaz, <b>Hasar</b> ya da <b>İyileş</b>’e dokun; kayıt bu telefonda kalır. 0 cana düşünce bilincini kaybedersin ve her tur ölüm kurtarması atarsın (DC 10). <span lang="en">Wild Shape</span> formundayken hasarı formun canından düş (<span lang="en">Wild Shape</span> → Aktif); form düşünce artan hasar buraya geçer.</p>`;
+  },
+};
+function hpAction(kind, w) {
+  const inp = $('#hpIn-' + w);
+  if (kind === 'full') { if (HP.cur < HP.max) changeHp(HP.max - HP.cur, 'tam can'); }
+  else if (kind === 'undo') { const l = HP.log.shift(); if (l) { HP.cur = Math.max(0, Math.min(HP.max, HP.cur - l.d)); saveHp(); } }
+  else {
+    const n = Math.floor(+(inp && inp.value));
+    if (!(n > 0)) { toast('Önce miktarı yaz.'); focusQuiet(inp); return; }
+    if (w === 'char') changeHp(kind === 'dmg' ? -n : n);
+    else { const msg = WS.formHp(kind, n); if (msg) toast(msg); }
+  }
+  syncChrome();
+  if (w === 'char' && openRef && openRef.c === HPS) { $('#sheetIn').innerHTML = HPS.fill(); focusQuiet(sheet.querySelector(`[data-hp="${kind}"]`) || $('#hpIn-char')); }
+  if (tab === 'ws' && WS.sub === 'act') { WS.renderAct(); if (w === 'ws') focusQuiet($(`[data-hp="${kind}"][data-w="ws"]`) || WS.act.querySelector('button')); }
+}
+
+/* ---------- büyü slotları: one box per slot, tap = spent (✕), saved on this phone ---------- */
+const slotBox = (used, key, label) => `<button class="box${used ? ' used' : ''}" data-slot="${key}" aria-pressed="${!!used}" aria-label="${label}: ${used ? 'harcandı' : 'boş'}"><svg aria-hidden="true"><use href="#i-x"/></svg></button>`;
+const SLOTS = (() => {
+  const KEY = 'mathias-slots-v1', MAX = [4, 3, 3, 3, 1];
+  // feat spells cast once per long rest without a slot
+  const FREE = ['Misty Step', 'Identify'];
+  const st = { u: MAX.map(n => Array(n).fill(0)), f: FREE.map(() => 0), confirm: false };
+  const v = load(KEY, null);
+  if (v && Array.isArray(v.u)) MAX.forEach((n, i) => { if (Array.isArray(v.u[i])) st.u[i] = Array.from({ length: n }, (_, j) => v.u[i][j] ? 1 : 0); });
+  if (v && Array.isArray(v.f)) st.f = FREE.map((_, i) => v.f[i] ? 1 : 0);
+  const save = () => { store(KEY, { u: st.u, f: st.f }); askPersist(); };
+  const left = a => a.filter(x => !x).length;
+  return {
+    html() {
+      const rows = MAX.map((n, i) => `<div class="srow" data-l="${i + 1}"><span class="sl">${i + 1}. sv</span><span class="boxes">${st.u[i].map((u, j) => slotBox(u, `s:${i}:${j}`, `${i + 1}. seviye slot ${j + 1}`)).join('')}</span><span class="left"><b>${left(st.u[i])}</b>/${n}</span></div>`).join('');
+      const free = FREE.length ? `<div class="srow ft"><span class="sl"><span lang="en">Fey Touched</span><small>slotsuz, 1 kez</small></span><span class="boxes">${FREE.map((nm, i) => `<span class="fb">${slotBox(st.f[i], `f:${i}`, nm)}<small lang="en">${nm}</small></span>`).join('')}</span><span class="left"><b>${left(st.f)}</b>/${FREE.length}</span></div>` : '';
+      const total = MAX.reduce((a, b) => a + b, 0), rest = st.u.reduce((a, r) => a + left(r), 0);
+      return `<section class="card slots"><h3>Büyü slotları <small>${rest}/${total} kaldı · büyü yapınca boş kutuya dokun</small></h3>${rows}${free}
+        ${st.confirm
+          ? `<div class="confirm"><span>Tüm slotlar yenilensin mi?</span><button class="yes" data-slot="rest-yes">Evet, yenile</button><button data-slot="rest-no">Vazgeç</button></div>`
+          : `<button class="mini srest" data-slot="rest">Uzun dinlenme: hepsini yenile</button>`}</section>`;
+    },
+    tap(key) {
+      const [k, a, b] = key.split(':');
+      if (k === 's') { st.u[+a][+b] ^= 1; save(); }
+      else if (k === 'f') { st.f[+a] ^= 1; save(); }
+      else if (k === 'rest') st.confirm = true;
+      else if (k === 'rest-no') st.confirm = false;
+      else if (k === 'rest-yes') { st.u = MAX.map(n => Array(n).fill(0)); st.f = FREE.map(() => 0); st.confirm = false; save(); toast('Slotlar yenilendi'); }
+      for (const c of document.querySelectorAll('.slots')) c.outerHTML = this.html();
+      focusQuiet($(`[data-slot="${k === 'rest' ? 'rest-no' : k.startsWith('rest') ? 'rest' : key}"]`) || $('.slots .box'));
+    },
+  };
+})();
+
 /* =====================================================================
    Büyüler (spell book)
    ===================================================================== */
@@ -5352,7 +5511,7 @@ const SP = (() => {
     k: 'sp', hue: id => spellHue(BY[id]), all: $('#spAll'), prep: $('#spPrep'), tools: $('#spTools'), q: $('#spQ'),
     sub: 'prep', filter: 'all', query: '', qKey: '', confirming: false, BY,
     stats: '<div class="st"><span>Saldırı</span><b>+9</b></div><div class="st"><span>DC</span><b>17</b></div>',
-    segLabels: () => ['Tümü', `${items.length} büyü`, 'Hazır', `${count()}/${state.limit}`, count() > state.limit],
+    segs: () => [['prep', 'Hazır', `${count()}/${state.limit}`, count() > state.limit], ['all', 'Tümü', `${items.length} büyü`]],
     renderChips() {
       const opts = [['all','Tümü','Tüm seviyeler'],['0','<span lang="en">Cantrip</span>','Cantrip'],['1','1','1. seviye'],['2','2','2. seviye'],['3','3','3. seviye'],['4','4','4. seviye'],['5','5','5. seviye']];
       $('#spChips').innerHTML = opts.map(([v, l, a]) => `<button class="chip" data-c="sp" data-f="${v}" aria-pressed="${C.filter === v}" aria-label="${a}">${l}</button>`).join('');
@@ -5382,23 +5541,22 @@ const SP = (() => {
     },
     renderPrep() {
       const n = count(), L = state.limit, over = n > L;
-      let html = `<div class="sum${over ? ' over' : ''}">
+      let html = SLOTS.html() + `<div class="sum${over ? ' over' : ''}">
         <div class="sum-top"><div class="big">${n} <small>/ ${L} büyü hazır</small></div>
           <div class="step">Günlük hak <button data-lim="-1" aria-label="Günlük hakkı azalt">−</button><output aria-live="polite">${L}</output><button data-lim="1" aria-label="Günlük hakkı artır">+</button></div></div>
         <div class="meter" role="progressbar" aria-label="Hazırlanan büyüler" aria-valuemin="0" aria-valuemax="${L}" aria-valuenow="${Math.min(n, L)}" aria-valuetext="${n}/${L}"><i style="width:${Math.min(100, n / L * 100)}%"></i></div>
         ${over ? `<p class="overmsg">Günlük hakkını ${n - L} büyü aşıyorsun. Birkaçını çıkar ya da hakkı artır.</p>` : ''}
-        <ul class="rules">
-          <li>Büyü slotları: <b>1. sv 4 · 2. sv 3 · 3. sv 3 · 4. sv 3 · 5. sv 1</b> (uzun dinlenmede yenilenir)</li>
+        ${C.confirming
+          ? `<div class="confirm"><span>Hazırlanan tüm büyüler kaldırılsın mı?</span><button class="yes" data-c="sp" data-clear="yes">Evet, temizle</button><button data-c="sp" data-clear="no">Vazgeç</button></div>`
+          : (n ? `<button class="clear" data-c="sp" data-clear="ask">Seçimi temizle</button>` : '')}
+      </div>`;
+      const rules = `<section class="sum rules-card"><h3>Kurallar</h3><ul class="rules">
           <li>Hazırlık <b>uzun dinlenmenin sonunda</b> değişir: <b>14 büyü</b> = WIS 5 + druid seviyesi 9</li>
           <li>Cantrip'ler (<span lang="en">Mold Earth, Produce Flame, Shape Water</span>) ve <span lang="en">Fey Touched</span> büyüleri (<span lang="en">Identify, Misty Step</span>) her zaman hazır, sayıya girmez</li>
           <li><span lang="en">Fey Touched</span>: <span lang="en">Identify</span> ve <span lang="en">Misty Step</span> uzun dinlenmede <b>birer kez slotsuz</b></li>
           <li>Ritüel etiketli ve <b>hazırladığın</b> druid büyülerini ve <span lang="en">Identify</span>'ı slot harcamadan, <b>+10 dakika</b> sürede ritüel olarak yapabilirsin</li>
           <li><span lang="en">Wild Shape</span> formundayken büyü yapamazsın; önceden başlattığın konsantrasyon sürer</li>
-        </ul>
-        ${C.confirming
-          ? `<div class="confirm"><span>Hazırlanan tüm büyüler kaldırılsın mı?</span><button class="yes" data-c="sp" data-clear="yes">Evet, temizle</button><button data-c="sp" data-clear="no">Vazgeç</button></div>`
-          : (n ? `<button class="clear" data-c="sp" data-clear="ask">Seçimi temizle</button>` : '')}
-      </div>`;
+        </ul></section>`;
       for (const l of [1,2,3,4,5,0]) {
         const list = items.filter(s => s.lvl === l && isSel(s.id));
         if (!list.length) continue;
@@ -5406,7 +5564,7 @@ const SP = (() => {
         html += `<h2 class="lvl-h" data-l="${l}">${lvlName(l)}${l === 0 ? ' <small>her zaman hazır</small>' : ` <small>${list.length - ft}${ft ? ` + ${ft} <span lang="en">Fey Touched</span>` : ''}</small>`}</h2><div class="list" data-l="${l}">${list.map(tile).join('')}</div>`;
       }
       if (!n) html += `<p class="empty">Henüz büyü hazırlamadın. “Tümü” görünümünde bir büyünün yanındaki daireye dokun.</p>`;
-      C.prep.innerHTML = html;
+      C.prep.innerHTML = html + rules;
     },
     // returns a toast message, or null when nothing changed
     toggle(id) {
@@ -5464,6 +5622,14 @@ const WS = (() => {
   const save = () => store(KEY, state);
   // 2026-10: Murat asked for Spotted Lion and Sword Spider among the selected forms; add them once to an older saved list.
   const MIGR = 'mathias-wildshape-migr-1';
+  // the form Mathias is in now (Aktif page): its hit points and the two Wild Shape uses
+  const ACT_KEY = 'mathias-wildshape-active-v1';
+  const ACT = Object.assign({ id: null, cur: 0, uses: [0, 0] }, load(ACT_KEY, {}));
+  if (!BY[ACT.id]) ACT.id = null;
+  if (!Array.isArray(ACT.uses) || ACT.uses.length !== 2) ACT.uses = [0, 0];
+  if (ACT.id) ACT.cur = Math.max(0, Math.min(BY[ACT.id].hp, Math.round(+ACT.cur) || 0));
+  ACT.confirmEnd = false;
+  const saveAct = () => { store(ACT_KEY, { id: ACT.id, cur: ACT.cur, uses: ACT.uses }); askPersist(); };
   if (!load(MIGR, false)) { for (const id of ['spotted-lion','sword-spider']) if (BY[id] && !state.sel.includes(id)) state.sel.push(id); if (saved) save(); store(MIGR, true); }
   const ICON = (() => {
     const m = {
@@ -5518,10 +5684,12 @@ const WS = (() => {
   }
   const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, , l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
   const C = {
-    k: 'ws', hue: id => ROLE_HUE[role(BY[id])], all: $('#wsAll'), prep: $('#wsPrep'), tools: $('#wsTools'), q: $('#wsQ'),
+    k: 'ws', hue: id => ROLE_HUE[role(BY[id])], all: $('#wsAll'), prep: $('#wsPrep'), act: $('#wsAct'), tools: $('#wsTools'), q: $('#wsQ'),
     sub: 'prep', filter: 'all', move: '', query: '', qKey: '', confirming: false, BY,
     stats: '<div class="st"><span>Maks CR</span><b>3</b></div><div class="st"><span>Hak</span><b>2</b></div>',
-    segLabels: () => ['Tümü', `${items.length} hayvan`, 'Seçili', `${count()} form`, false],
+    segs: () => [['act', 'Aktif', ACT.id ? `${ACT.cur}/${BY[ACT.id].hp}` : 'yok'], ['prep', 'Seçili', `${count()} form`], ['all', 'Tümü', `${items.length}`]],
+    // entering Wild Shape: the active form first when there is one (user's request), else the selected forms
+    start: () => ACT.id ? 'act' : 'prep',
     renderChips() {
       const opts = [['all','Tümü','Tüm CR’ler'], ...CRS.map(c => [String(c), 'CR ' + c, 'CR ' + c])];
       $('#wsChips').innerHTML = opts.map(([v, l, a]) => `<button class="chip" data-c="ws" data-f="${v}" aria-pressed="${C.filter === v}" aria-label="${a}">${l}</button>`).join('');
@@ -5554,6 +5722,11 @@ const WS = (() => {
       const n = count();
       let html = `<div class="sum">
         <div class="sum-top"><div class="big">${n} <small>form seçili</small></div></div>
+        ${C.confirming
+          ? `<div class="confirm"><span>Seçilen tüm formlar kaldırılsın mı?</span><button class="yes" data-c="ws" data-clear="yes">Evet, temizle</button><button data-c="ws" data-clear="no">Vazgeç</button></div>`
+          : (n ? `<button class="clear" data-c="ws" data-clear="ask">Seçimi temizle</button>` : '')}
+      </div>`;
+      const rules = `<section class="sum rules-card"><h3>Kurallar</h3>
         <ul class="rules">
           <li><b>2 hak</b> / kısa dinlenme · en fazla <b>4 saat</b> · <b>bonus aksiyon</b> (Combat Wild Shape)</li>
           <li><b>AC = hayvanın AC'si + 5</b> (WIS, masa kuralı) · saldırılar büyülü (Primal Strike)</li>
@@ -5564,18 +5737,39 @@ const WS = (() => {
           <li>Formda <b>büyü yapamazsın</b> ve konuşamazsın; önceden başlattığın konsantrasyon sürer</li>
           <li><span lang="en">Combat Wild Shape</span>: formdayken <b>bonus aksiyon + bir büyü slotu</b> → slot seviyesi başına <b>1d8 can</b></li>
           <li>Sınıf, ırk ve feat özelliklerin sürer (hayvanın yapabildiği kadarıyla); eşyalar forma karışır, takılı kalır ya da düşer (sen seçersin)</li>
-        </ul>
-        ${C.confirming
-          ? `<div class="confirm"><span>Seçilen tüm formlar kaldırılsın mı?</span><button class="yes" data-c="ws" data-clear="yes">Evet, temizle</button><button data-c="ws" data-clear="no">Vazgeç</button></div>`
-          : (n ? `<button class="clear" data-c="ws" data-clear="ask">Seçimi temizle</button>` : '')}
-      </div>`;
+        </ul></section>`;
       for (const c of CRS) {
         const list = items.filter(b => b.cr === c && isSel(b.id));
         if (!list.length) continue;
         html += `<h2 class="lvl-h" data-l="${c}">CR ${c} <small>${list.length}</small></h2><div class="list" data-l="${c}">${list.map(tile).join('')}</div>`;
       }
       if (!n) html += `<p class="empty">Henüz form seçmedin. “Tümü” görünümünde bir hayvanın yanındaki daireye dokun.</p>`;
-      C.prep.innerHTML = html;
+      C.prep.innerHTML = html + rules;
+    },
+    // Aktif: the form Mathias is in right now, with its own hit points and the Wild Shape uses
+    renderAct() {
+      const b = ACT.id && BY[ACT.id];
+      const uses = `<div class="card uses-card"><div class="srow"><span class="sl"><span lang="en">Wild Shape</span> hakkı</span><span class="boxes">${ACT.uses.map((u, i) => slotBox(u, `ws-use:${i}`, `Wild Shape hakkı ${i + 1}`)).join('')}</span><span class="left">${ACT.uses.filter(u => !u).length}/2</span></div>
+        <p class="note">Dönüşünce bir kutu kendiliğinden işaretlenir. Kısa ya da uzun dinlenmede yenilenir.</p>
+        <button class="mini" data-act="rest">Dinlendim: hakları yenile</button></div>`;
+      if (!b) {
+        const sel = items.filter(x => isSel(x.id));
+        C.act.innerHTML = `<div class="sum"><div class="big">Aktif form yok</div><p class="note">Bir forma dönüşmek için aşağıdan seç ya da bir hayvanın penceresinde <b>Dönüş</b>’e dokun.</p></div>
+          ${sel.length ? `<h2 class="lvl-h">Seçili formlar <small>dokun: dönüş</small></h2><div class="list">${sel.map(x => `<button class="tile shift" data-shift="${x.id}" style="--h:${ROLE_HUE[role(x)]}">${icon(x)}<span class="nm"><span class="en" lang="en">${esc(x.en)}</span><span class="qs">AC <b>${x.ac}</b> · Can <b>${x.hp}</b> · Hasar <b>~${x.dpr[0]}</b></span></span><span class="go">Dönüş</span></button>`).join('')}</div>` : ''}
+          ${uses}`;
+        return;
+      }
+      C.act.innerHTML = `<div class="card act-card" style="--h:${ROLE_HUE[role(b)]}">
+          <div class="sh-top">${icon(b)}<div><h2 lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · AC <b>${b.ac}</b></p></div>
+            <button class="mini" data-c="ws" data-open="${b.id}">Ayrıntı</button></div>
+          ${hpWidget('ws', ACT.cur, b.hp)}
+          <p class="note">Formun canı 0'a düşünce dönersin; <b>artan hasar</b> Mathias'ın canına geçer (şu an <b>${HP.cur}/${HP.max}</b>).</p>
+          ${ACT.confirmEnd
+            ? `<div class="confirm"><span>Formdan çıkılsın mı?</span><button class="yes" data-act="end-yes">Evet, dön</button><button data-act="end-no">Vazgeç</button></div>`
+            : `<button class="mini danger end" data-act="end">Formdan çık</button>`}
+        </div>
+        ${uses}
+        <div class="act-detail" style="--h:${ROLE_HUE[role(b)]}">${detail(b)}</div>`;
     },
     toggle(id) {
       const b = BY[id]; if (!b) return null;
@@ -5584,8 +5778,48 @@ const WS = (() => {
       state.sel.push(id); save(); return `${b.en} seçildi · ${count()} form`;
     },
     clear() { state.sel = []; save(); },
+    ACT,
+    // turn into a form: full form hit points, one Wild Shape use marked
+    shift(id) {
+      const b = BY[id]; if (!b) return '';
+      ACT.id = id; ACT.cur = b.hp; ACT.confirmEnd = false;
+      const i = ACT.uses.indexOf(0); if (i >= 0) ACT.uses[i] = 1;
+      saveAct();
+      return `${b.en} formuna dönüştün · ${i >= 0 ? `${ACT.uses.filter(u => !u).length} hak kaldı` : 'hakkın kalmamıştı'}`;
+    },
+    // damage to the form: at 0 Mathias reverts and the excess carries over to his own hit points
+    formHp(kind, n) {
+      const b = BY[ACT.id]; if (!b) return '';
+      if (kind === 'heal') { ACT.cur = Math.min(b.hp, ACT.cur + n); saveAct(); return ''; }
+      if (n < ACT.cur) { ACT.cur -= n; saveAct(); return ''; }
+      const extra = n - ACT.cur;
+      ACT.id = null; ACT.cur = 0; saveAct();
+      if (extra) changeHp(-extra, `${b.en} düştü, artan hasar`);
+      return `${b.en} formu düştü, Mathias'a döndün${extra ? `; artan ${extra} hasar sana geçti (${HP.cur}/${HP.max})` : ''}`;
+    },
+    actAction(a) {
+      if (a === 'end') ACT.confirmEnd = true;
+      else if (a === 'end-no') ACT.confirmEnd = false;
+      else if (a === 'end-yes') { const b = BY[ACT.id]; ACT.id = null; ACT.cur = 0; ACT.confirmEnd = false; saveAct(); if (b) toast(`${b.en} formundan çıktın`); }
+      else if (a === 'rest') { ACT.uses = [0, 0]; saveAct(); toast('Wild Shape hakları yenilendi'); }
+      C.renderAct(); syncChrome();
+      focusQuiet(C.act.querySelector(a === 'end' ? '[data-act="end-no"]' : a === 'rest' ? '[data-act="rest"]' : '[data-act="end"]') || C.act.querySelector('button'));
+    },
+    useTap(i) {
+      ACT.uses[i] ^= 1; saveAct(); C.renderAct(); syncChrome(); focusQuiet(C.act.querySelector(`[data-slot="ws-use:${i}"]`));
+    },
     fill(id) {
       const b = BY[id], on = isSel(id);
+      const btn = (ACT.id === id ? `<button disabled>Şu an bu formdasın</button>` : `<button data-shift="${id}">Dönüş</button>`)
+        + (on ? `<button class="rm" data-c="ws" data-pick="${id}">Seçimden çıkar</button>` : `<button class="sec2" data-c="ws" data-pick="${id}">Seç · ${count() + 1}. form</button>`);
+      return `
+        <div class="sh-top">${icon(b)}<div><h2 id="shName" lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · ${esc(b.size)}${b.ed ? ' · ' + b.ed : ''}</p></div>
+          <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+        ${detail(b)}
+        <div class="act two">${btn}</div>`;
+    },
+  };
+  function detail(b) {
       const acSub = `${b.acBase} + 5` + b.acAlt.map(([v, c]) => ` · ${c === 'while prone' ? 'yere seriliyken' : esc(c)} AC ${v}`).join('');
       const abil = b.abil.map((v, i) => `<div${i > 2 ? ' class="me"' : ''}><span>${ABN[i]}</span><b>${v}</b><small>${sg(mod(v))}</small></div>`).join('');
       const saves = b.sv.map((v, i) => `<span>${ABN[i]} <b>${sg(v)}</b></span>`).join('');
@@ -5595,10 +5829,7 @@ const WS = (() => {
         b.imm.length ? `Bağışıklık: ${esc(listTr(b.imm, DMG))}` : '',
         b.cimm.length ? `Etkilenmez: ${esc(listTr(b.cimm, COND))}` : '',
       ].filter(Boolean).join(' · ');
-      const btn = on ? `<button class="rm" data-c="ws" data-pick="${id}">Seçimden çıkar</button>` : `<button data-c="ws" data-pick="${id}">Seç · ${count() + 1}. form</button>`;
       return `
-        <div class="sh-top">${icon(b)}<div><h2 id="shName" lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · ${esc(b.size)}${b.ed ? ' · ' + b.ed : ''}</p></div>
-          <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
         <span class="tags"><span class="tg role" style="--h:${ROLE_HUE[role(b)]}">${role(b)}</span>${b.role.split(' · ').map(r => `<span class="tg">${esc(r)}</span>`).join('')}</span>
         <dl class="facts">
           <div class="fact key k-dmg"><dt>Tur başı hasar</dt><dd>~${b.dpr[0]}<small>${esc(b.dpr[1])}</small></dd></div>
@@ -5617,10 +5848,8 @@ const WS = (() => {
         <div class="blk"><h3>Beceriler</h3><div class="kv">${skills}</div></div>
         ${def ? `<div class="blk"><h3>Savunma</h3><div class="kv"><span>${def}</span></div></div>` : ''}
         ${b.tip ? `<div class="tip">${esc(b.tip)}</div>` : ''}
-        <div class="src">${b.edNote ? esc(b.edNote) + '<br>' : ''}Kaynak: ${esc(b.src)}</div>
-        <div class="act">${btn}</div>`;
-    },
-  };
+        <div class="src">${b.edNote ? esc(b.edNote) + '<br>' : ''}Kaynak: ${esc(b.src)}</div>`;
+  }
   return C;
 })();
 const CATS = { sp: SP, ws: WS };
@@ -5655,6 +5884,7 @@ function toggleIn(C, id) {
       focusQuiet(C.prep.querySelector(`[data-pick="${id}"]`) || now[Math.min(at, now.length - 1)] || C.prep.querySelector('.sum button'));
     }
   }
+  if (tab === C.k && C.sub === 'act') C.renderAct();
   // inside the sheet the button label already changes, so no toast over the description
   if (openRef && openRef.c === C && openRef.id === id) { $('#sheetIn').innerHTML = C.fill(id); focusQuiet(sheet.querySelector('.act button')); }
   else toast(r);
@@ -5801,10 +6031,12 @@ function invAction(t) {
 }
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.id === 'newItem') { e.preventDefault(); invAction({ dataset: { inv: 'add-item' } }); }
+  // Enter in the hit point box = damage (the usual case)
+  if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('hpIn-')) { e.preventDefault(); hpAction('dmg', e.target.id.slice(5)); }
 });
 
 // Backup: every key this app writes, as one JSON file.
-const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY];
+const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1'];
 function exportData() {
   const data = { app: 'mathias', v: 1, at: new Date().toISOString(), keys: {} };
   for (const k of BACKUP_KEYS) { try { const r = localStorage.getItem(k); if (r) data.keys[k] = JSON.parse(r); } catch (e) {} }
@@ -5914,17 +6146,18 @@ function syncChrome() {
   const C = CATS[tab];
   $('#hdChar').hidden = !!C;
   $('#seg').hidden = !C;
-  $('#stats').innerHTML = C ? C.stats : '<div class="st"><span>AC</span><b>18</b></div><div class="st"><span>Can</span><b>88</b></div>';
+  $('#stats').innerHTML = C ? C.stats : `<div class="st"><span>AC</span><b>18</b></div><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
   if (C) {
-    const [a, ac, p, pc, over] = C.segLabels();
-    $('#segA').textContent = a; $('#segAc').textContent = ac; $('#segP').textContent = p; $('#segPc').textContent = pc;
-    $('#segPc').classList.toggle('over', !!over);
-    for (const b of $('#seg').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.sub === C.sub));
+    // segments left to right in swipe order: selected list first, "Tümü" last
+    const segs = C.segs(), ae = document.activeElement, had = ae && ae.closest && ae.closest('#seg') && ae.dataset.sub;
+    $('#seg').style.gridTemplateColumns = `repeat(${segs.length},minmax(0,1fr))`;
+    $('#seg').innerHTML = segs.map(([sub, l, sm, over]) => `<button data-sub="${sub}" id="seg-${sub}" aria-pressed="${sub === C.sub}"><span>${l}</span><small${over ? ' class="over"' : ''}>${esc(sm)}</small></button>`).join('');
+    if (had) focusQuiet($(`#seg [data-sub="${had}"]`));
   }
   SP.tools.hidden = !(tab === 'sp' && SP.sub === 'all');
   WS.tools.hidden = !(tab === 'ws' && WS.sub === 'all');
   $('#charView').hidden = tab !== 'char';
-  for (const c of [SP, WS]) { c.all.hidden = !(tab === c.k && c.sub === 'all'); c.prep.hidden = !(tab === c.k && c.sub === 'prep'); }
+  for (const c of Object.values(CATS)) { c.all.hidden = !(tab === c.k && c.sub === 'all'); c.prep.hidden = !(tab === c.k && c.sub === 'prep'); if (c.act) c.act.hidden = !(tab === c.k && c.sub === 'act'); }
   for (const b of $('#nav').querySelectorAll('button')) b.setAttribute('aria-current', b.dataset.tab === tab ? 'page' : 'false');
 }
 function go(nextTab, nextSub) {
@@ -5932,15 +6165,40 @@ function go(nextTab, nextSub) {
   if (nextTab === tab && (!C || nextSub === undefined || nextSub === C.sub)) return;
   scrollMem[viewKey()] = window.scrollY;
   // entering Büyüler / Wild Shape from another tab always opens the selected list first (user's request)
-  if (C && nextTab !== tab) C.sub = 'prep';
+  if (C && nextTab !== tab) C.sub = C.start ? C.start() : 'prep';
   tab = nextTab;
   if (C && nextSub) C.sub = nextSub;
   if (C) C.confirming = false;
   if (C && C.sub === 'prep') C.renderPrep();
+  if (C && C.sub === 'act') C.renderAct();
   syncChrome();
-  // lists come back where you left them; the short "prepared" pages always open at the top
-  window.scrollTo(0, C && C.sub === 'prep' ? 0 : (scrollMem[viewKey()] || 0));
+  // lists come back where you left them; the short "prepared" / active pages always open at the top
+  window.scrollTo(0, C && C.sub !== 'all' ? 0 : (scrollMem[viewKey()] || 0));
 }
+// swipe left / right on Büyüler (and Wild Shape) moves between the segments of the header switch
+function swipe(dir) {
+  const C = CATS[tab]; if (!C || openRef) return;
+  const subs = C.segs().map(x => x[0]), i = subs.indexOf(C.sub) + dir;
+  if (i < 0 || i >= subs.length) return;
+  go(tab, subs[i]);
+  const v = C.sub === 'all' ? C.all : C.sub === 'act' ? C.act : C.prep;
+  v.classList.remove('sw-l', 'sw-r'); void v.offsetWidth; v.classList.add(dir > 0 ? 'sw-l' : 'sw-r');
+}
+(function(){
+  let x0 = 0, y0 = 0, t0 = 0, on = false;
+  document.addEventListener('touchstart', e => {
+    on = !!CATS[tab] && !openRef && e.touches.length === 1 && !e.target.closest('input, textarea, nav, .sheet');
+    if (!on) return;
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    if (!on) return; on = false;
+    const p = e.changedTouches[0], dx = p.clientX - x0, dy = p.clientY - y0;
+    // a clear sideways flick: long enough, mostly horizontal, quick (vertical scrolling never triggers it)
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.7 || Date.now() - t0 > 800) return;
+    swipe(dx < 0 ? 1 : -1);
+  }, { passive: true });
+})();
 
 let hideT, skipPop = 0;
 const background = () => [$('#hdr'), $('#main'), $('#nav')];
@@ -5967,7 +6225,7 @@ function closeSheet(fromPop) {
   background().forEach(el => { el.inert = false; });
   clearTimeout(hideT); hideT = setTimeout(() => { scrim.hidden = true; sheet.hidden = true; }, 220);
   if (fromPop !== true) { try { if (history.state && history.state.sheet) { skipPop++; history.back(); } } catch (e) {} }
-  focusQuiet((C.sub === 'all' ? C.all : C.prep).querySelector(`[data-open="${id}"]`));
+  focusQuiet(C.back ? C.back(id) : (C.sub === 'all' ? C.all : C.sub === 'act' ? C.act : C.prep).querySelector(`[data-open="${id}"]`));
 }
 addEventListener('popstate', () => { if (skipPop) { skipPop--; return; } closeSheet(true); });
 // drag the handle down to dismiss
@@ -5981,9 +6239,20 @@ addEventListener('popstate', () => { if (skipPop) { skipPop--; return; } closeSh
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],#scrim');
+  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-slot],[data-shift],[data-act],#scrim');
   if (!t) return;
   const C = t.dataset.c === 'sk' ? SK : CATS[t.dataset.c];
+  if (t.hasAttribute('data-hpopen')) return openSheet(HPS, 'hp');
+  if (t.dataset.hp) return hpAction(t.dataset.hp, t.dataset.w);
+  if (t.dataset.slot) return t.dataset.slot.startsWith('ws-use:') ? WS.useTap(+t.dataset.slot.slice(7)) : SLOTS.tap(t.dataset.slot);
+  if (t.dataset.shift) {
+    const msg = WS.shift(t.dataset.shift);
+    if (openRef) closeSheet();
+    if (tab === 'ws' && WS.sub === 'act') { WS.renderAct(); syncChrome(); window.scrollTo(0, 0); } else go('ws', 'act');
+    focusQuiet(WS.act.querySelector('.hb'));
+    return toast(msg);
+  }
+  if (t.dataset.act) return WS.actAction(t.dataset.act);
   if (t.dataset.pick) return toggleIn(C, t.dataset.pick);
   if (t.dataset.open) return openSheet(C, t.dataset.open);
   if (t.dataset.f) { C.filter = t.dataset.f; C.renderChips(); applyFilter(C); window.scrollTo(0, 0); focusQuiet($(`[data-c="${C.k}"][data-f="${C.filter}"]`)); return; }
