@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '8e153bf728'; window.__BUILT__ = '2026-10-11 01:11';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'de490496cf'; window.__BUILT__ = '2026-10-11 01:24';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -332,7 +332,8 @@ html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data
 .rules .legend{ list-style:none; margin-left:-18px; display:flex; flex-wrap:wrap; gap:4px; align-items:center; }
 
 /* ---- can (hit points): header button, sheet / Aktif widget ---- */
-html{ overscroll-behavior-x:none; }
+/* no Chrome pull-to-refresh (or sideways bounce) when the page is pulled down at the top (user's request) */
+html, body{ overscroll-behavior:none; }
 .hpst{ border-color:color-mix(in oklab, hsl(350 45% 62%) 55%, var(--line)); }
 .hpst b small{ font-size:.9rem; color:var(--muted); font-family:var(--body); font-weight:500; }
 .hpst.hurt b{ color:hsl(40 70% 70%); } .hpst.low b, .hpst.down b{ color:var(--warn); }
@@ -6467,6 +6468,30 @@ try { history.replaceState({ nav: 1, tab: 'char', sub: null }, ''); } catch (e) 
   g.addEventListener('pointermove', e => { if (y0 === null) return; dy = Math.max(0, e.clientY - y0); sheet.style.transform = `translateY(${dy}px)`; });
   const end = () => { if (y0 === null) return; y0 = null; sheet.classList.remove('drag'); if (dy > 80) closeSheet(); else sheet.style.transform = ''; };
   g.addEventListener('pointerup', end); g.addEventListener('pointercancel', end);
+})();
+// pull the sheet down from anywhere once its text is scrolled to the top (user's request): a downward pull that
+// starts while the content is already at the top drags the sheet and closes it past 80 px; otherwise it just scrolls.
+(function(){
+  const box = $('#sheetIn'); let y0 = null, x0 = 0, dy = 0, pulling = false;
+  box.addEventListener('touchstart', e => {
+    y0 = e.touches.length === 1 && box.scrollTop <= 0 ? e.touches[0].clientY : null;
+    if (y0 !== null) x0 = e.touches[0].clientX;
+    dy = 0; pulling = false;
+  }, { passive: true });
+  box.addEventListener('touchmove', e => {
+    if (y0 === null) return;
+    const t = e.touches[0], d = t.clientY - y0;
+    if (!pulling) {
+      // reading further down (finger up) or a sideways move: leave it to normal scrolling
+      if (d < -4 || Math.abs(t.clientX - x0) > Math.abs(d)) { y0 = null; return; }
+      if (d < 8) return;
+      pulling = true; sheet.classList.add('drag');
+    }
+    dy = Math.max(0, d - 8); sheet.style.transform = `translateY(${dy}px)`;
+    e.preventDefault();
+  }, { passive: false });
+  const end = () => { if (pulling) { sheet.classList.remove('drag'); if (dy > 80) closeSheet(); else sheet.style.transform = ''; } y0 = null; pulling = false; };
+  box.addEventListener('touchend', end); box.addEventListener('touchcancel', end);
 })();
 
 /* ---------- events ---------- */
