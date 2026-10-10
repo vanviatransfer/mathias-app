@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'de490496cf'; window.__BUILT__ = '2026-10-11 01:24';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'cb65b87503'; window.__BUILT__ = '2026-10-11 01:33';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -6402,19 +6402,27 @@ function go(nextTab, nextSub, mode) {
   // the phone's back gesture returns to the previous menu instead of leaving the app
   if (mode !== 'pop') { try { history[mode === 'replace' ? 'replaceState' : 'pushState']({ nav: 1, tab, sub: C ? C.sub : null }, ''); } catch (e) {} }
 }
-// swipe left / right on Büyüler (and Wild Shape) moves between the segments of the header switch
+// Swipe left / right walks one endless loop over every page: first the segments of the current tab's header switch,
+// then on to the next bottom-menu tab (its first segment going forward, its last going back); after the last tab it
+// wraps to the first. So Büyüler takes two swipes to pass, Wild Shape three (user's request).
+const curView = () => { const C = CATS[tab]; return !C ? $('#charView') : C.sub === 'all' ? C.all : C.sub === 'act' ? C.act : C.prep; };
 function swipe(dir) {
-  const C = CATS[tab]; if (!C || openRef) return;
-  const subs = C.segs().map(x => x[0]), i = subs.indexOf(C.sub) + dir;
-  if (i < 0 || i >= subs.length) return;
-  go(tab, subs[i]);
-  const v = C.sub === 'all' ? C.all : C.sub === 'act' ? C.act : C.prep;
+  if (openRef) return;
+  const C = CATS[tab], subs = C ? C.segs().map(x => x[0]) : [], i = subs.indexOf(C && C.sub) + dir;
+  if (C && i >= 0 && i < subs.length) go(tab, subs[i]);
+  else {
+    const tabs = [...document.querySelectorAll('#nav [data-tab]')].map(b => b.dataset.tab);
+    const next = tabs[(tabs.indexOf(tab) + dir + tabs.length) % tabs.length], N = CATS[next];
+    const nsubs = N ? N.segs().map(x => x[0]) : [];
+    go(next, N ? nsubs[dir > 0 ? 0 : nsubs.length - 1] : undefined);
+  }
+  const v = curView();
   v.classList.remove('sw-l', 'sw-r'); void v.offsetWidth; v.classList.add(dir > 0 ? 'sw-l' : 'sw-r');
 }
 (function(){
   let x0 = 0, y0 = 0, t0 = 0, on = false;
   document.addEventListener('touchstart', e => {
-    on = !!CATS[tab] && !openRef && e.touches.length === 1 && !e.target.closest('input, textarea, nav, .sheet');
+    on = !openRef && e.touches.length === 1 && !e.target.closest('input, textarea, nav, .sheet');
     if (!on) return;
     x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
   }, { passive: true });
