@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '3854fa027f'; window.__BUILT__ = '2026-10-11 00:36';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'f96de63a8f'; window.__BUILT__ = '2026-10-11 00:54';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -441,6 +441,21 @@ html{ overscroll-behavior-x:none; }
 #invItems .inv, #invNotes .inv{ margin-top:12px; }
 .inv .addf + .entries{ margin-top:2px; }
 nav button{ white-space:nowrap; }
+/* gold */
+.gold{ margin-top:12px; display:grid; gap:8px; border-color:color-mix(in oklab, hsl(45 60% 55%) 45%, var(--line)) !important; background:color-mix(in oklab, hsl(45 50% 45%) 10%, var(--surface)) !important; }
+.gold h3{ margin:0; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:hsl(45 55% 70%); }
+.gsum{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+.gsum div{ background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:6px 8px; min-width:0; }
+.gsum small{ display:block; font-size:.68rem; color:var(--muted); line-height:1.2; }
+.gsum b{ display:block; font-size:1rem; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.gsum .me b{ font-size:1.3rem; color:hsl(45 65% 68%); }
+.gin{ display:grid; grid-template-columns:minmax(0,1fr) auto auto auto; gap:6px; }
+.gin input, .gfield input{ min-width:0; width:100%; min-height:44px; border:1px solid var(--ctl); background:var(--bg); color:var(--ink); border-radius:10px; padding:6px 10px; font:inherit; font-weight:700; font-variant-numeric:tabular-nums; }
+.gin .mini{ min-height:44px; padding:4px 8px; }
+.gfield{ flex:1; min-width:0; display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); }
+.gfield input{ min-height:40px; }
+.gv{ font-size:.85rem; color:hsl(45 45% 70%); font-variant-numeric:tabular-nums; }
+.gv b{ color:hsl(45 65% 72%); }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -6081,6 +6096,11 @@ const INV_KEY = 'mathias-inventory-v1';
 const inv = load(INV_KEY, { items: [], notes: [] });
 if (!Array.isArray(inv.items)) inv.items = [];
 if (!Array.isArray(inv.notes)) inv.notes = [];
+if (!Number.isFinite(inv.gold)) inv.gold = 0;
+// gold: "12,5", "12.5" and "1.250" (Turkish thousands) all work; two decimals at most (5 sp = 0,5 gp)
+const parseG = v => { let t = String(v).trim().replace(/\s/g, ''); if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(t)) t = t.replace(/\./g, ''); const n = Number(t.replace(',', '.')); return Number.isFinite(n) && n >= 0 ? Math.round(n * 100) / 100 : null; };
+const gp = n => (Math.round(n * 100) / 100).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) + ' gp';
+const itemsValue = () => inv.items.reduce((a, e) => a + (e.g || 0) * e.q, 0);
 let invEdit = null, invDel = null; // { kind, id }
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 function saveInv(msg) {
@@ -6092,20 +6112,29 @@ function entryHTML(kind, e) {
   const isItem = kind === 'items';
   if (invEdit && invEdit.kind === kind && invEdit.id === e.id) {
     return `<li class="entry"><textarea rows="${isItem ? 2 : 4}" data-edit-text aria-label="Düzenle">${esc(e.t)}</textarea>
+      ${isItem ? `<label class="gfield">Değeri (tanesi) <input data-edit-g type="text" inputmode="decimal" value="${e.g ? String(e.g).replace('.', ',') : ''}" placeholder="0" aria-label="Değeri, gp"><span>gp</span></label>` : ''}
       <div class="row"><span class="sp"></span><button class="mini" data-inv="cancel">Vazgeç</button><button class="mini pri" data-inv="save-edit" data-kind="${kind}" data-id="${e.id}">Kaydet</button></div></li>`;
   }
   const del = invDel && invDel.kind === kind && invDel.id === e.id
     ? `<span class="sp">Silinsin mi?</span><button class="mini" data-inv="cancel">Vazgeç</button><button class="mini danger" data-inv="del-yes" data-kind="${kind}" data-id="${e.id}">Evet, sil</button>`
     : `${isItem ? `<span class="qty"><button class="mini" data-inv="qty" data-d="-1" data-id="${e.id}" aria-label="Azalt: ${esc(e.t)}">−</button><output>${e.q}</output><button class="mini" data-inv="qty" data-d="1" data-id="${e.id}" aria-label="Artır: ${esc(e.t)}">+</button></span>` : ''}
        <span class="sp"></span><button class="mini" data-inv="edit" data-kind="${kind}" data-id="${e.id}">Düzenle</button><button class="mini danger" data-inv="del" data-kind="${kind}" data-id="${e.id}">Sil</button>`;
-  return `<li class="entry"><div class="txt">${esc(e.t)}</div><div class="row">${del}</div></li>`;
+  const val = isItem && e.g ? `<div class="gv">${gp(e.g)} tanesi${e.q !== 1 ? ` · ${e.q} adet = <b>${gp(e.g * e.q)}</b>` : ''}</div>` : '';
+  return `<li class="entry"><div class="txt">${esc(e.t)}</div>${val}<div class="row">${del}</div></li>`;
 }
 function renderInv() {
   // the box you type into stays on top; entries go below it, oldest first, newest at the bottom (user's request)
+  const iv = itemsValue();
   $('#invItems').innerHTML = `
+    <div class="card gold">
+      <h3>Altın</h3>
+      <div class="gsum"><div class="me"><small>Kesende</small><b>${gp(inv.gold)}</b></div><div><small>Eşyaların değeri</small><b>${gp(iv)}</b></div><div><small>Toplam</small><b>${gp(inv.gold + iv)}</b></div></div>
+      <div class="gin"><input id="goldIn" type="text" inputmode="decimal" placeholder="Miktar (gp)" aria-label="Altın miktarı, gp"><button class="mini pri" data-gold="add">+ Ekle</button><button class="mini" data-gold="spend">− Harca</button><button class="mini" data-gold="set">Ayarla</button></div>
+    </div>
     <div class="card inv" style="--ih:42">
       <h3>Eşyalar <small>(${inv.items.length})</small></h3>
-      <div class="addf"><div class="row"><input id="newItem" type="text" placeholder="Yeni eşya (ör. Potion of Healing)" aria-label="Yeni eşya" autocapitalize="sentences">
+      <div class="addf"><textarea id="newItem" rows="2" placeholder="Yeni eşya (ör. Potion of Healing)" aria-label="Yeni eşya" autocapitalize="sentences"></textarea>
+        <div class="row"><label class="gfield">Değeri (tanesi) <input id="newItemG" type="text" inputmode="decimal" placeholder="0" aria-label="Yeni eşyanın değeri, gp"><span>gp</span></label>
         <button class="mini pri" data-inv="add-item">Ekle</button></div></div>
       <ul class="entries">${inv.items.map(e => entryHTML('items', e)).join('')}</ul>
       ${inv.items.length ? '' : '<p class="note">Henüz eşya yok.</p>'}
@@ -6125,13 +6154,23 @@ const INVC = { k: 'inv', prep: $('#invItems'), all: $('#invNotes'), sub: 'prep',
   segs: () => [['prep', 'Eşyalar', `${inv.items.length}`], ['all', 'Notlar', `${inv.notes.length}`]],
   renderPrep() {} };
 CATS.inv = INVC;
+function goldAction(a) {
+  const el = $('#goldIn'), n = el.value.trim() ? parseG(el.value) : null;
+  if (n === null || (a !== 'set' && n === 0)) { toast('Önce miktarı yaz (ör. 25 ya da 2,5).'); focusQuiet(el); return; }
+  if (a === 'spend' && n > inv.gold) { toast(`Yeterli altın yok: kesende ${gp(inv.gold)}.`); focusQuiet(el); return; }
+  inv.gold = Math.round((a === 'add' ? inv.gold + n : a === 'spend' ? inv.gold - n : n) * 100) / 100;
+  renderInv(); saveInv(a === 'add' ? `+${gp(n)} · kesende ${gp(inv.gold)}` : a === 'spend' ? `−${gp(n)} · kesende ${gp(inv.gold)}` : `Kesende ${gp(inv.gold)}`);
+  focusQuiet($(`[data-gold="${a}"]`));
+}
 function invAction(t) {
   const a = t.dataset.inv, kind = t.dataset.kind, id = t.dataset.id;
   const list = kind ? inv[kind] : null, e = list && list.find(x => x.id === id);
   if ((a === 'add-item' || a === 'add-note') && invEdit) { toast('Önce açık düzenlemeyi kaydet ya da vazgeç.'); focusQuiet($('[data-edit-text]')); return; }
   if (a === 'add-item') {
     const el = $('#newItem'), v = el.value.trim(); if (!v) { focusQuiet(el); return; }
-    inv.items.push({ id: newId(), t: v, q: 1 }); invEdit = invDel = null; renderInv(); saveInv('Eşya kaydedildi'); focusQuiet($('#newItem')); return;
+    const gv = $('#newItemG').value.trim(), g = gv ? parseG(gv) : 0;
+    if (g === null) { toast('Değer bir sayı olmalı (ör. 50 ya da 0,5).'); focusQuiet($('#newItemG')); return; }
+    inv.items.push({ id: newId(), t: v, q: 1, g }); invEdit = invDel = null; renderInv(); saveInv('Eşya kaydedildi'); focusQuiet($('#newItem')); return;
   }
   if (a === 'add-note') {
     const el = $('#newNote'), v = el.value.trim(); if (!v) { focusQuiet(el); return; }
@@ -6146,6 +6185,8 @@ function invAction(t) {
   if (a === 'save-edit') {
     const v = $('[data-edit-text]').value.trim();
     if (!v) { toast('Boş bırakılamaz; silmek için Sil’i kullan.'); focusQuiet($('[data-edit-text]')); return; }
+    const ge = $('[data-edit-g]');
+    if (ge) { const g = ge.value.trim() ? parseG(ge.value) : 0; if (g === null) { toast('Değer bir sayı olmalı (ör. 50 ya da 0,5).'); focusQuiet(ge); return; } if (e) e.g = g; }
     if (e) e.t = v;
     invEdit = null; renderInv(); saveInv('Değişiklik kaydedildi'); focusQuiet($(`[data-inv="edit"][data-id="${id}"]`)); return;
   }
@@ -6154,7 +6195,6 @@ function invAction(t) {
   if (a === 'cancel') { const ref = invEdit || invDel; invEdit = invDel = null; renderInv(); if (ref) focusQuiet($(`[data-inv="edit"][data-id="${ref.id}"]`)); return; }
 }
 document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && e.target.id === 'newItem') { e.preventDefault(); invAction({ dataset: { inv: 'add-item' } }); }
   // Enter in the hit point box = damage (the usual case)
   if (e.key === 'Enter' && e.target.id === 'cwsIn') { e.preventDefault(); WS.combatHeal('ok'); }
   if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('hpIn-')) { e.preventDefault(); hpAction('dmg', e.target.id.slice(5)); }
@@ -6374,7 +6414,7 @@ try { history.replaceState({ nav: 1, tab: 'char', sub: null }, ''); } catch (e) 
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],#scrim');
+  const t = e.target.closest('[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],#scrim');
   if (!t) return;
   const C = t.dataset.c === 'sk' ? SK : CATS[t.dataset.c];
   if (t.hasAttribute('data-hpopen')) return openSheet(HPS, 'hp');
@@ -6417,6 +6457,7 @@ document.addEventListener('click', e => {
   if (t.dataset.tab) return go(t.dataset.tab);
   if (t.dataset.sub) return go(tab, t.dataset.sub);
   if (t.dataset.inv) return invAction(t);
+  if (t.dataset.gold) return goldAction(t.dataset.gold);
   if (t.dataset.update) return updateAction(t.dataset.update);
   if (t.dataset.install) return installAction(t.dataset.install);
   if (t.dataset.backup === 'export') return exportData();
