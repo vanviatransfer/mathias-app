@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'f2a78654d5'; window.__BUILT__ = '2026-10-11 00:27';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '3854fa027f'; window.__BUILT__ = '2026-10-11 00:36';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -210,7 +210,7 @@ html[data-tab="sp"]{ --acc:#7fb89c; --acc-ink:#0f1b14; --tag:#2e3a22; --tag-ink:
 .seg button small.over{ color:var(--warn); font-weight:700; }
 .seg button[aria-pressed="true"] small.over{ color:var(--acc-ink); }
 .chips.lv{ grid-template-columns:auto auto repeat(5,minmax(0,1fr)); }
-nav .wrap{ grid-template-columns:repeat(3,1fr); }
+nav .wrap{ grid-template-columns:repeat(4,1fr); }
 .view{ min-width:0; }
 
 /* spells */
@@ -298,7 +298,6 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
 .rest h3:nth-of-type(3){ color:hsl(340 35% 74%); } .rest ul:nth-of-type(3){ border-left:2px solid hsl(340 22% 42%); }
 .rest ul{ padding-left:22px; border-radius:2px; }
 /* items vs notes */
-.inv:nth-child(1){ --ih:42; } .inv:nth-child(2){ --ih:200; }
 .inv{ background:color-mix(in oklab, hsl(var(--ih) 40% 45%) 9%, var(--surface)) !important; border-color:color-mix(in oklab, hsl(var(--ih) 35% 58%) 28%, var(--line)) !important; }
 .inv h3{ color:hsl(var(--ih) 40% 74%); }
 /* catalog level / CR headings */
@@ -438,6 +437,10 @@ html{ overscroll-behavior-x:none; }
 .cws-ask .row{ display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:6px; }
 .cws-ask input{ min-width:0; min-height:44px; border:1px solid var(--ctl); background:var(--surface); color:var(--ink); border-radius:10px; padding:6px 10px; font:inherit; font-size:1.15rem; font-weight:700; }
 .cws-ask .mini{ min-height:44px; }
+/* Eşya & Not tab: input on top, entries below */
+#invItems .inv, #invNotes .inv{ margin-top:12px; }
+.inv .addf + .entries{ margin-top:2px; }
+nav button{ white-space:nowrap; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -472,6 +475,7 @@ html{ overscroll-behavior-x:none; }
   <symbol id="i-shell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15a9 7 0 0 1 18 0z"/><path d="M8 15l1.5-5h5L16 15M9.5 10 12 8l2.5 2M6 15v3M18 15v3M21 13.5h1.5"/></symbol>
   <symbol id="i-swarm" viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="7" r="1.6"/><circle cx="12" cy="5" r="1.4"/><circle cx="17.5" cy="8" r="1.7"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="13" r="1.4"/><circle cx="5.5" cy="17" r="1.5"/><circle cx="11" cy="18.5" r="1.7"/><circle cx="18" cy="17.5" r="1.4"/></symbol>
   <symbol id="i-horn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2 3-1 6 2 7M17 3c2 3 1 6-2 7"/><path d="M8 10c0 6 2 10 4 10s4-4 4-10c-1-.7-2.5-1-4-1s-3 .3-4 1z"/><circle cx="10.3" cy="13" r=".6" fill="currentColor"/><circle cx="13.7" cy="13" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7V5.5a3 3 0 0 1 6 0V7"/><rect x="4.5" y="7" width="15" height="13.5" rx="3"/><path d="M4.5 12.5h15M10.5 12.5v2h3v-2"/></symbol>
   <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.5" r="3.5"/><path d="M5 20.5c.6-4 3.3-6.5 7-6.5s6.4 2.5 7 6.5"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></symbol>
@@ -562,11 +566,6 @@ html{ overscroll-behavior-x:none; }
   </div>
 
   </section>
-  <section class="sec" style="--sh:42">
-  <h2 class="lvl-h">Eşyalar ve notlar</h2>
-  <div class="inv" id="inv"></div>
-
-  </section>
   <section class="sec" style="--sh:265">
   <h2 class="lvl-h">Özellikler</h2>
   <div class="feats" id="feats"></div>
@@ -596,6 +595,8 @@ html{ overscroll-behavior-x:none; }
   </section>
   <p class="src">Kaynak: karakter sayfası (Aurora Builder), sayfa 1.</p>
  </div>
+ <div class="view" id="invItems" hidden></div>
+ <div class="view" id="invNotes" hidden></div>
  <div class="view" id="spAll" hidden></div>
  <div class="view" id="spPrep" hidden></div>
  <div class="view" id="wsAct" hidden></div>
@@ -608,6 +609,7 @@ html{ overscroll-behavior-x:none; }
   <button data-tab="char" aria-current="page"><svg aria-hidden="true"><use href="#i-person"/></svg>Karakter</button>
   <button data-tab="sp" aria-current="false"><svg aria-hidden="true"><use href="#i-book"/></svg>Büyüler</button>
   <button data-tab="ws" aria-current="false"><svg aria-hidden="true"><use href="#i-paw"/></svg><span lang="en">Wild Shape</span></button>
+  <button data-tab="inv" aria-current="false"><svg aria-hidden="true"><use href="#i-bag"/></svg>Eşya & Not</button>
  </div>
 </nav>
 
@@ -6099,20 +6101,30 @@ function entryHTML(kind, e) {
   return `<li class="entry"><div class="txt">${esc(e.t)}</div><div class="row">${del}</div></li>`;
 }
 function renderInv() {
-  $('#inv').innerHTML = `
-    <div class="card inv">
+  // the box you type into stays on top; entries go below it, oldest first, newest at the bottom (user's request)
+  $('#invItems').innerHTML = `
+    <div class="card inv" style="--ih:42">
       <h3>Eşyalar <small>(${inv.items.length})</small></h3>
-      <ul class="entries">${inv.items.map(e => entryHTML('items', e)).join('')}</ul>
       <div class="addf"><div class="row"><input id="newItem" type="text" placeholder="Yeni eşya (ör. Potion of Healing)" aria-label="Yeni eşya" autocapitalize="sentences">
         <button class="mini pri" data-inv="add-item">Ekle</button></div></div>
-    </div>
-    <div class="card inv">
+      <ul class="entries">${inv.items.map(e => entryHTML('items', e)).join('')}</ul>
+      ${inv.items.length ? '' : '<p class="note">Henüz eşya yok.</p>'}
+    </div>`;
+  $('#invNotes').innerHTML = `
+    <div class="card inv" style="--ih:200">
       <h3>Notlar <small>(${inv.notes.length})</small></h3>
-      <ul class="entries">${inv.notes.map(e => entryHTML('notes', e)).join('')}</ul>
       <div class="addf"><textarea id="newNote" rows="3" placeholder="Yeni not" aria-label="Yeni not" autocapitalize="sentences"></textarea>
         <button class="mini pri" data-inv="add-note">Notu kaydet</button></div>
+      <ul class="entries">${inv.notes.map(e => entryHTML('notes', e)).join('')}</ul>
+      ${inv.notes.length ? '' : '<p class="note">Henüz not yok.</p>'}
     </div>`;
+  if (tab === 'inv') syncChrome();
 }
+// "Eşya & Not" tab: a small catalog so the header switch, swipe and back gesture work as on Büyüler
+const INVC = { k: 'inv', prep: $('#invItems'), all: $('#invNotes'), sub: 'prep', confirming: false, stats: '',
+  segs: () => [['prep', 'Eşyalar', `${inv.items.length}`], ['all', 'Notlar', `${inv.notes.length}`]],
+  renderPrep() {} };
+CATS.inv = INVC;
 function invAction(t) {
   const a = t.dataset.inv, kind = t.dataset.kind, id = t.dataset.id;
   const list = kind ? inv[kind] : null, e = list && list.find(x => x.id === id);
@@ -6254,12 +6266,13 @@ let tab = 'char';
 const scrollMem = {};
 const viewKey = () => tab === 'char' ? 'char' : tab + CATS[tab].sub;
 
+const charStats = () => `<div class="st"><span>AC</span><b>18</b></div><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
 function syncChrome() {
   document.documentElement.dataset.tab = tab;
   const C = CATS[tab];
   $('#hdChar').hidden = !!C;
   $('#seg').hidden = !C;
-  $('#stats').innerHTML = C ? C.stats : `<div class="st"><span>AC</span><b>18</b></div><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
+  $('#stats').innerHTML = C && C.stats ? C.stats : charStats();
   if (C) {
     // segments left to right in swipe order: selected list first, "Tümü" last
     const segs = C.segs(), ae = document.activeElement, had = ae && ae.closest && ae.closest('#seg') && ae.dataset.sub;
