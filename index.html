@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '1a53d89aa2'; window.__BUILT__ = '2026-10-10 20:28';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '01ebe5122d'; window.__BUILT__ = '2026-10-11 00:20';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -406,6 +406,33 @@ html{ overscroll-behavior-x:none; }
 .tile.shift .go{ margin-left:auto; flex:0 0 auto; font-weight:700; color:var(--acc); border:1px solid var(--acc); border-radius:9px; padding:6px 12px; }
 .seg button span{ white-space:nowrap; }
 .fact.wide{ grid-column:1/-1; }
+
+/* ---- konsantrasyon ---- */
+.concbar{ margin-top:12px; display:flex; align-items:center; gap:10px; border-color:hsl(275 40% 58%) !important; background:color-mix(in oklab, hsl(275 45% 45%) 16%, var(--surface)) !important; }
+.concbar .cdot{ width:12px; height:12px; border-radius:50%; background:hsl(275 60% 72%); box-shadow:0 0 0 4px hsl(275 50% 60% / .25); flex:0 0 auto; animation:cpulse 2s ease-in-out infinite; }
+@keyframes cpulse{ 50%{ box-shadow:0 0 0 7px hsl(275 50% 60% / .08); } }
+.concbar .ct{ flex:1; min-width:0; display:grid; line-height:1.2; }
+.concbar small{ font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; color:hsl(275 45% 78%); font-weight:700; }
+.concbar b{ font-size:1.05rem; overflow-wrap:anywhere; }
+.concbar em{ font-style:normal; font-size:.78rem; color:var(--muted); }
+.tile.conc-on{ border-color:hsl(275 45% 62%) !important; box-shadow:inset 3px 0 0 hsl(275 55% 68%) !important; }
+.tile.conc-on .nm .en::after{ content:"● konsantrasyonda"; display:inline-block; margin-left:6px; font-size:.68rem; font-weight:700; color:hsl(275 55% 78%); vertical-align:middle; }
+.act button.conc-b{ color:hsl(275 55% 80%); border-color:hsl(275 45% 62%); }
+.act button.conc-b.on{ background:hsl(275 35% 30%); }
+@media (prefers-reduced-motion: reduce){ .concbar .cdot{ animation:none; } }
+/* tek uzun dinlenme */
+#restAct{ margin-bottom:6px; }
+.restb{ min-height:44px; width:100%; }
+.mini[disabled]{ opacity:.4; cursor:default; }
+/* Combat Wild Shape */
+.cws{ margin-top:8px; padding-top:8px; border-top:1px solid var(--line); display:grid; gap:6px; }
+.cws h3{ margin:0; font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--acc); }
+.cws h3 small{ display:block; text-transform:none; letter-spacing:0; font-weight:500; color:var(--muted); font-size:.8rem; margin-top:2px; }
+.cws-b{ display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; }
+.cws-b .mini{ display:grid; justify-items:center; padding:5px 2px; min-height:52px; border-color:hsl(var(--lh) 30% 52%); }
+.cws-b .mini b{ color:hsl(var(--lh) 38% 76%); font-size:.9rem; }
+.cws-b .mini small{ font-size:.7rem; color:var(--muted); white-space:nowrap; }
+.cws .note{ margin:0; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -469,6 +496,7 @@ html{ overscroll-behavior-x:none; }
  <div class="view" id="charView">
   <div class="card install" id="updBanner" hidden><p><b>Yeni sürüm hazır.</b> Güncellemek için dokun; notların ve seçimlerin silinmez.</p><div class="row"><button class="mini pri" data-update="apply">Güncelle</button></div></div>
   <div class="card install" id="install" hidden></div>
+  <div data-concbar></div>
   <section class="card build-card">Human <span lang="en">Druid (Circle of the Moon)</span> 9 / <span lang="en">Monk</span> 1</section>
 
   <dl class="quick">
@@ -511,6 +539,7 @@ html{ overscroll-behavior-x:none; }
   <section class="sec" style="--sh:205">
   <h2 class="lvl-h">Dinlenmeler</h2>
   <div class="card rest">
+   <div id="restAct"></div>
    <h3>Kısa dinlenme <small>en az 1 saat</small></h3>
    <ul>
     <li><span lang="en">Wild Shape</span>'in <b>2 hakkı</b> geri gelir.</li>
@@ -5398,12 +5427,51 @@ function hpAction(kind, w) {
   else {
     const n = Math.floor(+(inp && inp.value));
     if (!(n > 0)) { toast('Önce miktarı yaz.'); focusQuiet(inp); return; }
-    if (w === 'char') changeHp(kind === 'dmg' ? -n : n);
-    else { const msg = WS.formHp(kind, n); if (msg) toast(msg); }
+    if (w === 'char') { changeHp(kind === 'dmg' ? -n : n); if (kind === 'dmg' && CONC.id) toast(`−${n} hasar${concSave(n, CON_SAVE)}`); }
+    else { const cs = kind === 'dmg' ? concSave(n, WS.formConSave()) : ''; const msg = WS.formHp(kind, n); if (msg || cs) toast((msg || `−${n} hasar`) + cs); }
   }
   syncChrome();
   if (w === 'char' && openRef && openRef.c === HPS) { $('#sheetIn').innerHTML = HPS.fill(); focusQuiet(sheet.querySelector(`[data-hp="${kind}"]`) || $('#hpIn-char')); }
   if (tab === 'ws' && WS.sub === 'act') { WS.renderAct(); if (w === 'ws') focusQuiet($(`[data-hp="${kind}"][data-w="ws"]`) || WS.act.querySelector('button')); }
+}
+
+/* ---------- konsantrasyon: one spell at a time, shown on Karakter, Büyüler, Wild Shape Aktif ---------- */
+const CONC_KEY = 'mathias-conc-v1';
+const CONC = { id: (load(CONC_KEY, null) || {}).id || null };
+const CON_SAVE = 'CON +4, War Caster ile avantajlı';
+function setConc(id) { CONC.id = id || null; store(CONC_KEY, { id: CONC.id }); askPersist(); syncConc(); }
+function concBar() {
+  const sp = CONC.id && SP.BY[CONC.id];
+  if (!sp) return '';
+  return `<div class="card concbar"><span class="cdot" aria-hidden="true"></span><span class="ct"><small>Konsantrasyon</small><b lang="en">${esc(sp.en)}</b><em>${esc(sp.dur)}</em></span><button class="mini" data-conc="end">Bitir</button></div>`;
+}
+function syncConc() {
+  for (const t of document.querySelectorAll('#spAll .tile, #spPrep .tile')) t.classList.toggle('conc-on', t.dataset.id === CONC.id);
+  for (const el of document.querySelectorAll('[data-concbar]')) el.innerHTML = concBar();
+}
+// after damage while concentrating: the saving throw to keep it
+const concSave = (n, save) => CONC.id && SP.BY[CONC.id] ? ` · Konsantrasyon kurtarması: DC ${Math.max(10, Math.floor(n / 2))} (${save})` : '';
+// one button for a long rest: hit points, spell slots, Fey Touched, Wild Shape uses; concentration ends
+const LONG_REST_Q = 'Uzun dinlenme: can dolsun, büyü slotları ve <span lang="en">Fey Touched</span> ile <span lang="en">Wild Shape</span> hakları yenilensin, konsantrasyon bitsin mi?';
+let restAsk = false;
+function longRest(from) {
+  if (HP.cur < HP.max) changeHp(HP.max - HP.cur, 'uzun dinlenme');
+  SLOTS.reset();
+  WS.restUses();
+  setConc(null);
+  restAsk = false; renderRest();
+  SLOTS.refresh();
+  if (tab === 'sp' && SP.sub === 'prep') SP.renderPrep();
+  if (tab === 'ws' && WS.sub === 'act') WS.renderAct();
+  syncChrome();
+  toast('Uzun dinlenme: can, slotlar, Wild Shape hakları yenilendi');
+  focusQuiet(from === 'slots' ? $('[data-slot="rest"]') : $('[data-rest="ask"]'));
+}
+function renderRest() {
+  const box = $('#restAct'); if (!box) return;
+  box.innerHTML = restAsk
+    ? `<div class="confirm"><span>${LONG_REST_Q}</span><button class="yes" data-rest="yes">Evet, dinlendim</button><button data-rest="no">Vazgeç</button></div>`
+    : `<button class="mini pri restb" data-rest="ask">Uzun dinlenme yaptım</button>`;
 }
 
 /* ---------- büyü slotları: one box per slot, tap = spent (✕), saved on this phone ---------- */
@@ -5425,8 +5493,8 @@ const SLOTS = (() => {
       const total = MAX.reduce((a, b) => a + b, 0), rest = st.u.reduce((a, r) => a + left(r), 0);
       return `<section class="card slots"><h3>Büyü slotları <small>${rest}/${total} kaldı · büyü yapınca boş kutuya dokun</small></h3>${rows}${free}
         ${st.confirm
-          ? `<div class="confirm"><span>Tüm slotlar yenilensin mi?</span><button class="yes" data-slot="rest-yes">Evet, yenile</button><button data-slot="rest-no">Vazgeç</button></div>`
-          : `<button class="mini srest" data-slot="rest">Uzun dinlenme: hepsini yenile</button>`}</section>`;
+          ? `<div class="confirm"><span>${LONG_REST_Q}</span><button class="yes" data-slot="rest-yes">Evet, dinlendim</button><button data-slot="rest-no">Vazgeç</button></div>`
+          : `<button class="mini srest" data-slot="rest">Uzun dinlenme yaptım</button>`}</section>`;
     },
     tap(key) {
       const [k, a, b] = key.split(':');
@@ -5434,10 +5502,16 @@ const SLOTS = (() => {
       else if (k === 'f') { st.f[+a] ^= 1; save(); }
       else if (k === 'rest') st.confirm = true;
       else if (k === 'rest-no') st.confirm = false;
-      else if (k === 'rest-yes') { st.u = MAX.map(n => Array(n).fill(0)); st.f = FREE.map(() => 0); st.confirm = false; save(); toast('Slotlar yenilendi'); }
+      else if (k === 'rest-yes') { st.confirm = false; return longRest('slots'); }
       for (const c of document.querySelectorAll('.slots')) c.outerHTML = this.html();
       focusQuiet($(`[data-slot="${k === 'rest' ? 'rest-no' : k.startsWith('rest') ? 'rest' : key}"]`) || $('.slots .box'));
     },
+    reset() { st.u = MAX.map(n => Array(n).fill(0)); st.f = FREE.map(() => 0); st.confirm = false; save(); },
+    max: MAX,
+    left: l => left(st.u[l - 1] || []),
+    // mark the first unused slot of a level as spent (Combat Wild Shape)
+    spend(l) { const r = st.u[l - 1], i = r ? r.indexOf(0) : -1; if (i < 0) return false; r[i] = 1; save(); return true; },
+    refresh() { for (const c of document.querySelectorAll('.slots')) c.outerHTML = this.html(); },
   };
 })();
 
@@ -5504,7 +5578,7 @@ const SP = (() => {
     const right = always(s)
       ? `<span class="always">Her zaman<br>hazır</span>`
       : `<button class="pick" data-c="sp" data-pick="${s.id}" aria-pressed="${on}" aria-label="Hazırla: ${esc(s.en)}"><span><svg aria-hidden="true"><use href="#i-check"/></svg></span></button>`;
-    return `<div class="tile${on ? ' on' : ''}" data-id="${s.id}" style="--h:${spellHue(s)}">
+    return `<div class="tile${on ? ' on' : ''}${CONC.id === s.id ? ' conc-on' : ''}" data-id="${s.id}" style="--h:${spellHue(s)}">
       <button class="open" data-c="sp" data-open="${s.id}">${icon(s)}<span class="nm"><span class="en" lang="en">${esc(s.en)}</span><span class="tr">${esc(s.tr)}</span>${tags(s, true)}</span></button>
       ${right}</div>`;
   }
@@ -5542,7 +5616,7 @@ const SP = (() => {
     },
     renderPrep() {
       const n = count(), L = state.limit, over = n > L;
-      let html = SLOTS.html() + `<div class="sum${over ? ' over' : ''}">
+      let html = `<div data-concbar>${concBar()}</div>` + SLOTS.html() + `<div class="sum${over ? ' over' : ''}">
         <div class="sum-top"><div class="big">${n} <small>/ ${L} büyü hazır</small></div>
           <div class="step">Günlük hak <button data-lim="-1" aria-label="Günlük hakkı azalt">−</button><output aria-live="polite">${L}</output><button data-lim="1" aria-label="Günlük hakkı artır">+</button></div></div>
         <div class="meter" role="progressbar" aria-label="Hazırlanan büyüler" aria-valuemin="0" aria-valuemax="${L}" aria-valuenow="${Math.min(n, L)}" aria-valuetext="${n}/${L}"><i style="width:${Math.min(100, n / L * 100)}%"></i></div>
@@ -5599,7 +5673,7 @@ const SP = (() => {
         </dl>
         <div class="desc">${s.d}</div>
         <div class="src">Kaynak: ${esc(s.src)}</div>
-        <div class="act">${btn}</div>`;
+        <div class="act${s.conc ? ' two' : ''}">${btn}${s.conc ? (CONC.id === id ? `<button class="sec2 conc-b on" data-conc="end">Konsantrasyonu bitir</button>` : `<button class="sec2 conc-b" data-conc="${id}">Konsantrasyon başlat</button>`) : ''}</div>`;
     },
     quietToggleInSheet: true,
   };
@@ -5765,7 +5839,10 @@ const WS = (() => {
           ${uses}`;
         return;
       }
-      C.act.innerHTML = `<div class="card act-card" style="--h:${ROLE_HUE[role(b)]}">
+      const cws = `<div class="cws"><h3><span lang="en">Combat Wild Shape</span> <small>bonus aksiyon · bir slot harca → slot seviyesi başına <b>1d8</b> can (zar otomatik atılır)</small></h3>
+          <div class="cws-b">${SLOTS.max.map((n, i) => { const l = i + 1, left = SLOTS.left(l); return `<button class="mini" data-cws="${l}" style="--lh:${[0, 150, 185, 220, 262, 310][l]}"${left ? '' : ' disabled'} aria-label="${l}. seviye slot harca, ${l}d8 can"><b>${l}. sv</b><small>${l}d8 · ${left}/${n}</small></button>`; }).join('')}</div>
+          ${ACT.lastCws ? `<p class="note">Son: ${esc(ACT.lastCws)}</p>` : ''}</div>`;
+      C.act.innerHTML = `<div data-concbar>${concBar()}</div><div class="card act-card" style="--h:${ROLE_HUE[role(b)]}">
           <div class="sh-top">${icon(b)}<div><h2 lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · AC <b>${b.ac}</b></p></div>
             <button class="mini" data-c="ws" data-open="${b.id}">Ayrıntı</button></div>
           ${hpWidget('ws', ACT.cur, b.hp)}
@@ -5773,6 +5850,7 @@ const WS = (() => {
           ${ACT.confirmEnd
             ? `<div class="confirm"><span>Formdan çıkılsın mı?</span><button class="yes" data-act="end-yes">Evet, dön</button><button data-act="end-no">Vazgeç</button></div>`
             : `<button class="mini danger end" data-act="end">Formdan çık</button>`}
+          ${cws}
         </div>
         ${uses}
         <div class="act-detail" style="--h:${ROLE_HUE[role(b)]}">${detail(b)}</div>`;
@@ -5810,6 +5888,20 @@ const WS = (() => {
       else if (a === 'rest') { ACT.uses = [0, 0]; saveAct(); toast('Wild Shape hakları yenilendi'); }
       C.renderAct(); syncChrome();
       focusQuiet(C.act.querySelector(a === 'end' ? '[data-act="end-no"]' : a === 'rest' ? '[data-act="rest"]' : '[data-act="end"]') || C.act.querySelector('button'));
+    },
+    restUses() { ACT.uses = [0, 0]; saveAct(); },
+    // concentration save in beast form uses the form's CON save
+    formConSave: () => { const b = BY[ACT.id]; return b ? `hayvanın CON ${sg(b.sv[2])}, War Caster ile avantajlı` : CON_SAVE; },
+    // Combat Wild Shape: bonus action, spend a slot → 1d8 per slot level to the form
+    combatHeal(l) {
+      const b = BY[ACT.id]; if (!b) return;
+      if (!SLOTS.spend(l)) { toast(`${l}. seviye slotun kalmadı`); return; }
+      const rolls = Array.from({ length: l }, () => 1 + Math.floor(Math.random() * 8)), sum = rolls.reduce((a, x) => a + x, 0);
+      const before = ACT.cur; ACT.cur = Math.min(b.hp, ACT.cur + sum); saveAct();
+      ACT.lastCws = `${l}. sv slot · ${l}d8 (${rolls.join(' + ')}) = ${sum} → +${ACT.cur - before} can${ACT.cur - before < sum ? ' (form canı doldu)' : ''}`;
+      C.renderAct(); syncChrome(); SLOTS.refresh();
+      toast('Combat Wild Shape: ' + ACT.lastCws);
+      focusQuiet(C.act.querySelector(`[data-cws="${l}"]`) || C.act.querySelector('.cws button'));
     },
     useTap(i) {
       ACT.uses[i] ^= 1; saveAct(); C.renderAct(); syncChrome(); focusQuiet(C.act.querySelector(`[data-slot="ws-use:${i}"]`));
@@ -6043,7 +6135,7 @@ document.addEventListener('keydown', e => {
 });
 
 // Backup: every key this app writes, as one JSON file.
-const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1'];
+const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1', CONC_KEY];
 function exportData() {
   const data = { app: 'mathias', v: 1, at: new Date().toISOString(), keys: {} };
   for (const k of BACKUP_KEYS) { try { const r = localStorage.getItem(k); if (r) data.keys[k] = JSON.parse(r); } catch (e) {} }
@@ -6167,7 +6259,8 @@ function syncChrome() {
   for (const c of Object.values(CATS)) { c.all.hidden = !(tab === c.k && c.sub === 'all'); c.prep.hidden = !(tab === c.k && c.sub === 'prep'); if (c.act) c.act.hidden = !(tab === c.k && c.sub === 'act'); }
   for (const b of $('#nav').querySelectorAll('button')) b.setAttribute('aria-current', b.dataset.tab === tab ? 'page' : 'false');
 }
-function go(nextTab, nextSub) {
+// mode: 'pop' = coming from the back gesture (no new entry), 'replace' = take over the current entry
+function go(nextTab, nextSub, mode) {
   const C = CATS[nextTab];
   if (nextTab === tab && (!C || nextSub === undefined || nextSub === C.sub)) return;
   scrollMem[viewKey()] = window.scrollY;
@@ -6181,6 +6274,8 @@ function go(nextTab, nextSub) {
   syncChrome();
   // lists come back where you left them; the short "prepared" / active pages always open at the top
   window.scrollTo(0, C && C.sub !== 'all' ? 0 : (scrollMem[viewKey()] || 0));
+  // the phone's back gesture returns to the previous menu instead of leaving the app
+  if (mode !== 'pop') { try { history[mode === 'replace' ? 'replaceState' : 'pushState']({ nav: 1, tab, sub: C ? C.sub : null }, ''); } catch (e) {} }
 }
 // swipe left / right on Büyüler (and Wild Shape) moves between the segments of the header switch
 function swipe(dir) {
@@ -6234,7 +6329,13 @@ function closeSheet(fromPop) {
   if (fromPop !== true) { try { if (history.state && history.state.sheet) { skipPop++; history.back(); } } catch (e) {} }
   focusQuiet(C.back ? C.back(id) : (C.sub === 'all' ? C.all : C.sub === 'act' ? C.act : C.prep).querySelector(`[data-open="${id}"]`));
 }
-addEventListener('popstate', () => { if (skipPop) { skipPop--; return; } closeSheet(true); });
+addEventListener('popstate', e => {
+  if (skipPop) { skipPop--; return; }
+  if (openRef) { closeSheet(true); return; }
+  const st = e.state;
+  go(st && st.nav ? st.tab : 'char', st && st.sub ? st.sub : undefined, 'pop');
+});
+try { history.replaceState({ nav: 1, tab: 'char', sub: null }, ''); } catch (e) {}
 // drag the handle down to dismiss
 (function(){
   const g = $('#grab'); let y0 = null, dy = 0;
@@ -6246,16 +6347,28 @@ addEventListener('popstate', () => { if (skipPop) { skipPop--; return; } closeSh
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-slot],[data-shift],[data-act],#scrim');
+  const t = e.target.closest('[data-pick],[data-open],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],#scrim');
   if (!t) return;
   const C = t.dataset.c === 'sk' ? SK : CATS[t.dataset.c];
   if (t.hasAttribute('data-hpopen')) return openSheet(HPS, 'hp');
+  if (t.dataset.rest) { if (t.dataset.rest === 'yes') return longRest(); restAsk = t.dataset.rest === 'ask'; renderRest(); return focusQuiet($(restAsk ? '[data-rest="no"]' : '[data-rest="ask"]')); }
+  if (t.dataset.conc) {
+    const id = t.dataset.conc, old = CONC.id && SP.BY[CONC.id];
+    if (id === 'end') { setConc(null); toast(old ? `${old.en}: konsantrasyon bitti` : 'Konsantrasyon bitti'); }
+    else { setConc(id); toast(old && old.id !== id ? `${old.en} bitti · ${SP.BY[id].en}: konsantrasyon başladı` : `${SP.BY[id].en}: konsantrasyon başladı`); }
+    if (openRef && openRef.c === SP) { $('#sheetIn').innerHTML = SP.fill(openRef.id); focusQuiet(sheet.querySelector('.conc-b')); }
+    return;
+  }
+  if (t.dataset.cws) return WS.combatHeal(+t.dataset.cws);
   if (t.dataset.hp) return hpAction(t.dataset.hp, t.dataset.w);
   if (t.dataset.slot) return t.dataset.slot.startsWith('ws-use:') ? WS.useTap(+t.dataset.slot.slice(7)) : SLOTS.tap(t.dataset.slot);
   if (t.dataset.shift) {
     const msg = WS.shift(t.dataset.shift);
-    if (openRef) closeSheet();
-    if (tab === 'ws' && WS.sub === 'act') { WS.renderAct(); syncChrome(); window.scrollTo(0, 0); } else go('ws', 'act');
+    // from the sheet: its history entry becomes the Aktif page, so back returns to where the sheet was opened
+    const fromSheet = !!openRef;
+    if (fromSheet) closeSheet(true);
+    if (tab === 'ws' && WS.sub === 'act') { WS.renderAct(); syncChrome(); window.scrollTo(0, 0); if (fromSheet) { try { history.replaceState({ nav: 1, tab: 'ws', sub: 'act' }, ''); } catch (e) {} } }
+    else go('ws', 'act', fromSheet ? 'replace' : undefined);
     focusQuiet(WS.act.querySelector('.hb'));
     return toast(msg);
   }
@@ -6294,6 +6407,8 @@ for (const C of [SP, WS]) {
 }
 
 for (const C of [SP, WS]) { C.renderChips(); C.buildAll(); applyFilter(C); }
+if (CONC.id && !SP.BY[CONC.id]) setConc(null);
+renderRest();
 renderInv();
 renderInstall();
 initUpdate();
@@ -6306,6 +6421,7 @@ for (const C of Object.values(CATS)) C.renderPrep();
   $("#storeState").innerHTML = ok ? `Kayıt: <b>çalışıyor</b> (${where}).` : `Kayıt: <b style="color:var(--warn)">çalışmıyor</b> (${where}). Notlar kaydedilmez.`;
 })();
 syncChrome();
+syncConc();
 })();
 </script>
 
