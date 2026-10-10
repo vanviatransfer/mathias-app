@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '4b97ec6998'; window.__BUILT__ = '2026-10-10 10:32';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '1a53d89aa2'; window.__BUILT__ = '2026-10-10 20:28';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -405,6 +405,7 @@ html{ overscroll-behavior-x:none; }
 .tile.shift{ width:100%; text-align:left; }
 .tile.shift .go{ margin-left:auto; flex:0 0 auto; font-weight:700; color:var(--acc); border:1px solid var(--acc); border-radius:9px; padding:6px 12px; }
 .seg button span{ white-space:nowrap; }
+.fact.wide{ grid-column:1/-1; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -5679,9 +5680,13 @@ const WS = (() => {
     return `<div class="tile${on ? ' on' : ''}" data-id="${b.id}" style="--h:${ROLE_HUE[role(b)]}">
       <button class="open" data-c="ws" data-open="${b.id}">${icon(b)}<span class="nm"><span class="en" lang="en">${esc(b.en)}</span>${b.tr !== b.en ? `<span class="tr">${esc(b.tr)}</span>` : ''}
         <span class="qs">AC <b>${b.ac}</b> · Can <b>${b.hp}</b> · Hasar <b>~${b.dpr[0]}</b></span>
-        <span class="tags"><span class="tg role">${role(b)}</span><span class="tg lv">CR ${b.cr} · ${esc(b.size)}</span>${mvTags(b)}</span></span></button>
+        <span class="tags"><span class="tg role">${role(b)}</span><span class="tg lv">CR ${b.cr} · ${esc(b.size)} · ${space(b)[1]} ft</span>${mvTags(b)}</span></span></button>
       <button class="pick" data-c="ws" data-pick="${b.id}" aria-pressed="${on}" aria-label="Seç: ${esc(b.en)}"><span><svg aria-hidden="true"><use href="#i-check"/></svg></span></button></div>`;
   }
+  // size → space on the grid (5e): Medium 5 ft, Large 10 ft, Huge 15 ft; squeezes through a gap one size smaller
+  const SIZE = { 'Orta': ['Medium', 5, '1,5', 1, 0], 'Büyük': ['Large', 10, '3', 2, 5], 'Devasa': ['Huge', 15, '4,5', 3, 10] };
+  const space = b => SIZE[b.size] || ['', 5, '1,5', 1, 0];
+  const spaceText = b => { const [, ft, m, sq, gap] = space(b); return `${ft} × ${ft} ft (${m} × ${m} m) · ${sq}×${sq} kare${gap ? ` · en dar geçiş ${gap} ft (sıkışarak)` : ''}`; };
   const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, , l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
   const C = {
     k: 'ws', hue: id => ROLE_HUE[role(BY[id])], all: $('#wsAll'), prep: $('#wsPrep'), act: $('#wsAct'), tools: $('#wsTools'), q: $('#wsQ'),
@@ -5736,6 +5741,7 @@ const WS = (() => {
           <li>Hayvanın canını alırsın; 0'a düşünce dönersin, <b>artan hasar</b> kendi canına geçer. Bonus aksiyonla erken dönebilirsin</li>
           <li>Formda <b>büyü yapamazsın</b> ve konuşamazsın; önceden başlattığın konsantrasyon sürer</li>
           <li><span lang="en">Combat Wild Shape</span>: formdayken <b>bonus aksiyon + bir büyü slotu</b> → slot seviyesi başına <b>1d8 can</b></li>
+          <li>Boyut ve kapladığı alan: <b>Orta 5 ft</b> (1 kare) · <b>Büyük 10×10 ft</b> (2×2) · <b>Devasa 15×15 ft</b> (3×3); Mathias Orta. Bir boy küçüğün alanından <b>sıkışarak</b> geçebilirsin: her 1 ft 2 ft sayılır, saldırı ve DEX kurtarmasında dezavantaj, sana saldırılar avantajlı</li>
           <li>Sınıf, ırk ve feat özelliklerin sürer (hayvanın yapabildiği kadarıyla); eşyalar forma karışır, takılı kalır ya da düşer (sen seçersin)</li>
         </ul></section>`;
       for (const c of CRS) {
@@ -5834,6 +5840,7 @@ const WS = (() => {
         <dl class="facts">
           <div class="fact key k-dmg"><dt>Tur başı hasar</dt><dd>~${b.dpr[0]}<small>${esc(b.dpr[1])}</small></dd></div>
           <div class="fact key"><dt>AC · Can</dt><dd>AC ${b.ac} · ${b.hp} can<small>${acSub} · ${esc(b.hd)}</small></dd></div>
+          <div class="fact wide"><dt>Boyut · Kapladığı alan</dt><dd>${esc(b.size)} (<span lang="en">${space(b)[0]}</span>) · ${space(b)[1]} ft<small>${spaceText(b)}</small></dd></div>
           <div class="fact"><dt>Hız</dt><dd>${speedText(b)}</dd></div>
           <div class="fact"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
         </dl>
