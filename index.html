@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'b185530fcb'; window.__BUILT__ = '2026-10-11 01:00';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'd85274fff1'; window.__BUILT__ = '2026-10-11 01:05';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -478,7 +478,8 @@ nav button{ white-space:nowrap; }
 @keyframes tstar{ 0%{ transform:scale(.2) rotate(-120deg); opacity:0; } 45%{ transform:scale(1.5) rotate(15deg); opacity:1; } 100%{ transform:scale(1) rotate(0); } }
 @keyframes tsweep{ to{ transform:translateX(110%); } }
 @keyframes tspark{ 0%{ transform:translateY(0) scale(.4); opacity:0; } 25%{ opacity:1; } 100%{ transform:translateY(-26px) scale(1); opacity:0; } }
-@media (prefers-reduced-motion: reduce){ .toast, .toast::before, .toast::after, .toast .spk{ animation:none !important; } }
+/* the notice always animates, even with "reduce motion" on (user's explicit request); the global rule below only stops transitions, so give the toast its own back */
+@media (prefers-reduced-motion: reduce){ .toast{ transition:opacity .25s, transform .25s !important; } }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
