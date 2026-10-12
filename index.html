@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '729db1317f'; window.__BUILT__ = '2026-10-12 11:55';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '7fbf32dd8f'; window.__BUILT__ = '2026-10-12 12:08';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -485,6 +485,34 @@ nav button{ white-space:nowrap; }
 @media (prefers-reduced-motion: reduce){ .toast{ transition:opacity .25s, transform .25s !important; } }
 .acst{ border-color:color-mix(in oklab, hsl(205 45% 62%) 55%, var(--line)); }
 .ac-in{ grid-template-columns:minmax(0,1fr) auto; }
+/* portrait next to the name */
+.who{ display:flex; align-items:center; gap:10px; }
+.avatar{ width:48px; height:48px; border-radius:50%; object-fit:cover; flex:0 0 auto; border:2px solid color-mix(in oklab, var(--acc) 70%, transparent); box-shadow:0 0 0 3px color-mix(in oklab, var(--acc) 15%, transparent); }
+/* attacks: one box per topic, each with its own soft hue; chips: attack (blue) · damage (warm) · extra dice (gold) · save (violet) · plain */
+.atks{ display:grid; gap:8px; }
+.ab{ --ah:30; display:grid; gap:7px; padding:10px 12px; border-radius:12px; background:color-mix(in oklab, hsl(var(--ah) 40% 45%) 10%, var(--surface)); border:1px solid color-mix(in oklab, hsl(var(--ah) 35% 58%) 32%, var(--line)); border-left:3px solid hsl(var(--ah) 35% 56%); }
+.ab h3{ margin:0; font-size:1.02rem; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; color:hsl(var(--ah) 42% 80%); }
+.ab h3 small{ font-size:.78rem; font-weight:500; color:var(--muted); }
+.ab h3 small b{ color:var(--ink); }
+.ab p{ margin:0; font-size:.9rem; line-height:1.45; }
+.ab ul{ margin:0; padding-left:18px; display:grid; gap:3px; font-size:.9rem; line-height:1.45; }
+.chs{ display:flex; flex-wrap:wrap; gap:6px; }
+.ch{ display:grid; align-content:start; line-height:1.2; padding:4px 10px 5px; border-radius:9px; background:var(--bg); border:1px solid var(--line); min-width:0; font-variant-numeric:tabular-nums; }
+.ch small{ font-size:.62rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:700; }
+.ch b{ font-size:1.08rem; }
+.ch em{ font-style:normal; font-size:.78rem; color:var(--muted); }
+.ch.hit{ border-color:hsl(205 28% 40%); } .ch.hit b{ color:hsl(205 55% 76%); }
+.ch.dmg{ border-color:hsl(16 32% 42%); } .ch.dmg b{ color:hsl(16 68% 73%); }
+.ch.add{ border-color:hsl(45 28% 38%); } .ch.add b{ color:hsl(45 62% 70%); }
+.ch.save{ border-color:hsl(275 22% 42%); } .ch.save b{ color:hsl(275 45% 80%); }
+/* Wild Shape attack cards */
+.watk{ display:grid; gap:6px; padding:8px 0; border-top:1px solid var(--line); }
+.watk:first-child, .mu + .watk{ border-top:0; padding-top:2px; }
+.watk h4{ margin:0; font-size:1rem; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 8px; }
+.watk h4 small{ font-size:.75rem; font-weight:500; color:var(--muted); }
+.watk p{ margin:0; font-size:.9rem; line-height:1.45; color:color-mix(in oklab, var(--ink) 85%, var(--muted)); }
+.atk .mu{ display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 8px; padding-bottom:6px; border-bottom:1px solid var(--line); }
+.atk .mu b{ color:hsl(45 62% 72%); } .atk .mu small{ font-size:.75rem; color:var(--muted); font-weight:500; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -529,7 +557,7 @@ nav button{ white-space:nowrap; }
 <header id="hdr">
  <div class="wrap">
   <div class="hd">
-   <div class="who" id="hdChar"><h1 lang="en">Mathias</h1><p>Level 10 · Human · Druid 9 / Monk 1</p></div>
+   <div class="who" id="hdChar"><img class="avatar" src="data:image/webp;base64,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" alt="" width="48" height="48"><div><h1 lang="en">Mathias</h1><p>Level 10 · Human · Druid 9 / Monk 1</p></div></div>
    <div class="seg" id="seg" role="group" aria-label="Görünüm" hidden></div>
    <div class="stats" id="stats"></div>
   </div>
@@ -582,10 +610,24 @@ nav button{ white-space:nowrap; }
   </section>
   <section class="sec" style="--sh:8">
   <h2 class="lvl-h">Saldırılar</h2>
-  <div class="card atkc">
-   <div class="arow"><b lang="en">Unarmed Strike</b><span>5 ft</span><span class="hit">+7</span><span class="dmg">1d4+3 ezme</span></div>
-   <p>Saldırı aksiyonu başına <b>1 saldırı</b>. <span lang="en">Martial Arts</span>: Saldırı aksiyonunda silahsız ya da monk silahıyla saldırırsan, <b>bonus aksiyonla</b> bir silahsız vuruş daha.</p>
-   <p>Büyü saldırısı <b>+9</b> · büyü kurtarma <b>DC 17</b> (Bilgelik).</p>
+  <div class="atks">
+   <article class="ab" style="--ah:18">
+    <h3><span lang="en">Unarmed Strike</span><small>Saldırı aksiyonunda <b>1 saldırı</b></small></h3>
+    <div class="chs"><span class="ch hit"><small>Saldırı</small><b>+7</b></span><span class="ch dmg"><small>Hasar</small><b>1d4+3</b> <em>ezme</em></span><span class="ch"><small>Erişim</small><b>5 ft</b></span></div>
+   </article>
+   <article class="ab" style="--ah:200">
+    <h3><span lang="en">Martial Arts</span><small>bonus aksiyon</small></h3>
+    <div class="chs"><span class="ch hit"><small>Saldırı</small><b>+7</b></span><span class="ch dmg"><small>Hasar</small><b>1d4+3</b> <em>ezme</em></span></div>
+    <p>Saldırı aksiyonunda silahsız ya da monk silahıyla saldırdıysan <b>bonus aksiyonla bir silahsız vuruş daha</b>. Zırh ve kalkan yokken.</p>
+   </article>
+   <article class="ab" style="--ah:180">
+    <h3>Büyü<small>Bilgelik</small></h3>
+    <div class="chs"><span class="ch hit"><small>Büyü saldırısı</small><b>+9</b></span><span class="ch save"><small>Kurtarma</small><b>DC 17</b></span></div>
+   </article>
+   <article class="ab" style="--ah:30">
+    <h3><span lang="en">Wild Shape</span><small>formdayken</small></h3>
+    <p>Formun saldırıları (saldırı, hasar, erişim ayrı ayrı) <b><span lang="en">Wild Shape</span> → Aktif</b> sayfasında ve her hayvanın penceresinde.</p>
+   </article>
   </div>
 
   </section>
@@ -5794,6 +5836,37 @@ const SP = (() => {
 /* =====================================================================
    Wild Shape
    ===================================================================== */
+// Wild Shape attack line → name, chips (attack / damage / reach or save DC) and the rest as text.
+// Lines are "<b>Name</b> [(note)] <b>+N</b>[ (note)], erişim X ft[, targets] · <b>dice</b> type (avg)…" or "<b>Name</b> [(note)] · <b>DC N ABC</b> kurtarması…".
+const ATK_RE = /^<b>([^<]+)<\/b>( \([^)]*\))? <b>([+−-]\d+)<\/b>( \([^)]*\))?, erişim ([^·,]+ ft)([^·]*?) · (?:<b>([^<]+)<\/b> ([^(<]+?) \((\d+)\)|hasar yok)(.*)$/;
+const SAVE_RE = /^<b>([^<]+)<\/b>( \([^)]*\))? · <b>(DC \d+ [A-Z]{3})<\/b> kurtarması[,:]?\s*(.*)$/;
+const NOTE_RE = /^<b>([^<]+)<\/b>( \([^)]*\))? · (.*)$/;
+const tidy = t => (t || '').replace(/^[\s·,;:]+/, '').trim();
+const chip = (cls, label, val, extra) => `<span class="ch${cls ? ' ' + cls : ''}"><small>${label}</small><b>${val}</b>${extra ? ` <em>${extra}</em>` : ''}</span>`;
+function fmtAtk(a) {
+  let m = a.match(ATK_RE);
+  if (m) {
+    const [, n, n1, hit, n2, reach, tgt, dice, type, avg, rest] = m;
+    const note = [n1, n2].filter(Boolean).map(x => x.trim().slice(1, -1)).join(' · ');
+    // an extra damage die right after the hit ("+ <b>2d6</b> zehir (7)") gets its own chip
+    let after = tidy(rest), add = '';
+    const ex = after.match(/^\+ <b>([^<]+)<\/b> ([^(<]+?) \((\d+)\)(.*)$/);
+    if (ex) { add = chip('add', 'Ek hasar', '+' + ex[1], `${ex[2].trim()} · ort. ${ex[3]}`); after = tidy(ex[4]); }
+    // a follow-up save ("sonra DC 12 CON kurtarması: başarısızsa 4d10 zehir (22)…") gets a save chip and a damage chip
+    const fs2 = after.match(/^(.*?)sonra <b>(DC \d+ [A-Z]{3})<\/b> kurtarması: başarısızsa <b>([^<]+)<\/b> ([^(<]+?) \((\d+)\)(.*)$/);
+    if (fs2) { add += chip('save', 'Sonra kurtarma', fs2[2]) + chip('add', 'Kurtaramazsa', fs2[3], `${fs2[4].trim()} · ort. ${fs2[5]}`); after = [tidy(fs2[1]), tidy(fs2[6])].filter(Boolean).join(' · '); }
+    const text = [tidy(tgt), dice ? '' : 'hasar yok', after].filter(Boolean).join(' · ');
+    return `<div class="watk"><h4><span lang="en">${n}</span>${note ? `<small>${note}</small>` : ''}</h4><div class="chs">${chip('hit', 'Saldırı', hit)}${dice ? chip('dmg', 'Hasar', dice, `${type.trim()} · ort. ${avg}`) : ''}${add}${chip('', 'Erişim', reach)}</div>${text ? `<p>${text}</p>` : ''}</div>`;
+  }
+  m = a.match(SAVE_RE);
+  if (m) {
+    const [, n, n1, dc, rest] = m;
+    return `<div class="watk"><h4><span lang="en">${n}</span>${n1 ? `<small>${n1.trim().slice(1, -1)}</small>` : ''}</h4><div class="chs">${chip('save', 'Kurtarma', dc)}</div>${rest ? `<p>${rest}</p>` : ''}</div>`;
+  }
+  m = a.match(NOTE_RE);
+  if (m) return `<div class="watk"><h4><span lang="en">${m[1]}</span>${m[2] ? `<small>${m[2].trim().slice(1, -1)}</small>` : ''}</h4><p>${m[3]}</p></div>`;
+  return `<div class="watk"><p>${a}</p></div>`;
+}
 const WS = (() => {
   const items = JSON.parse($('#wsData').textContent);
   items.forEach(b => { b.key = fold(b.en + ' ' + b.tr); });
@@ -6056,8 +6129,8 @@ const WS = (() => {
           <div class="fact"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
         </dl>
         <div class="blk"><h3>Saldırılar</h3><div class="atk">
-          ${b.multi ? `<p class="mu">Multiattack — ${esc(b.multi)}</p>` : ''}
-          ${b.atk.map(a => `<p>${a}</p>`).join('')}
+          ${b.multi ? `<p class="mu"><span lang="en">Multiattack</span> <b>${esc(b.multi)}</b> <small>tek Saldırı aksiyonunda</small></p>` : ''}
+          ${b.atk.map(fmtAtk).join('')}
         </div></div>
         ${b.acts.length ? `<div class="blk"><h3>Diğer aksiyonlar</h3><div class="trt">${b.acts.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
         ${b.traits.length ? `<div class="blk"><h3>Özellikler</h3><div class="trt">${b.traits.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
