@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'cb65b87503'; window.__BUILT__ = '2026-10-11 01:33';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '729db1317f'; window.__BUILT__ = '2026-10-12 11:55';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -483,6 +483,8 @@ nav button{ white-space:nowrap; }
 @keyframes tspark{ 0%{ transform:translateY(0) scale(.4); opacity:0; } 25%{ opacity:1; } 100%{ transform:translateY(-26px) scale(1); opacity:0; } }
 /* the notice always animates, even with "reduce motion" on (user's explicit request); the global rule below only stops transitions, so give the toast its own back */
 @media (prefers-reduced-motion: reduce){ .toast{ transition:opacity .25s, transform .25s !important; } }
+.acst{ border-color:color-mix(in oklab, hsl(205 45% 62%) 55%, var(--line)); }
+.ac-in{ grid-template-columns:minmax(0,1fr) auto; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -558,7 +560,7 @@ nav button{ white-space:nowrap; }
    <div><dt>Can zarı</dt><dd>10d8</dd><span class="en-name" lang="en">Hit Dice</span></div>
    <div><dt>Büyü</dt><dd>+9 · DC 17</dd><span class="en-name" lang="en">Spell Attack · Save DC</span></div>
   </dl>
-  <p class="sub">Zırh: <span lang="en">Unarmored Defense (Monk)</span> → AC 18 (10 + DEX 3 + WIS 5). Uçma, tırmanma, yüzme hızı yok.</p>
+  <p class="sub">Zırh: <span lang="en">Unarmored Defense (Monk)</span> → AC <b id="acLine">18</b> (10 + DEX 3 + WIS 5; üstteki AC kutusuna dokunup elle değiştirebilirsin). Uçma, tırmanma, yüzme hızı yok.</p>
 
   <section class="sec" style="--sh:38">
   <h2 class="lvl-h">Yetenekler <small>● = kurtarmada yeterli</small></h2>
@@ -5446,10 +5448,12 @@ const TOAST_HUES = [
   [/hazırlandı|hazırlıktan çıkarıldı|bilinenlere eklendi|bilinenlerden çıkarıldı/, 150],
   [/seçildi|seçimden çıkarıldı|Seçim temizlendi/, 250],
   [/Yedek|sürüm|Güncelleniyor|yüklendi|yükleniyor/i, 220],
+  [/^AC \d/, 205],
 ];
 const toastHue = msg => { for (const [re, h] of TOAST_HUES) if (re.test(msg)) return h; return null; };
-// keyboard up = the visual viewport is much shorter than the window, or a text field has focus
-const typing = () => tab === 'inv' || /^(INPUT|TEXTAREA)$/.test((document.activeElement || {}).tagName || '') || (window.visualViewport && visualViewport.height < innerHeight * 0.75);
+// at the top while a sheet is open (it would cover the sheet's buttons), on Eşya & Not, or when the keyboard is up
+// (the visual viewport is much shorter than the window, or a text field has focus)
+const typing = () => tab === 'inv' || !!openRef || /^(INPUT|TEXTAREA)$/.test((document.activeElement || {}).tagName || '') || (window.visualViewport && visualViewport.height < innerHeight * 0.75);
 function toast(msg) {
   const t = $('#toast');
   t.classList.remove('show'); void t.offsetWidth;
@@ -5552,6 +5556,33 @@ function renderRest() {
   box.innerHTML = restAsk
     ? `<div class="confirm"><span>${LONG_REST_Q}</span><button class="yes" data-rest="yes">Evet, dinlendim</button><button data-rest="no">Vazgeç</button></div>`
     : `<button class="mini pri restb" data-rest="ask">Uzun dinlenme yaptım</button>`;
+}
+
+/* ---------- AC: 18 by default (Unarmored Defense), editable by hand (user's request) ---------- */
+const AC_KEY = 'mathias-ac-v1', AC_DEFAULT = 18;
+const AC = { v: (load(AC_KEY, null) || {}).v || AC_DEFAULT };
+function syncAc() { const l = $('#acLine'); if (l) l.textContent = AC.v; }
+const ACS = {
+  k: 'ac', back: () => $('#acBtn'),
+  fill() {
+    return `
+      <div class="sh-top"><span class="ic" style="--h:205" aria-hidden="true"><svg><use href="#i-shield"/></svg></span><div><h2 id="shName">Zırh Sınıfı</h2><p lang="en">Armor Class</p></div>
+        <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+      <div class="hpw"><div class="hp-big"><b>${AC.v}</b><span>${AC.v === AC_DEFAULT ? 'varsayılan' : `varsayılan ${AC_DEFAULT}`}</span></div>
+        <div class="hp-in ac-in"><input id="acIn" type="number" inputmode="numeric" min="1" max="40" value="${AC.v}" aria-label="Yeni AC" enterkeyhint="done"><button class="hb healb" data-ac="save">Kaydet</button></div></div>
+      <div class="hp-more"><button class="mini" data-ac="-1" aria-label="AC'yi 1 azalt">− 1</button><button class="mini" data-ac="1" aria-label="AC'yi 1 artır">+ 1</button>${AC.v !== AC_DEFAULT ? `<button class="mini" data-ac="reset">Varsayılana dön (${AC_DEFAULT})</button>` : ''}</div>
+      <p class="note">Varsayılan: <span lang="en">Unarmored Defense (Monk)</span> ile <b>AC 18</b> (10 + DEX 3 + WIS 5; zırh ve kalkan yokken). Büyü (ör. <span lang="en">Barkskin</span>), kalkan ya da eşya değişince buradan ayarla; telefonda saklanır. <span lang="en">Wild Shape</span> formundayken formun AC'si geçerli (Aktif sayfasında).</p>`;
+  },
+};
+function acAction(a) {
+  let v = AC.v;
+  if (a === 'save') { v = Math.round(+$('#acIn').value); if (!(v >= 1 && v <= 40)) { toast('AC 1 ile 40 arasında olmalı.'); return focusQuiet($('#acIn')); } }
+  else if (a === 'reset') v = AC_DEFAULT;
+  else v = Math.max(1, Math.min(40, v + +a));
+  AC.v = v; store(AC_KEY, { v }); askPersist(); syncAc(); syncChrome();
+  $('#sheetIn').innerHTML = ACS.fill();
+  focusQuiet(sheet.querySelector(`[data-ac="${a}"]`) || sheet.querySelector('[data-ac="save"]'));
+  toast(`AC ${v}`);
 }
 
 /* ---------- büyü slotları: one box per slot, tap = spent (✕), saved on this phone ---------- */
@@ -6255,11 +6286,12 @@ function invAction(t) {
 document.addEventListener('keydown', e => {
   // Enter in the hit point box = damage (the usual case)
   if (e.key === 'Enter' && e.target.id === 'cwsIn') { e.preventDefault(); WS.combatHeal('ok'); }
+  if (e.key === 'Enter' && e.target.id === 'acIn') { e.preventDefault(); acAction('save'); }
   if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('hpIn-')) { e.preventDefault(); hpAction('dmg', e.target.id.slice(5)); }
 });
 
 // Backup: every key this app writes, as one JSON file.
-const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1', CONC_KEY];
+const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1', CONC_KEY, AC_KEY];
 function exportData() {
   const data = { app: 'mathias', v: 1, at: new Date().toISOString(), keys: {} };
   for (const k of BACKUP_KEYS) { try { const r = localStorage.getItem(k); if (r) data.keys[k] = JSON.parse(r); } catch (e) {} }
@@ -6364,7 +6396,7 @@ let tab = 'char';
 const scrollMem = {};
 const viewKey = () => tab === 'char' ? 'char' : tab + CATS[tab].sub;
 
-const charStats = () => `<div class="st"><span>AC</span><b>18</b></div><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
+const charStats = () => `<button class="st acst" id="acBtn" data-acopen aria-label="AC ${AC.v}. Dokun: elle değiştir"><span>AC</span><b>${AC.v}</b></button><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
 function syncChrome() {
   document.documentElement.dataset.tab = tab;
   const C = CATS[tab];
@@ -6504,10 +6536,12 @@ try { history.replaceState({ nav: 1, tab: 'char', sub: null }, ''); } catch (e) 
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],#scrim');
+  const t = e.target.closest('[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-ac],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],#scrim');
   if (!t) return;
   const C = t.dataset.c === 'sk' ? SK : CATS[t.dataset.c];
   if (t.hasAttribute('data-hpopen')) return openSheet(HPS, 'hp');
+  if (t.hasAttribute('data-acopen')) return openSheet(ACS, 'ac');
+  if (t.dataset.ac) return acAction(t.dataset.ac);
   if (t.dataset.rest) { if (t.dataset.rest === 'yes') return longRest(); restAsk = t.dataset.rest === 'ask'; renderRest(); return focusQuiet($(restAsk ? '[data-rest="no"]' : '[data-rest="ask"]')); }
   if (t.dataset.conc) {
     const id = t.dataset.conc, old = CONC.id && SP.BY[CONC.id];
@@ -6567,6 +6601,7 @@ for (const C of [SP, WS]) {
 for (const C of [SP, WS]) { C.renderChips(); C.buildAll(); applyFilter(C); }
 if (CONC.id && !SP.BY[CONC.id]) setConc(null);
 renderRest();
+syncAc();
 renderInv();
 renderInstall();
 initUpdate();
