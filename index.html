@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '7fbf32dd8f'; window.__BUILT__ = '2026-10-12 12:08';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '6f499d45b0'; window.__BUILT__ = '2026-10-12 12:14';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -513,6 +513,8 @@ nav button{ white-space:nowrap; }
 .watk p{ margin:0; font-size:.9rem; line-height:1.45; color:color-mix(in oklab, var(--ink) 85%, var(--muted)); }
 .atk .mu{ display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 8px; padding-bottom:6px; border-bottom:1px solid var(--line); }
 .atk .mu b{ color:hsl(45 62% 72%); } .atk .mu small{ font-size:.75rem; color:var(--muted); font-weight:500; }
+.wsq{ text-align:left; cursor:pointer; }
+.wsq small{ text-transform:none; letter-spacing:0; font-size:.72rem; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -612,21 +614,34 @@ nav button{ white-space:nowrap; }
   <h2 class="lvl-h">Saldırılar</h2>
   <div class="atks">
    <article class="ab" style="--ah:18">
-    <h3><span lang="en">Unarmed Strike</span><small>Saldırı aksiyonunda <b>1 saldırı</b></small></h3>
-    <div class="chs"><span class="ch hit"><small>Saldırı</small><b>+7</b></span><span class="ch dmg"><small>Hasar</small><b>1d4+3</b> <em>ezme</em></span><span class="ch"><small>Erişim</small><b>5 ft</b></span></div>
+    <h3><span lang="en">Unarmed Strike</span><small>yakın dövüş · Saldırı aksiyonunda <b>1 saldırı</b></small></h3>
+    <div class="chs"><span class="ch hit"><small>Saldırı</small><b>+7</b> <em>DEX 3 + yeterlilik 4</em></span><span class="ch dmg"><small>Hasar</small><b>1d4+3</b> <em>ezme</em></span><span class="ch"><small>Erişim</small><b>5 ft</b></span></div>
+    <p><span lang="en">Martial Arts</span> sayesinde STR yerine <b>DEX</b> ve d4 hasar zarı; zırh ve kalkan yokken.</p>
    </article>
    <article class="ab" style="--ah:200">
-    <h3><span lang="en">Martial Arts</span><small>bonus aksiyon</small></h3>
+    <h3><span lang="en">Martial Arts</span><small>bonus aksiyon · ek vuruş</small></h3>
     <div class="chs"><span class="ch hit"><small>Saldırı</small><b>+7</b></span><span class="ch dmg"><small>Hasar</small><b>1d4+3</b> <em>ezme</em></span></div>
-    <p>Saldırı aksiyonunda silahsız ya da monk silahıyla saldırdıysan <b>bonus aksiyonla bir silahsız vuruş daha</b>. Zırh ve kalkan yokken.</p>
+    <ul><li>Aynı tur Saldırı aksiyonunda silahsız ya da monk silahıyla saldırdıysan <b>bonus aksiyonla 1 silahsız vuruş daha</b>.</li><li>O tur bonus aksiyonunu başka işe (ör. <span lang="en">Healing Word</span>, <span lang="en">Wild Shape</span>) harcadıysan olmaz.</li></ul>
+   </article>
+   <article class="ab" style="--ah:48">
+    <h3><span lang="en">Produce Flame</span><small>cantrip · menzilli büyü saldırısı · sınırsız</small></h3>
+    <div class="chs"><span class="ch hit"><small>Saldırı</small><b>+9</b> <em>büyü</em></span><span class="ch dmg"><small>Hasar</small><b>2d8</b> <em>ateş</em></span><span class="ch"><small>Menzil</small><b>30 ft</b></span></div>
+    <p>Elinde alev belirir (10 ft parlak ışık); aynı aksiyonla ya da sonraki bir turda <b>aksiyonla</b> fırlatırsın. 11. seviyede 3d8 olur.</p>
+   </article>
+   <article class="ab" style="--ah:290">
+    <h3>Fırsat saldırısı<small lang="en">War Caster · reaksiyon</small></h3>
+    <div class="chs"><span class="ch hit"><small>Örn. Produce Flame</small><b>+9</b></span><span class="ch dmg"><small>Hasar</small><b>2d8</b> <em>ateş</em></span></div>
+    <p>Bir düşman erişiminden çıkıp fırsat saldırısı hakkı doğurunca, vuruş yerine <b>yalnız onu hedefleyen</b>, 1 aksiyonluk bir büyü yapabilirsin. Ellerin doluyken de somatik bileşen yapabilirsin.</p>
+   </article>
+   <article class="ab" style="--ah:100">
+    <h3><span lang="en">Wild Shape</span><small>bonus aksiyonla dönüş (<span lang="en">Combat Wild Shape</span>) · 2 hak</small></h3>
+    <div class="chs"><span class="ch"><small>En fazla</small><b>CR 3</b></span><span class="ch"><small>AC</small><b>formun + 5</b></span><span class="ch hit"><small>Saldırılar</small><b>büyülü</b> <em>Primal Strike</em></span></div>
+    <p>Formdayken saldırı ve hasar <b>formun kartından</b> gelir. Seçili formların tur başı ortalama hasarı (dokun: ayrıntı):</p>
+    <div class="chs" id="wsQuick"></div>
    </article>
    <article class="ab" style="--ah:180">
-    <h3>Büyü<small>Bilgelik</small></h3>
+    <h3>Büyü<small>Bilgelik · konsantrasyonda <span lang="en">War Caster</span> avantajı</small></h3>
     <div class="chs"><span class="ch hit"><small>Büyü saldırısı</small><b>+9</b></span><span class="ch save"><small>Kurtarma</small><b>DC 17</b></span></div>
-   </article>
-   <article class="ab" style="--ah:30">
-    <h3><span lang="en">Wild Shape</span><small>formdayken</small></h3>
-    <p>Formun saldırıları (saldırı, hasar, erişim ayrı ayrı) <b><span lang="en">Wild Shape</span> → Aktif</b> sayfasında ve her hayvanın penceresinde.</p>
    </article>
   </div>
 
@@ -6047,6 +6062,7 @@ const WS = (() => {
       state.sel.push(id); save(); return `${b.en} seçildi · ${count()} form`;
     },
     clear() { state.sel = []; save(); },
+    isSel,
     ACT,
     // turn into a form: full form hit points, one Wild Shape use marked
     shift(id) {
@@ -6144,6 +6160,12 @@ const WS = (() => {
   return C;
 })();
 const CATS = { sp: SP, ws: WS };
+// Karakter → Saldırılar → Wild Shape: one chip per selected form (average damage per round), tap opens the form
+function renderWsQuick() {
+  const box = $('#wsQuick'); if (!box) return;
+  const sel = Object.values(WS.BY).filter(b => WS.isSel(b.id)).sort((a, b) => b.dpr[0] - a.dpr[0]);
+  box.innerHTML = sel.length ? sel.map(b => `<button class="ch dmg wsq" data-c="ws" data-open="${b.id}"><small lang="en">${esc(b.en)}</small><b>~${b.dpr[0]}</b> <em>CR ${b.cr} · AC ${b.ac} · ${b.hp} can</em></button>`).join('') : '<span class="note">Seçili form yok.</span>';
+}
 
 /* ---------- catalog plumbing shared by both ---------- */
 function applyFilter(C) {
@@ -6164,7 +6186,7 @@ function toggleIn(C, id) {
   const r = C.toggle(id);
   if (!r) return;
   if (r.blocked) { if (!openRef) toast(r.blocked); return; }
-  C.syncTile(id); C.updateCounts(); syncChrome();
+  C.syncTile(id); C.updateCounts(); syncChrome(); if (C === WS) renderWsQuick();
   if (tab === C.k && C.sub === 'prep') {
     // keep keyboard/screen-reader focus near where it was when the tile disappears
     const picks = [...C.prep.querySelectorAll('[data-pick]')].map(b => b.dataset.pick);
@@ -6646,7 +6668,7 @@ document.addEventListener('click', e => {
   if (t.dataset.clear) {
     const c = t.dataset.clear;
     if (c === 'ask') C.confirming = true;
-    else { if (c === 'yes') { C.clear(); Object.keys(C.BY).forEach(id => C.syncTile(id)); C.updateCounts(); toast('Seçim temizlendi'); } C.confirming = false; }
+    else { if (c === 'yes') { C.clear(); Object.keys(C.BY).forEach(id => C.syncTile(id)); C.updateCounts(); if (C === WS) renderWsQuick(); toast('Seçim temizlendi'); } C.confirming = false; }
     C.renderPrep(); syncChrome();
     focusQuiet(C.prep.querySelector(c === 'ask' ? '[data-clear="no"]' : '.sum button'));
     return;
@@ -6675,6 +6697,7 @@ for (const C of [SP, WS]) { C.renderChips(); C.buildAll(); applyFilter(C); }
 if (CONC.id && !SP.BY[CONC.id]) setConc(null);
 renderRest();
 syncAc();
+renderWsQuick();
 renderInv();
 renderInstall();
 initUpdate();
