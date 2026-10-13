@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'c809f5d369'; window.__BUILT__ = '2026-10-12 12:27';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '728351f597'; window.__BUILT__ = '2026-10-13 12:00';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -526,6 +526,9 @@ nav button{ white-space:nowrap; }
   border:2px solid color-mix(in oklab, var(--acc) 70%, transparent); box-shadow:0 18px 50px rgba(0,0,0,.7), 0 0 30px color-mix(in oklab, var(--acc) 30%, transparent); background:var(--surface); }
 .lightbox figcaption{ font-family:var(--display); font-weight:700; font-size:1.3rem; letter-spacing:.04em; color:var(--acc); }
 .lightbox .x{ position:absolute; top:calc(env(safe-area-inset-top,0px) + 10px); right:10px; background:rgba(0,0,0,.45); color:var(--ink); }
+.rules-boxes{ margin-top:22px; }
+.rules-boxes > .lvl-h{ margin-top:0; }
+.chs.legend{ gap:5px; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -6019,19 +6022,45 @@ const WS = (() => {
           ? `<div class="confirm"><span>Seçilen tüm formlar kaldırılsın mı?</span><button class="yes" data-c="ws" data-clear="yes">Evet, temizle</button><button data-c="ws" data-clear="no">Vazgeç</button></div>`
           : (n ? `<button class="clear" data-c="ws" data-clear="ask">Seçimi temizle</button>` : '')}
       </div>`;
-      const rules = `<section class="sum rules-card"><h3>Kurallar</h3>
-        <ul class="rules">
-          <li><b>2 hak</b> / kısa dinlenme · en fazla <b>4 saat</b> · <b>bonus aksiyon</b> (Combat Wild Shape)</li>
-          <li><b>AC = hayvanın AC'si + 5</b> (WIS, masa kuralı) · saldırılar büyülü (Primal Strike)</li>
-          <li>INT / WIS / CHA senin · kurtarma ve becerilerde <b>yüksek olan</b> yazılı · Algı +9</li>
-          <li>Druid 9: en fazla <b>CR 3</b>; CR 4 Druid 12'de açılır</li>
-          <li class="legend">Kart rengi = rolü: ${ROLES.map(([n, h]) => `<span class="tg role" style="--h:${h}">${n}</span>`).join(' ')}</li>
-          <li>Hayvanın canını alırsın; 0'a düşünce dönersin, <b>artan hasar</b> kendi canına geçer. Bonus aksiyonla erken dönebilirsin</li>
-          <li>Formda <b>büyü yapamazsın</b> ve konuşamazsın; önceden başlattığın konsantrasyon sürer</li>
-          <li><span lang="en">Combat Wild Shape</span>: formdayken <b>bonus aksiyon + bir büyü slotu</b> → slot seviyesi başına <b>2d8 can</b></li>
-          <li>Boyut ve kapladığı alan: <b>Orta 5 ft</b> (1 kare) · <b>Büyük 10×10 ft</b> (2×2) · <b>Devasa 15×15 ft</b> (3×3); Mathias Orta. Bir boy küçüğün alanından <b>sıkışarak</b> geçebilirsin: her 1 ft 2 ft sayılır, saldırı ve DEX kurtarmasında dezavantaj, sana saldırılar avantajlı</li>
-          <li>Sınıf, ırk ve feat özelliklerin sürer (hayvanın yapabildiği kadarıyla); eşyalar forma karışır, takılı kalır ya da düşer (sen seçersin)</li>
-        </ul></section>`;
+      // Wild Shape rules as boxes with chips, like the attacks (user's request: the one-line list was hard to read;
+      // "4 saat" is the time you can stay in a form, not a rest)
+      const rules = `<section class="rules-boxes"><h2 class="lvl-h">Kurallar</h2><div class="atks">
+        <article class="ab" style="--ah:35">
+          <h3>Dönüşmek<small>kaç kez, ne kadar, hangi eylemle</small></h3>
+          <div class="chs"><span class="ch"><small>Hak</small><b>2</b> <em>kısa ya da uzun dinlenmede yenilenir</em></span><span class="ch"><small>Formda en fazla</small><b>4 saat</b> <em>druid seviyesinin yarısı</em></span></div>
+          <div class="chs"><span class="ch hit"><small>Dönüşmek</small><b>bonus aksiyon</b> <em>Combat Wild Shape; normalde tam aksiyon</em></span><span class="ch"><small>Erken dönmek</small><b>bonus aksiyon</b></span></div>
+          <p>Kısa dinlenme <b>en az 1 saat</b> sürer; sonunda 2 hakkın geri gelir. Dönüşmek aynı turda Saldırı aksiyonunu yapmana engel olmaz: bonus aksiyonla dönüş, aksiyonla formun saldırısı.</p>
+        </article>
+        <article class="ab" style="--ah:140">
+          <h3><span lang="en">Combat Wild Shape</span><small>formdayken can kazanmak</small></h3>
+          <div class="chs"><span class="ch"><small>Bedel</small><b>bonus aksiyon + 1 slot</b></span><span class="ch add"><small>Can</small><b>2d8</b> <em>slot seviyesi başına</em></span></div>
+          <p>Ör. 2. seviye slot → <b>4d8</b>, 3. seviye → <b>6d8</b>. Aktif sayfasındaki düğmelerle slotu işaretleyip zar sonucunu yazarsın.</p>
+        </article>
+        <article class="ab" style="--ah:205">
+          <h3>Formun değerleri<small>neyi hayvandan, neyi kendinden alırsın</small></h3>
+          <div class="chs"><span class="ch"><small>En fazla</small><b>CR 3</b> <em>CR 4 Druid 12'de</em></span><span class="ch"><small>AC</small><b>hayvan + 5</b> <em>WIS</em></span><span class="ch hit"><small>Saldırılar</small><b>büyülü</b> <em>Primal Strike</em></span></div>
+          <ul><li><b>STR / DEX / CON</b> hayvandan; <b>INT / WIS / CHA</b> senden.</li><li>Kurtarma ve becerilerde <b>yüksek olan</b> (seninki ya da hayvanınki) yazılı; Algı her formda <b>+9</b>.</li><li>Sınıf, ırk ve feat özelliklerin sürer (hayvanın yapabildiği kadarıyla).</li></ul>
+        </article>
+        <article class="ab" style="--ah:345">
+          <h3>Can ve düşmek<small>formun canı ayrı tutulur</small></h3>
+          <div class="chs"><span class="ch"><small>Can</small><b>hayvanın canı</b></span><span class="ch dmg"><small>0'a düşünce</small><b>dönersin</b> <em>artan hasar sana geçer</em></span></div>
+          <p>Ör. formun 5 canı kaldı, 12 hasar aldın → Mathias'a dönersin ve <b>7 hasar</b> kendi canından düşer. Aktif sayfası bunu kendisi hesaplar.</p>
+        </article>
+        <article class="ab" style="--ah:275">
+          <h3>Formdayken yapamadıkların<small>büyü ve konuşma</small></h3>
+          <div class="chs"><span class="ch"><small>Büyü yapmak</small><b>yok</b></span><span class="ch"><small>Konuşmak</small><b>yok</b></span><span class="ch"><small>Konsantrasyon</small><b>sürer</b> <em>önceden başlattığın</em></span></div>
+          <p>Eşyaların forma karışır, üstünde takılı kalır ya da yere düşer; hangisi olacağını sen seçersin.</p>
+        </article>
+        <article class="ab" style="--ah:60">
+          <h3>Boyut ve alan<small>haritada kaç kare</small></h3>
+          <div class="chs"><span class="ch"><small>Orta</small><b>5 ft</b> <em>1 kare · Mathias</em></span><span class="ch"><small>Büyük</small><b>10×10 ft</b> <em>2×2 kare</em></span><span class="ch"><small>Devasa</small><b>15×15 ft</b> <em>3×3 kare</em></span></div>
+          <p>Bir boy küçüğün alanından <b>sıkışarak</b> geçebilirsin: her 1 ft 2 ft sayılır, saldırı ve DEX kurtarmasında dezavantaj, sana saldırılar avantajlı.</p>
+        </article>
+        <article class="ab" style="--ah:30">
+          <h3>Kart rengi<small>formun rolü</small></h3>
+          <div class="chs legend">${ROLES.map(([n, h]) => `<span class="tg role" style="--h:${h}">${n}</span>`).join(' ')}</div>
+        </article>
+      </div></section>`;
       for (const c of CRS) {
         const list = items.filter(b => b.cr === c && isSel(b.id));
         if (!list.length) continue;
