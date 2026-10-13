@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '728351f597'; window.__BUILT__ = '2026-10-13 12:00';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '122dbc1a5d'; window.__BUILT__ = '2026-10-13 12:07';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -5811,13 +5811,38 @@ const SP = (() => {
           ? `<div class="confirm"><span>Hazırlanan tüm büyüler kaldırılsın mı?</span><button class="yes" data-c="sp" data-clear="yes">Evet, temizle</button><button data-c="sp" data-clear="no">Vazgeç</button></div>`
           : (n ? `<button class="clear" data-c="sp" data-clear="ask">Seçimi temizle</button>` : '')}
       </div>`;
-      const rules = `<section class="sum rules-card"><h3>Kurallar</h3><ul class="rules">
-          <li>Hazırlık <b>uzun dinlenmenin sonunda</b> değişir: <b>14 büyü</b> = WIS 5 + druid seviyesi 9</li>
-          <li>Cantrip'ler (<span lang="en">Mold Earth, Produce Flame, Shape Water</span>) ve <span lang="en">Fey Touched</span> büyüleri (<span lang="en">Identify, Misty Step</span>) her zaman hazır, sayıya girmez</li>
-          <li><span lang="en">Fey Touched</span>: <span lang="en">Identify</span> ve <span lang="en">Misty Step</span> uzun dinlenmede <b>birer kez slotsuz</b></li>
-          <li>Ritüel etiketli ve <b>hazırladığın</b> druid büyülerini ve <span lang="en">Identify</span>'ı slot harcamadan, <b>+10 dakika</b> sürede ritüel olarak yapabilirsin</li>
-          <li><span lang="en">Wild Shape</span> formundayken büyü yapamazsın; önceden başlattığın konsantrasyon sürer</li>
-        </ul></section>`;
+      // spell rules as boxes with chips, like the attacks and the Wild Shape rules (user's request)
+      const rules = `<section class="rules-boxes"><h2 class="lvl-h">Kurallar</h2><div class="atks">
+        <article class="ab" style="--ah:150">
+          <h3>Hazırlık<small>kaç büyü, ne zaman değişir</small></h3>
+          <div class="chs"><span class="ch"><small>Günlük hak</small><b>14</b> <em>WIS 5 + druid 9</em></span><span class="ch"><small>Değişir</small><b>uzun dinlenmede</b> <em>yalnız sonunda</em></span></div>
+          <p>Druid listesinden, slotun olan seviyelerden istediğin büyüleri seçersin. Kısa dinlenmede hazırlık <b>değişmez</b>.</p>
+        </article>
+        <article class="ab" style="--ah:45">
+          <h3>Her zaman hazır<small>sayıya girmez</small></h3>
+          <div class="chs"><span class="ch"><small lang="en">Cantrip</small><b>3</b> <em>sınırsız</em></span><span class="ch"><small><span lang="en">Fey Touched</span></small><b>2</b> <em>feat</em></span></div>
+          <p>Cantrip'ler: <span lang="en">Mold Earth, Produce Flame, Shape Water</span>. <span lang="en">Fey Touched</span>: <span lang="en">Identify, Misty Step</span>.</p>
+        </article>
+        <article class="ab" style="--ah:300">
+          <h3><span lang="en">Fey Touched</span><small>slotsuz kullanım</small></h3>
+          <div class="chs"><span class="ch add"><small><span lang="en">Misty Step</span></small><b>1 kez</b> <em>slotsuz</em></span><span class="ch add"><small><span lang="en">Identify</span></small><b>1 kez</b> <em>slotsuz</em></span><span class="ch"><small>Yenilenir</small><b>uzun dinlenmede</b></span></div>
+          <p>Slotsuz hakkı bitince ikisini de uygun seviyedeki bir slotla yapabilirsin. Kutular üstteki slot kartında.</p>
+        </article>
+        <article class="ab" style="--ah:200">
+          <h3>Ritüel<small>slot harcamadan</small></h3>
+          <div class="chs"><span class="ch hit"><small>Süre</small><b>+10 dk</b> <em>normal süresine ek</em></span><span class="ch"><small>Slot</small><b>harcanmaz</b></span></div>
+          <p>Ritüel etiketli ve <b>hazırladığın</b> druid büyülerini ve <span lang="en">Identify</span>'ı ritüel olarak yapabilirsin.</p>
+        </article>
+        <article class="ab" style="--ah:275">
+          <h3>Konsantrasyon<small>aynı anda tek büyü</small></h3>
+          <div class="chs"><span class="ch"><small>Aynı anda</small><b>1 büyü</b> <em>yenisi eskisini bitirir</em></span><span class="ch save"><small>Hasar alınca</small><b>CON +4</b> <em>War Caster ile avantajlı</em></span><span class="ch"><small>DC</small><b>10 ya da hasarın yarısı</b> <em>hangisi büyükse</em></span></div>
+          <p>Büyünün penceresinde <b>Konsantrasyon başlat</b>'a dokun; mor şerit hangi büyüyü sürdürdüğünü gösterir.</p>
+        </article>
+        <article class="ab" style="--ah:35">
+          <h3><span lang="en">Wild Shape</span><small>formdayken</small></h3>
+          <div class="chs"><span class="ch"><small>Büyü yapmak</small><b>yok</b></span><span class="ch"><small>Konsantrasyon</small><b>sürer</b> <em>önceden başlattığın</em></span></div>
+        </article>
+      </div></section>`;
       for (const l of [1,2,3,4,5,0]) {
         const list = items.filter(s => s.lvl === l && isSel(s.id));
         if (!list.length) continue;
