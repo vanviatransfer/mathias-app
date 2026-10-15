@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'a6fec39fd6'; window.__BUILT__ = '2026-10-15 22:51';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '38715a3054'; window.__BUILT__ = '2026-10-15 22:53';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -739,7 +739,7 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
    </ul>
    <h3>Uzun dinlenme <small>8 saat</small></h3>
    <ul>
-    <li>Canın tamamen dolar; büyü slotları (4/3/3/3/1), <span lang="en">Fey Touched</span> büyüleri ve <span lang="en">Wild Shape</span> hakları geri gelir.</li>
+    <li>Canın tamamen dolar; büyü slotları (4/1/4/4/1, lanetli yüzükle), <span lang="en">Fey Touched</span> büyüleri ve <span lang="en">Wild Shape</span> hakları geri gelir.</li>
     <li>Harcadığın can zarlarından <b>en fazla 5'i</b> geri gelir (toplamın yarısı).</li>
     <li>Hazırladığın büyüleri <b>yalnız uzun dinlenmenin sonunda</b> değiştirebilirsin; kısa dinlenmede değişmez.</li>
    </ul>
@@ -6203,7 +6203,8 @@ function acAction(a) {
 /* ---------- büyü slotları: one box per slot, tap = spent (✕), saved on this phone ---------- */
 const slotBox = (used, key, label) => `<button class="box${used ? ' used' : ''}" data-slot="${key}" aria-pressed="${!!used}" aria-label="${label}: ${used ? 'harcandı' : 'boş'}"><svg aria-hidden="true"><use href="#i-x"/></svg></button>`;
 const SLOTS = (() => {
-  const KEY = 'mathias-slots-v1', MAX = [4, 3, 3, 3, 1];
+  // sheet: 4/3/3/3/1; the cursed ring (2026-10) takes two 2nd-level slots and gives one 3rd and one 4th
+  const KEY = 'mathias-slots-v1', MAX = [4, 1, 4, 4, 1];
   // feat spells cast once per long rest without a slot
   const FREE = ['Misty Step', 'Identify'];
   const st = { u: MAX.map(n => Array(n).fill(0)), f: FREE.map(() => 0), confirm: false };
@@ -6217,7 +6218,7 @@ const SLOTS = (() => {
       const rows = MAX.map((n, i) => `<div class="srow" data-l="${i + 1}"><span class="sl">${i + 1}. sv</span><span class="boxes">${st.u[i].map((u, j) => slotBox(u, `s:${i}:${j}`, `${i + 1}. seviye slot ${j + 1}`)).join('')}</span><span class="left"><b>${left(st.u[i])}</b>/${n}</span></div>`).join('');
       const free = FREE.length ? `<div class="srow ft"><span class="sl"><span lang="en">Fey Touched</span><small>slotsuz, 1 kez</small></span><span class="boxes">${FREE.map((nm, i) => `<span class="fb">${slotBox(st.f[i], `f:${i}`, nm)}<small lang="en">${nm}</small></span>`).join('')}</span><span class="left"><b>${left(st.f)}</b>/${FREE.length}</span></div>` : '';
       const total = MAX.reduce((a, b) => a + b, 0), rest = st.u.reduce((a, r) => a + left(r), 0);
-      return `<section class="card slots"><h3>Büyü slotları <small>${rest}/${total} kaldı · büyü yapınca boş kutuya dokun</small></h3>${rows}${free}
+      return `<section class="card slots"><h3>Büyü slotları <small>${rest}/${total} kaldı · büyü yapınca boş kutuya dokun</small></h3>${rows}${free}<p class="note">Lanetli yüzük: 2. seviyeden <b>2 slot eksik</b>, 3. ve 4. seviyeye <b>1'er fazla</b> (sayfada 4/3/3/3/1).</p>
         ${st.confirm
           ? `<div class="confirm"><span>${LONG_REST_Q}</span><button class="yes" data-slot="rest-yes">Evet, dinlendim</button><button data-slot="rest-no">Vazgeç</button></div>`
           : `<button class="mini srest" data-slot="rest">Uzun dinlenme yaptım</button>`}</section>`;
@@ -6924,7 +6925,7 @@ if (!load(INV_MIGR, false)) {
   const HAND = [
     'Summon Elemental Scroll',
     'Büyülü Yelpaze (15 ft · 3d6 ateş · 3 kez)',
-    'Büyülü Yüzük (lanetli): 2. seviye slotlardan 2 tanesini silip 3. seviye slot veriyor',
+    'Büyülü Yüzük (lanetli): 2. seviyeden 2 slot siler, 3. ve 4. seviyeye 1\'er slot verir · Red Witch\'ler yüzüğü fark ediyor',
     'Canlandırma İksiri',
     'Çölde Yürüme İksiri (Potion)',
     'Mavi Büyülü Kemer (%15 buz direnci, %15 ateş hassasiyeti)',
@@ -6934,9 +6935,10 @@ if (!load(INV_MIGR, false)) {
   store(INV_KEY, inv); store(INV_MIGR, true);
 }
 // misread from the photo: "Gölde" was "Çölde" (desert); fix an already added entry once
-if (!load('mathias-inv-migr-2', false)) {
+if (!load('mathias-inv-migr-3', false)) {
   for (const e of inv.items) if (e.t === 'Gölde Yürüme İksiri (Potion)') e.t = 'Çölde Yürüme İksiri (Potion)';
-  store(INV_KEY, inv); store('mathias-inv-migr-2', true);
+  for (const e of inv.items) if (e.t === 'Büyülü Yüzük (lanetli): 2. seviye slotlardan 2 tanesini silip 3. seviye slot veriyor') e.t = 'Büyülü Yüzük (lanetli): 2. seviyeden 2 slot siler, 3. ve 4. seviyeye 1\'er slot verir · Red Witch\'ler yüzüğü fark ediyor';
+  store(INV_KEY, inv); store('mathias-inv-migr-3', true);
 }
 // gold: "12,5", "12.5" and "1.250" (Turkish thousands) all work; two decimals at most (5 sp = 0,5 gp)
 const parseG = v => { let t = String(v).trim().replace(/\s/g, ''); if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(t)) t = t.replace(/\./g, ''); const n = Number(t.replace(',', '.')); return Number.isFinite(n) && n >= 0 ? Math.round(n * 100) / 100 : null; };
