@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '1d359015b0'; window.__BUILT__ = '2026-10-15 17:22';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'c4870fa2e0'; window.__BUILT__ = '2026-10-15 21:23';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -5981,12 +5981,12 @@ const SP = (() => {
           <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
         ${tags(s, false)}
         <dl class="facts">
-          ${s.fx ? `<div class="fact key k-${s.fx[0] === 'Hasar' ? 'dmg' : s.fx[0] === 'İyileştirme' ? 'heal' : 'fx'}"><dt>${s.fx[0]}</dt><dd>${esc(s.fx[1])}</dd></div>` : ''}
-          ${s.ar ? `<div class="fact key"><dt>${s.ar[0]}</dt><dd>${esc(s.ar[1])}</dd></div>` : ''}
-          <div class="fact"><dt>Kullanım</dt><dd>${esc(s.time)}</dd></div>
-          <div class="fact"><dt>Menzil</dt><dd>${esc(s.range)}</dd></div>
-          <div class="fact"><dt>Süre</dt><dd>${esc(s.dur)}</dd></div>
-          <div class="fact"><dt>Bileşen</dt><dd>${comp}</dd></div>
+          ${s.fx ? `<div class="fact key fq k-${s.fx[0] === 'Hasar' ? 'dmg' : s.fx[0] === 'İyileştirme' ? 'heal' : 'fx'}" style="--fq:${s.fx[0] === 'Hasar' ? 8 : s.fx[0] === 'İyileştirme' ? 340 : 125}"><dt>${s.fx[0]}</dt><dd>${esc(s.fx[1])}</dd></div>` : ''}
+          ${s.ar ? `<div class="fact key fq" style="--fq:${s.ar[0] === 'Alan' ? 255 : 215}"><dt>${s.ar[0]}</dt><dd>${esc(s.ar[1])}</dd></div>` : ''}
+          <div class="fact fq" style="--fq:40"><dt>Kullanım</dt><dd>${esc(s.time)}</dd></div>
+          <div class="fact fq" style="--fq:185"><dt>Menzil</dt><dd>${esc(s.range)}</dd></div>
+          <div class="fact fq" style="--fq:290"><dt>Süre</dt><dd>${esc(s.dur)}</dd></div>
+          <div class="fact fq" style="--fq:70"><dt>Bileşen</dt><dd>${comp}</dd></div>
         </dl>
         <div class="desc">${s.d}</div>
         <div class="src">Kaynak: ${esc(s.src)}</div>
