@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'e733f96213'; window.__BUILT__ = '2026-10-15 22:32';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'f7ea454a83'; window.__BUILT__ = '2026-10-15 22:37';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -317,13 +317,13 @@ html[data-tab="ws"] .lvl-h[data-l="1"]{ --lh:95; } html[data-tab="ws"] .lvl-h[da
 .tile.on{ border-color:var(--acc); box-shadow:inset 3px 0 0 var(--acc); }
 html[data-tab="sp"] [data-l="0"]{ --lh:38; } html[data-tab="sp"] [data-l="1"]{ --lh:150; } html[data-tab="sp"] [data-l="2"]{ --lh:185; }
 html[data-tab="sp"] [data-l="3"]{ --lh:220; } html[data-tab="sp"] [data-l="4"]{ --lh:262; } html[data-tab="sp"] [data-l="5"]{ --lh:310; }
-html[data-tab="ws"] [data-l="1"]{ --lh:95; } html[data-tab="ws"] [data-l="2"]{ --lh:40; } html[data-tab="ws"] [data-l="3"]{ --lh:15; } html[data-tab="ws"] [data-l="4"]{ --lh:340; }
+html[data-tab="ws"] [data-l="1"]{ --lh:95; } html[data-tab="ws"] [data-l="2"]{ --lh:40; } html[data-tab="ws"] [data-l="3"]{ --lh:15; } html[data-tab="ws"] [data-l="4"]{ --lh:340; } html[data-tab="ws"] [data-l="5"]{ --lh:270; }
 .view section[data-l] > .list, .lvl-h[data-l] + .list{ border-left:2px solid hsl(var(--lh, 38) 25% 32%); padding-left:8px; }
 .lvl-h[data-l] small{ color:hsl(var(--lh, 38) 16% 62%); }
 .chip[data-f]:not([data-f="all"]){ --lh:38; border-color:hsl(var(--lh) 22% 32%); color:hsl(var(--lh) 30% 70%); }
 html[data-tab="sp"] .chip[data-f="0"]{ --lh:38; } html[data-tab="sp"] .chip[data-f="1"]{ --lh:150; } html[data-tab="sp"] .chip[data-f="2"]{ --lh:185; }
 html[data-tab="sp"] .chip[data-f="3"]{ --lh:220; } html[data-tab="sp"] .chip[data-f="4"]{ --lh:262; } html[data-tab="sp"] .chip[data-f="5"]{ --lh:310; }
-html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data-f="2"]{ --lh:40; } html[data-tab="ws"] .chip[data-f="3"]{ --lh:15; } html[data-tab="ws"] .chip[data-f="4"]{ --lh:340; }
+html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data-f="2"]{ --lh:40; } html[data-tab="ws"] .chip[data-f="3"]{ --lh:15; } html[data-tab="ws"] .chip[data-f="4"]{ --lh:340; } html[data-tab="ws"] .chip[data-f="5"]{ --lh:270; }
 .chip[data-f]:not([data-f="all"])[aria-pressed="true"]{ background:hsl(var(--lh) 30% 62%); border-color:hsl(var(--lh) 30% 62%); color:#1b1612; }
 .chips.mv .chip{ border-color:hsl(200 18% 30%); }
 /* sheet: the open item's hue on its fact boxes */
@@ -594,6 +594,7 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 .abil .wa b{ font-size:1.25rem; color:hsl(var(--wb) 38% 80%); }
 .abil .wa small{ color:hsl(var(--wb) 20% 70%); font-size:.78rem; }
 .abil .wa.me b, .abil .wa.me span{ color:hsl(var(--wb) 38% 80%); }
+#wsChips{ grid-template-columns:auto repeat(5,minmax(0,1fr)); }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -5543,6 +5544,424 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
    "Tek Kuyruk"
   ],
   "tip": "10 ft erişimli tek büyük vuruş; düşmanı yaklaşmadan cezalandır. 76 can ve 40 ft hızla sağlam bir ön saf formu."
+ },
+ {
+  "id": "air-elemental",
+  "cr": 5,
+  "en": "Air Elemental",
+  "ed": "2024",
+  "src": "Monster Manual (2024)",
+  "edNote": "",
+  "size": "Büyük",
+  "ac": 20,
+  "acBase": 15,
+  "acAlt": [],
+  "hp": 90,
+  "hd": "12d10+24",
+  "spd": {
+   "walk": 10,
+   "fly": 90
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "abil": [
+   14,
+   20,
+   14,
+   14,
+   20,
+   12
+  ],
+  "sv": [
+   2,
+   5,
+   2,
+   6,
+   9,
+   1
+  ],
+  "sk": [
+   [
+    "Perception",
+    9
+   ],
+   [
+    "Insight",
+    9
+   ],
+   [
+    "Survival",
+    9
+   ],
+   [
+    "Athletics",
+    6
+   ],
+   [
+    "Acrobatics",
+    9
+   ],
+   [
+    "Stealth",
+    5
+   ]
+  ],
+  "res": [
+   "bludgeoning",
+   "lightning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [
+   "poison",
+   "thunder"
+  ],
+  "cimm": [
+   "exhaustion",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "poisoned",
+   "prone",
+   "restrained",
+   "unconscious"
+  ],
+  "kind": "elemental",
+  "tr": "Hava Elementali",
+  "role": "Uçan · Hasar · Kontrol",
+  "multi": "İki Gürleyen Darbe",
+  "atk": [
+   "<b>Thunderous Slam<\/b> <b>+8<\/b>, erişim 10 ft · <b>2d8+5<\/b> gök gürültüsü (14)",
+   "<b>Whirlwind<\/b> (yeniden dolar 4–6) · <b>DC 13 STR<\/b> save, bulunduğun alandaki Orta ya da daha küçük 1 yaratık: başarısızsa <b>4d10+2<\/b> gök gürültüsü (24), 20 ft uzağa itilir ve <b>yere serilir<\/b>; başarılıysa yalnız hasarın yarısı"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Air Form",
+    "Bir yaratığın alanına girip orada durabilirsin; 1 inç genişliğindeki aralıktan ek hareket harcamadan geçersin."
+   ]
+  ],
+  "dpr": [
+   28,
+   "2 Gürleyen Darbe (ya da Whirlwind 24)"
+  ],
+  "tip": "90 ft uçuş (havada asılı kalır) ve 10 ft erişimle vur-kaç; Whirlwind düşmanı iter ve yere serer. Ezme/delme/kesme hasarına dirençli, kavranamaz ve yere serilemez. Elemental formu 2 Wild Shape hakkı harcar."
+ },
+ {
+  "id": "earth-elemental",
+  "cr": 5,
+  "en": "Earth Elemental",
+  "ed": "2024",
+  "src": "Monster Manual (2024)",
+  "edNote": "",
+  "size": "Büyük",
+  "ac": 22,
+  "acBase": 17,
+  "acAlt": [],
+  "hp": 147,
+  "hd": "14d10+70",
+  "spd": {
+   "walk": 30,
+   "burrow": 30
+  },
+  "senses": [
+   "Darkvision 60 ft",
+   "Tremorsense 60 ft"
+  ],
+  "abil": [
+   20,
+   8,
+   20,
+   14,
+   20,
+   12
+  ],
+  "sv": [
+   5,
+   -1,
+   5,
+   6,
+   9,
+   1
+  ],
+  "sk": [
+   [
+    "Perception",
+    9
+   ],
+   [
+    "Insight",
+    9
+   ],
+   [
+    "Survival",
+    9
+   ],
+   [
+    "Athletics",
+    9
+   ],
+   [
+    "Acrobatics",
+    3
+   ],
+   [
+    "Stealth",
+    -1
+   ]
+  ],
+  "res": [],
+  "imm": [
+   "poison"
+  ],
+  "cimm": [
+   "exhaustion",
+   "paralyzed",
+   "petrified",
+   "poisoned",
+   "unconscious"
+  ],
+  "kind": "elemental",
+  "tr": "Toprak Elementali",
+  "role": "Tank · Hasar · Kazıcı",
+  "multi": "İki saldırı: Darbe ya da Taş Fırlatma, istediğin karışımla",
+  "atk": [
+   "<b>Slam<\/b> <b>+8<\/b>, erişim 10 ft · <b>2d8+5<\/b> ezme (14)",
+   "<b>Rock Launch<\/b> (menzilli) <b>+8<\/b>, erişim 60 ft · <b>1d6+5<\/b> ezme (8) · hedef Büyük ya da daha küçükse <b>yere serilir<\/b>"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Earth Glide",
+    "Büyüsüz, işlenmemiş toprak ve taşın içinden kazarak geçersin; geçtiğin yeri bozmazsın."
+   ],
+   [
+    "Siege Monster",
+    "Nesnelere ve yapılara <b>iki kat<\/b> hasar verirsin."
+   ]
+  ],
+  "dpr": [
+   28,
+   "2 Darbe (uzaktan 2 Taş: 16 + yere serme)"
+  ],
+  "tip": "147 can ve AC 22 ile en sağlam form; taşın içinde kazıyarak ilerler, titreşim algısı 60 ft. Uzaktaki hedefi Taş Fırlatma ile yere serip yakındakine Darbe vur. Elemental formu 2 Wild Shape hakkı harcar."
+ },
+ {
+  "id": "fire-elemental",
+  "cr": 5,
+  "en": "Fire Elemental",
+  "ed": "2024",
+  "src": "Monster Manual (2024)",
+  "edNote": "",
+  "size": "Büyük",
+  "ac": 18,
+  "acBase": 13,
+  "acAlt": [],
+  "hp": 93,
+  "hd": "11d10+33",
+  "spd": {
+   "walk": 50
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "abil": [
+   10,
+   17,
+   16,
+   14,
+   20,
+   12
+  ],
+  "sv": [
+   0,
+   3,
+   3,
+   6,
+   9,
+   1
+  ],
+  "sk": [
+   [
+    "Perception",
+    9
+   ],
+   [
+    "Insight",
+    9
+   ],
+   [
+    "Survival",
+    9
+   ],
+   [
+    "Athletics",
+    4
+   ],
+   [
+    "Acrobatics",
+    7
+   ],
+   [
+    "Stealth",
+    3
+   ]
+  ],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [
+   "fire",
+   "poison"
+  ],
+  "cimm": [
+   "exhaustion",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "poisoned",
+   "prone",
+   "restrained",
+   "unconscious"
+  ],
+  "kind": "elemental",
+  "tr": "Ateş Elementali",
+  "role": "Hasar · Alan · Hızlı",
+  "multi": "İki Yakma",
+  "atk": [
+   "<b>Burn<\/b> <b>+6<\/b>, erişim 5 ft · <b>2d6+3<\/b> ateş (10) · hedef yaratık ya da yanıcı nesneyse <b>yanmaya başlar<\/b>"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Fire Aura",
+    "Her turunun sonunda 10 ft çevrendeki her yaratık <b>1d10<\/b> ateş (5) alır; oradaki yaratıklar ve yanıcı nesneler yanmaya başlar."
+   ],
+   [
+    "Fire Form",
+    "1 inç aralıktan geçersin, bir yaratığın alanına girip durabilirsin; bir turda bir yaratığın alanına ilk girdiğinde o <b>1d10<\/b> ateş (5) alır."
+   ],
+   [
+    "Illumination",
+    "30 ft parlak, 30 ft daha loş ışık saçarsın."
+   ],
+   [
+    "Water Susceptibility",
+    "Suda her 5 ft hareket için ya da üstüne dökülen her galon su için <b>1d6<\/b> soğuk (3) alırsın."
+   ]
+  ],
+  "dpr": [
+   25,
+   "2 Yakma + Fire Aura (yanma hasarı ayrıca)"
+  ],
+  "tip": "50 ft hız; düşmanların arasına girip Fire Aura ile her tur çevreni yak. Ezme/delme/kesme hasarına dirençli, ateşe bağışık, kavranamaz. Sudan uzak dur. Elemental formu 2 Wild Shape hakkı harcar."
+ },
+ {
+  "id": "water-elemental",
+  "cr": 5,
+  "en": "Water Elemental",
+  "ed": "2024",
+  "src": "Monster Manual (2024)",
+  "edNote": "",
+  "size": "Büyük",
+  "ac": 19,
+  "acBase": 14,
+  "acAlt": [],
+  "hp": 114,
+  "hd": "12d10+48",
+  "spd": {
+   "walk": 30,
+   "swim": 90
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "abil": [
+   18,
+   14,
+   18,
+   14,
+   20,
+   12
+  ],
+  "sv": [
+   4,
+   2,
+   4,
+   6,
+   9,
+   1
+  ],
+  "sk": [
+   [
+    "Perception",
+    9
+   ],
+   [
+    "Insight",
+    9
+   ],
+   [
+    "Survival",
+    9
+   ],
+   [
+    "Athletics",
+    8
+   ],
+   [
+    "Acrobatics",
+    6
+   ],
+   [
+    "Stealth",
+    2
+   ]
+  ],
+  "res": [
+   "acid",
+   "fire"
+  ],
+  "imm": [
+   "poison"
+  ],
+  "cimm": [
+   "exhaustion",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "poisoned",
+   "prone",
+   "restrained",
+   "unconscious"
+  ],
+  "kind": "elemental",
+  "tr": "Su Elementali",
+  "role": "Yüzen · Kontrol · Kavrama",
+  "multi": "İki Darbe",
+  "atk": [
+   "<b>Slam<\/b> <b>+7<\/b>, erişim 5 ft · <b>2d8+4<\/b> ezme (13) · hedef Orta ya da daha küçükse <b>yere serilir<\/b>",
+   "<b>Whelm<\/b> (yeniden dolar 4–6) · <b>DC 15 STR<\/b> save, bulunduğun alandaki her yaratık: başarısızsa <b>4d8+4<\/b> ezme (22); Büyük ya da daha küçükse <b>kavranır<\/b> (kaçış DC 14) ve kavrandıkça <b>kısıtlı<\/b>, su soluyamıyorsa boğulur, senin her turunun başında <b>2d8<\/b> ezme (9) alır. Aynı anda 1 Büyük ya da 2 Orta/küçük yaratık; 5 ft içindeki biri aksiyonla DC 14 Strength (Athletics) check ile çekip çıkarabilir. Başarılıysa yalnız hasarın yarısı"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Freeze",
+    "Soğuk hasarı alırsan sonraki turunun sonuna kadar hızın 20 ft azalır."
+   ],
+   [
+    "Water Form",
+    "Bir düşmanın alanına girip orada durabilirsin; 1 inç aralıktan ek hareket harcamadan geçersin."
+   ]
+  ],
+  "dpr": [
+   26,
+   "2 Darbe (ya da Whelm 22 + her tur 9)"
+  ],
+  "tip": "Suda 90 ft yüzme; Whelm ile iki düşmanı içine alıp her tur ezersin, Darbe yere serer. Asit ve ateşe dirençli, kavranamaz. Elemental formu 2 Wild Shape hakkı harcar."
  }
 ]</script>
 <script>
@@ -5701,7 +6120,7 @@ function syncConc() {
 // the floating bars (concentration, active Wild Shape) stack under the header; the page keeps room for them
 function syncFloat() {
   const wf = $('#wsFloat'), b = WS.ACT.id && WS.BY[WS.ACT.id];
-  wf.innerHTML = b ? `<div class="card wsbar"><span class="cdot" aria-hidden="true"></span><button class="ct" data-wsfloat aria-label="Aktif form: ${esc(b.en)}, Aktif sayfasını aç"><small>Wild Shape</small><b lang="en">${esc(b.en)}</b><em>${WS.ACT.cur}/${b.hp} can · AC ${b.ac}</em></button><span class="wshp" aria-hidden="true"><i style="width:${Math.round(WS.ACT.cur / b.hp * 100)}%"></i></span></div>` : '';
+  wf.innerHTML = b ? `<div class="card wsbar"><span class="cdot" aria-hidden="true"></span><button class="ct" data-wsfloat aria-label="Aktif form: ${esc(b.en)}, Aktif sayfasını aç"><small lang="en">Wild Shape</small><b lang="en">${esc(b.en)}</b><em>${WS.ACT.cur}/${b.hp} can · AC ${b.ac}</em></button><span class="wshp" aria-hidden="true"><i style="width:${Math.round(WS.ACT.cur / b.hp * 100)}%"></i></span></div>` : '';
   wf.hidden = !b;
   const any = [...$('#floatBar').children].some(c => !c.hidden);
   document.documentElement.classList.toggle('has-conc', any);
@@ -6038,8 +6457,8 @@ const WS = (() => {
   const BY = Object.fromEntries(items.map(b => [b.id, b]));
   const KEY = 'mathias-wildshape-selected-v1';
   // Wild Shape PDF'indeki formlar ilk açılışta seçili gelir
-  const DEFAULT = ['giant-scorpion','bristled-moorbounder','giant-eagle','giant-snapping-turtle','killer-whale','spotted-lion','sword-spider'];
-  const CRS = [1, 2, 3, 4];
+  const DEFAULT = ['giant-scorpion','bristled-moorbounder','giant-eagle','giant-snapping-turtle','killer-whale','spotted-lion','sword-spider','air-elemental','earth-elemental','fire-elemental','water-elemental'];
+  const CRS = [1, 2, 3, 4, 5];
   const state = { sel: DEFAULT.filter(id => BY[id]) };
   const saved = load(KEY, null);
   if (saved && Array.isArray(saved.sel)) state.sel = saved.sel.filter(id => BY[id]);
@@ -6054,6 +6473,9 @@ const WS = (() => {
   if (ACT.id) ACT.cur = Math.max(0, Math.min(BY[ACT.id].hp, Math.round(+ACT.cur) || 0));
   ACT.confirmEnd = false;
   const saveAct = () => { store(ACT_KEY, { id: ACT.id, cur: ACT.cur, uses: ACT.uses }); askPersist(); if (typeof syncFloat === 'function') try { syncFloat(); } catch (e) {} };
+  // 2026-10: Murat asked for the four elementals (Elemental Wild Shape); add them once to the selected forms too.
+  const MIGR2 = 'mathias-wildshape-migr-2', ELEM = ['air-elemental','earth-elemental','fire-elemental','water-elemental'];
+  if (!load(MIGR2, false)) { for (const id of ELEM) if (BY[id] && !state.sel.includes(id)) state.sel.push(id); save(); store(MIGR2, true); }
   if (!load(MIGR, false)) { for (const id of ['spotted-lion','sword-spider']) if (BY[id] && !state.sel.includes(id)) state.sel.push(id); if (saved) save(); store(MIGR, true); }
   const ICON = (() => {
     const m = {
@@ -6064,9 +6486,10 @@ const WS = (() => {
       dino: ['deinonychus','allosaurus','ankylosaurus','stegosaurus','clawfoot','giant-subterranean-lizard','two-headed-crocodile','giant-toad'],
       shell: ['giant-snapping-turtle','archelon','young-horizonback-tortoise'],
       swarm: ['swarm-of-quippers','swarm-of-infesting-insects','swarm-of-maggots','swarm-of-venomous-snakes','sahuagin-hatchling-swarm','swarm-of-ravenous-insects','swarm-of-scarabs'],
+      wind: ['air-elemental'], mountain: ['earth-elemental'], fire: ['fire-elemental'], wave: ['water-elemental'],
       horn: ['aurochs','rhinoceros','giant-elk','awakened-white-moose','elephant','hippopotamus','giant-boar','giant-walrus'],
     };
-    const hue = { paw:28, wing:205, fish:195, bug:75, snake:120, dino:150, shell:170, swarm:285, horn:12 };
+    const hue = { paw:28, wing:205, fish:195, bug:75, snake:120, dino:150, shell:170, swarm:285, horn:12, wind:190, mountain:35, fire:14, wave:210 };
     const map = {}; for (const k in m) for (const id of m[k]) map[id] = k;
     return id => { const k = map[id] || 'paw'; return { k, h: hue[k] }; };
   })();
@@ -6159,7 +6582,7 @@ const WS = (() => {
       const rules = `<section class="rules-boxes"><h2 class="lvl-h">Kurallar</h2><div class="atks">
         <article class="ab" style="--ah:35">
           <h3>Dönüşmek<small>kaç kez, ne kadar, hangi eylemle</small></h3>
-          <div class="chs"><span class="ch"><small>Hak</small><b>2</b> <em>kısa ya da uzun dinlenmede yenilenir</em></span><span class="ch"><small>Formda en fazla</small><b>4 saat</b> <em>druid seviyesinin yarısı</em></span></div>
+          <div class="chs"><span class="ch"><small>Hak</small><b>2</b> <em>kısa ya da uzun dinlenmede yenilenir</em></span><span class="ch"><small>Formda en fazla</small><b>4 saat</b> <em>druid seviyesinin yarısı</em></span><span class="ch"><small>Elemental form</small><b>2 hak</b> <em>Air · Earth · Fire · Water</em></span></div>
           <div class="chs"><span class="ch hit"><small>Dönüşmek</small><b>bonus aksiyon</b> <em>Combat Wild Shape; normalde tam aksiyon</em></span><span class="ch"><small>Erken dönmek</small><b>bonus aksiyon</b></span></div>
           <p>Kısa dinlenme <b>en az 1 saat</b> sürer; sonunda 2 hakkın geri gelir. Dönüşmek aynı turda Saldırı aksiyonunu yapmana engel olmaz: bonus aksiyonla dönüş, aksiyonla formun saldırısı.</p>
         </article>
@@ -6245,9 +6668,12 @@ const WS = (() => {
     shift(id) {
       const b = BY[id]; if (!b) return '';
       ACT.id = id; ACT.cur = b.hp; ACT.confirmEnd = false; ACT.cwsAsk = 0;
-      const i = ACT.uses.indexOf(0); if (i >= 0) ACT.uses[i] = 1;
+      // an elemental form (Elemental Wild Shape) uses two of the Wild Shape uses
+      const need = b.kind === 'elemental' ? 2 : 1, free = ACT.uses.filter(u => !u).length;
+      let i = -1; for (let n = 0; n < need; n++) { i = ACT.uses.indexOf(0); if (i >= 0) ACT.uses[i] = 1; }
       saveAct();
-      return `${b.en} formuna dönüştün · ${i >= 0 ? `${ACT.uses.filter(u => !u).length} hak kaldı` : 'hakkın kalmamıştı'}`;
+      const left = ACT.uses.filter(u => !u).length;
+      return `${b.en} formuna dönüştün · ${free >= need ? `${need === 2 ? '2 hak harcandı · ' : ''}${left} hak kaldı` : need === 2 ? 'elemental 2 hak ister, yeterli hakkın yoktu' : 'hakkın kalmamıştı'}`;
     },
     // damage to the form: at 0 Mathias reverts and the excess carries over to his own hit points
     formHp(kind, n) {
