@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '38715a3054'; window.__BUILT__ = '2026-10-15 22:53';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'b4cb987f96'; window.__BUILT__ = '2026-10-15 22:57';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -595,6 +595,8 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 .abil .wa small{ color:hsl(var(--wb) 20% 70%); font-size:.78rem; }
 .abil .wa.me b, .abil .wa.me span{ color:hsl(var(--wb) 38% 80%); }
 #wsChips{ grid-template-columns:auto repeat(5,minmax(0,1fr)); }
+.eqb{ display:inline-block; margin-right:6px; padding:1px 7px; border-radius:999px; font-size:.7rem; font-weight:700; letter-spacing:.04em; background:hsl(140 30% 26%); color:hsl(140 45% 82%); vertical-align:1px; }
+.entry .mini.on{ border-color:hsl(140 35% 50%); color:hsl(140 45% 78%); }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -672,6 +674,7 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
    <div style="--qh:320"><dt>Büyü</dt><dd>+9 · DC 17</dd><span class="en-name" lang="en">Spell Attack · Save DC</span></div>
   </dl>
   <p class="sub">Zırh: <span lang="en">Unarmored Defense (Monk)</span> → AC <b id="acLine">18</b> (10 + DEX 3 + WIS 5; üstteki AC kutusuna dokunup elle değiştirebilirsin). Uçma, tırmanma, yüzme hızı yok.</p>
+  <p class="sub" id="eqLine"></p>
 
   <section class="sec" style="--sh:38">
   <h2 class="lvl-h"><span lang="en">Abilities</span> <small>● = save’de yeterli</small></h2>
@@ -714,6 +717,11 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
     <div class="chs"><span class="ch save"><small lang="en">Örn. Hold Person</small><b>DC 17 WIS</b> <em>felç</em></span></div>
     <p>Bir düşman erişiminden çıkıp fırsat saldırısı hakkı doğurunca, vuruş yerine <b>yalnız onu hedefleyen</b>, 1 aksiyonluk bir büyü yapabilirsin (<span lang="en">Produce Flame</span> bonus aksiyonla yapıldığı için olmaz). Ellerin doluyken de somatik bileşen yapabilirsin.</p>
    </article>
+   <article class="ab" style="--ah:22">
+    <h3>Büyülü Yelpaze<small>takılı eşya · 3 kez</small></h3>
+    <div class="chs"><span class="ch dmg"><small>Hasar</small><b>3d6</b> <em>ateş</em></span><span class="ch"><small>Alan</small><b>15 ft</b></span><span class="ch"><small>Kullanım</small><b>3 kez</b></span></div>
+    <p>Sayfada yazan: 15 ft, 3d6 ateş, 3 kez. Save ve yenilenme DM'e göre.</p>
+   </article>
    <article class="ab" style="--ah:100">
     <h3><span lang="en">Wild Shape</span><small>bonus aksiyonla dönüş (<span lang="en">Combat Wild Shape</span>) · 2 hak</small></h3>
     <div class="chs"><span class="ch"><small>En fazla</small><b>CR 3</b></span><span class="ch"><small>AC</small><b>formun + 5</b></span><span class="ch hit"><small>Saldırılar</small><b>büyülü</b> <em>Primal Strike</em></span></div>
@@ -739,7 +747,7 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
    </ul>
    <h3>Uzun dinlenme <small>8 saat</small></h3>
    <ul>
-    <li>Canın tamamen dolar; büyü slotları (4/1/4/4/1, lanetli yüzükle), <span lang="en">Fey Touched</span> büyüleri ve <span lang="en">Wild Shape</span> hakları geri gelir.</li>
+    <li>Canın tamamen dolar; büyü slotları (4/3/3/3/1), <span lang="en">Fey Touched</span> büyüleri ve <span lang="en">Wild Shape</span> hakları geri gelir.</li>
     <li>Harcadığın can zarlarından <b>en fazla 5'i</b> geri gelir (toplamın yarısı).</li>
     <li>Hazırladığın büyüleri <b>yalnız uzun dinlenmenin sonunda</b> değiştirebilirsin; kısa dinlenmede değişmez.</li>
    </ul>
@@ -6203,8 +6211,8 @@ function acAction(a) {
 /* ---------- büyü slotları: one box per slot, tap = spent (✕), saved on this phone ---------- */
 const slotBox = (used, key, label) => `<button class="box${used ? ' used' : ''}" data-slot="${key}" aria-pressed="${!!used}" aria-label="${label}: ${used ? 'harcandı' : 'boş'}"><svg aria-hidden="true"><use href="#i-x"/></svg></button>`;
 const SLOTS = (() => {
-  // sheet: 4/3/3/3/1; the cursed ring (2026-10) takes two 2nd-level slots and gives one 3rd and one 4th
-  const KEY = 'mathias-slots-v1', MAX = [4, 1, 4, 4, 1];
+  // sheet slots (the cursed ring that would change them is carried, not worn)
+  const KEY = 'mathias-slots-v1', MAX = [4, 3, 3, 3, 1];
   // feat spells cast once per long rest without a slot
   const FREE = ['Misty Step', 'Identify'];
   const st = { u: MAX.map(n => Array(n).fill(0)), f: FREE.map(() => 0), confirm: false };
@@ -6218,7 +6226,7 @@ const SLOTS = (() => {
       const rows = MAX.map((n, i) => `<div class="srow" data-l="${i + 1}"><span class="sl">${i + 1}. sv</span><span class="boxes">${st.u[i].map((u, j) => slotBox(u, `s:${i}:${j}`, `${i + 1}. seviye slot ${j + 1}`)).join('')}</span><span class="left"><b>${left(st.u[i])}</b>/${n}</span></div>`).join('');
       const free = FREE.length ? `<div class="srow ft"><span class="sl"><span lang="en">Fey Touched</span><small>slotsuz, 1 kez</small></span><span class="boxes">${FREE.map((nm, i) => `<span class="fb">${slotBox(st.f[i], `f:${i}`, nm)}<small lang="en">${nm}</small></span>`).join('')}</span><span class="left"><b>${left(st.f)}</b>/${FREE.length}</span></div>` : '';
       const total = MAX.reduce((a, b) => a + b, 0), rest = st.u.reduce((a, r) => a + left(r), 0);
-      return `<section class="card slots"><h3>Büyü slotları <small>${rest}/${total} kaldı · büyü yapınca boş kutuya dokun</small></h3>${rows}${free}<p class="note">Lanetli yüzük: 2. seviyeden <b>2 slot eksik</b>, 3. ve 4. seviyeye <b>1'er fazla</b> (sayfada 4/3/3/3/1).</p>
+      return `<section class="card slots"><h3>Büyü slotları <small>${rest}/${total} kaldı · büyü yapınca boş kutuya dokun</small></h3>${rows}${free}
         ${st.confirm
           ? `<div class="confirm"><span>${LONG_REST_Q}</span><button class="yes" data-slot="rest-yes">Evet, dinlendim</button><button data-slot="rest-no">Vazgeç</button></div>`
           : `<button class="mini srest" data-slot="rest">Uzun dinlenme yaptım</button>`}</section>`;
@@ -6935,6 +6943,11 @@ if (!load(INV_MIGR, false)) {
   store(INV_KEY, inv); store(INV_MIGR, true);
 }
 // misread from the photo: "Gölde" was "Çölde" (desert); fix an already added entry once
+// 2026-10: only the blue belt and the fan are worn (user); mark them once
+if (!load('mathias-inv-migr-4', false)) {
+  for (const e of inv.items) if (/^(Mavi Büyülü Kemer|Büyülü Yelpaze)/.test(e.t)) e.eq = true;
+  store(INV_KEY, inv); store('mathias-inv-migr-4', true);
+}
 if (!load('mathias-inv-migr-3', false)) {
   for (const e of inv.items) if (e.t === 'Gölde Yürüme İksiri (Potion)') e.t = 'Çölde Yürüme İksiri (Potion)';
   for (const e of inv.items) if (e.t === 'Büyülü Yüzük (lanetli): 2. seviye slotlardan 2 tanesini silip 3. seviye slot veriyor') e.t = 'Büyülü Yüzük (lanetli): 2. seviyeden 2 slot siler, 3. ve 4. seviyeye 1\'er slot verir · Red Witch\'ler yüzüğü fark ediyor';
@@ -6964,9 +6977,10 @@ function entryHTML(kind, e) {
   const del = invDel && invDel.kind === kind && invDel.id === e.id
     ? `<span class="sp">Silinsin mi?</span><button class="mini" data-inv="cancel">Vazgeç</button><button class="mini danger" data-inv="del-yes" data-kind="${kind}" data-id="${e.id}">Evet, sil</button>`
     : `${isItem ? `<span class="qty"><button class="mini" data-inv="qty" data-d="-1" data-id="${e.id}" aria-label="Azalt: ${esc(e.t)}">−</button><output>${e.q}</output><button class="mini" data-inv="qty" data-d="1" data-id="${e.id}" aria-label="Artır: ${esc(e.t)}">+</button></span>` : ''}
-       <span class="sp"></span><button class="mini" data-inv="edit" data-kind="${kind}" data-id="${e.id}">Düzenle</button><button class="mini danger" data-inv="del" data-kind="${kind}" data-id="${e.id}">Sil</button>`;
+       <span class="sp"></span>${isItem ? `<button class="mini${e.eq ? ' on' : ''}" data-inv="eq" data-id="${e.id}" aria-pressed="${!!e.eq}">${e.eq ? 'Çıkar' : 'Tak'}</button>` : ''}<button class="mini" data-inv="edit" data-kind="${kind}" data-id="${e.id}">Düzenle</button><button class="mini danger" data-inv="del" data-kind="${kind}" data-id="${e.id}">Sil</button>`;
+  const eqb = isItem && e.eq ? '<span class="eqb">Takılı</span>' : '';
   const val = isItem && e.g ? `<div class="gv">${gp(e.g)} tanesi${e.q !== 1 ? ` · ${e.q} adet = <b>${gp(e.g * e.q)}</b>` : ''}</div>` : '';
-  return `<li class="entry" ${eh}><div class="txt">${esc(e.t)}</div>${val}<div class="row">${del}</div></li>`;
+  return `<li class="entry${isItem && e.eq ? ' eq' : ''}" ${eh}><div class="txt">${eqb}${esc(e.t)}</div>${val}<div class="row">${del}</div></li>`;
 }
 function renderInv() {
   // the box you type into stays on top; entries go below it, oldest first, newest at the bottom (user's request)
@@ -6993,6 +7007,8 @@ function renderInv() {
       <ul class="entries">${inv.notes.map(e => entryHTML('notes', e)).join('')}</ul>
       ${inv.notes.length ? '' : '<p class="note">Henüz not yok.</p>'}
     </div>`;
+  const eqs = inv.items.filter(e => e.eq);
+  $('#eqLine').innerHTML = eqs.length ? `<b>Takılı:</b> ${eqs.map(e => esc(e.t)).join(' · ')}` : 'Takılı eşya yok.';
   if (tab === 'inv') syncChrome();
 }
 // "Eşya & Not" tab: a small catalog so the header switch, swipe and back gesture work as on Büyüler
@@ -7021,6 +7037,11 @@ function invAction(t) {
   if (a === 'add-note') {
     const el = $('#newNote'), v = el.value.trim(); if (!v) { focusQuiet(el); return; }
     inv.notes.push({ id: newId(), t: v }); invEdit = invDel = null; renderInv(); saveInv('Not kaydedildi'); focusQuiet($('#newNote')); return;
+  }
+  if (a === 'eq') {
+    const it = inv.items.find(x => x.id === id); if (!it) return;
+    it.eq = !it.eq; renderInv(); saveInv(it.eq ? 'Eşya takıldı' : 'Eşya çıkarıldı');
+    focusQuiet($(`[data-inv="eq"][data-id="${id}"]`)); return;
   }
   if (a === 'qty') {
     const it = inv.items.find(x => x.id === id); if (!it) return;
