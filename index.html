@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '5bea657504'; window.__BUILT__ = '2026-10-15 23:14';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '0d4a6d52c6'; window.__BUILT__ = '2026-10-16 02:47';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -317,13 +317,13 @@ html[data-tab="ws"] .lvl-h[data-l="1"]{ --lh:95; } html[data-tab="ws"] .lvl-h[da
 .tile.on{ border-color:var(--acc); box-shadow:inset 3px 0 0 var(--acc); }
 html[data-tab="sp"] [data-l="0"]{ --lh:38; } html[data-tab="sp"] [data-l="1"]{ --lh:150; } html[data-tab="sp"] [data-l="2"]{ --lh:185; }
 html[data-tab="sp"] [data-l="3"]{ --lh:220; } html[data-tab="sp"] [data-l="4"]{ --lh:262; } html[data-tab="sp"] [data-l="5"]{ --lh:310; }
-html[data-tab="ws"] [data-l="1"]{ --lh:95; } html[data-tab="ws"] [data-l="2"]{ --lh:40; } html[data-tab="ws"] [data-l="3"]{ --lh:15; } html[data-tab="ws"] [data-l="4"]{ --lh:340; } html[data-tab="ws"] [data-l="5"]{ --lh:270; }
+html[data-tab="ws"] [data-l="1"]{ --lh:95; } html[data-tab="ws"] [data-l="2"]{ --lh:40; } html[data-tab="ws"] [data-l="3"]{ --lh:15; } html[data-tab="ws"] [data-l="4"]{ --lh:340; } html[data-tab="ws"] [data-l="5"]{ --lh:270; } html[data-tab="ws"] [data-l="7"]{ --lh:300; }
 .view section[data-l] > .list, .lvl-h[data-l] + .list{ border-left:2px solid hsl(var(--lh, 38) 25% 32%); padding-left:8px; }
 .lvl-h[data-l] small{ color:hsl(var(--lh, 38) 16% 62%); }
 .chip[data-f]:not([data-f="all"]){ --lh:38; border-color:hsl(var(--lh) 22% 32%); color:hsl(var(--lh) 30% 70%); }
 html[data-tab="sp"] .chip[data-f="0"]{ --lh:38; } html[data-tab="sp"] .chip[data-f="1"]{ --lh:150; } html[data-tab="sp"] .chip[data-f="2"]{ --lh:185; }
 html[data-tab="sp"] .chip[data-f="3"]{ --lh:220; } html[data-tab="sp"] .chip[data-f="4"]{ --lh:262; } html[data-tab="sp"] .chip[data-f="5"]{ --lh:310; }
-html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data-f="2"]{ --lh:40; } html[data-tab="ws"] .chip[data-f="3"]{ --lh:15; } html[data-tab="ws"] .chip[data-f="4"]{ --lh:340; } html[data-tab="ws"] .chip[data-f="5"]{ --lh:270; }
+html[data-tab="ws"] .chip[data-f="1"]{ --lh:95; } html[data-tab="ws"] .chip[data-f="2"]{ --lh:40; } html[data-tab="ws"] .chip[data-f="3"]{ --lh:15; } html[data-tab="ws"] .chip[data-f="4"]{ --lh:340; } html[data-tab="ws"] .chip[data-f="5"]{ --lh:270; } html[data-tab="ws"] .chip[data-f="7"]{ --lh:300; }
 .chip[data-f]:not([data-f="all"])[aria-pressed="true"]{ background:hsl(var(--lh) 30% 62%); border-color:hsl(var(--lh) 30% 62%); color:#1b1612; }
 .chips.mv .chip{ border-color:hsl(200 18% 30%); }
 /* sheet: the open item's hue on its fact boxes */
@@ -594,7 +594,8 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 .abil .wa b{ font-size:1.25rem; color:hsl(var(--wb) 38% 80%); }
 .abil .wa small{ color:hsl(var(--wb) 20% 70%); font-size:.78rem; }
 .abil .wa.me b, .abil .wa.me span{ color:hsl(var(--wb) 38% 80%); }
-#wsChips{ grid-template-columns:auto repeat(5,minmax(0,1fr)); }
+#wsChips{ grid-template-columns:auto repeat(6,minmax(0,1fr)); gap:5px; }
+#wsChips .chip{ padding-inline:2px; font-size:.86rem; }
 .eqb{ display:inline-block; margin-right:6px; padding:1px 7px; border-radius:999px; font-size:.7rem; font-weight:700; letter-spacing:.04em; background:hsl(140 30% 26%); color:hsl(140 45% 82%); vertical-align:1px; }
 .entry .mini.on{ border-color:hsl(140 35% 50%); color:hsl(140 45% 78%); }
 </style>
@@ -5987,6 +5988,78 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
    "2 Darbe (ya da Whelm: kavrananlara her tur 13)"
   ],
   "tip": "Suda 90 ft yüzme; Whelm ile iki düşmanı içine alıp her tur 13 ezme verirsin. Asit ve büyüsüz silahların ezme/delme/kesme hasarına dirençli, kavranamaz, yere serilemez. Elemental formu 2 Wild Shape hakkı harcar."
+ },
+ {
+  "id": "giant-ape",
+  "cr": 7,
+  "en": "Giant Ape",
+  "ed": "2024",
+  "src": "Monster Manual (2024)",
+  "edNote": "",
+  "size": "Devasa",
+  "ac": 17,
+  "acBase": 12,
+  "acAlt": [],
+  "hp": 168,
+  "hd": "16d12+64",
+  "spd": {
+   "walk": 40,
+   "climb": 40
+  },
+  "senses": [],
+  "abil": [
+   23,
+   14,
+   18,
+   5,
+   12,
+   7
+  ],
+  "sv": [
+   6,
+   2,
+   4,
+   -3,
+   1,
+   -2
+  ],
+  "sk": [
+   [
+    "Athletics",
+    9
+   ],
+   [
+    "Perception",
+    4
+   ],
+   [
+    "Survival",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "kind": "polymorph",
+  "tr": "Dev Maymun",
+  "role": "Hasar · Tank · Tırmanma",
+  "multi": "İki Yumruk",
+  "atk": [
+   "<b>Fist<\/b> <b>+9<\/b>, erişim 10 ft · <b>3d10+6<\/b> ezme (22)",
+   "<b>Boulder Toss<\/b> (yeniden dolar 6) · <b>DC 17 DEX<\/b> save, 90 ft içinde seçtiğin noktada 5 ft yarıçaplı küredeki her yaratık: başarısızsa <b>7d6<\/b> ezme (24) ve Büyük ya da daha küçükse <b>yere serilir<\/b>; başarılıysa yalnız hasarın yarısı"
+  ],
+  "acts": [
+   [
+    "Leap",
+    "<b>Bonus aksiyon:<\/b> 10 ft hareket harcayarak <b>30 ft<\/b> sıçrarsın."
+   ]
+  ],
+  "traits": [],
+  "dpr": [
+   44,
+   "2 Yumruk (ya da Boulder Toss alan hasarı 24)"
+  ],
+  "tip": "Polymorph ile (4. seviye büyü, konsantrasyon 1 saat): bütün değerler Giant Ape'in, INT/WIS/CHA dahil; büyü yapamazsın, konuşamazsın. 168 can ve iki 22'lik yumrukla en güçlü form; 40 ft tırmanır, Leap ile 30 ft sıçrar. Canı 0'a inince Mathias'a dönersin, artan hasar sana geçer."
  }
 ]</script>
 <script>
@@ -6483,8 +6556,8 @@ const WS = (() => {
   const BY = Object.fromEntries(items.map(b => [b.id, b]));
   const KEY = 'mathias-wildshape-selected-v1';
   // Wild Shape PDF'indeki formlar ilk açılışta seçili gelir
-  const DEFAULT = ['giant-scorpion','bristled-moorbounder','giant-eagle','giant-snapping-turtle','killer-whale','spotted-lion','sword-spider','air-elemental','earth-elemental','fire-elemental','water-elemental'];
-  const CRS = [1, 2, 3, 4, 5];
+  const DEFAULT = ['giant-scorpion','bristled-moorbounder','giant-eagle','giant-snapping-turtle','killer-whale','spotted-lion','sword-spider','air-elemental','earth-elemental','fire-elemental','water-elemental','giant-ape'];
+  const CRS = [1, 2, 3, 4, 5, 7];
   const state = { sel: DEFAULT.filter(id => BY[id]) };
   const saved = load(KEY, null);
   if (saved && Array.isArray(saved.sel)) state.sel = saved.sel.filter(id => BY[id]);
@@ -6500,6 +6573,8 @@ const WS = (() => {
   ACT.confirmEnd = false;
   const saveAct = () => { store(ACT_KEY, { id: ACT.id, cur: ACT.cur, uses: ACT.uses }); askPersist(); if (typeof syncFloat === 'function') try { syncFloat(); } catch (e) {} };
   // 2026-10: Murat asked for the four elementals (Elemental Wild Shape); add them once to the selected forms too.
+  // 2026-10: Giant Ape for Polymorph; added once to the selected forms
+  if (!load('mathias-wildshape-migr-3', false)) { if (BY['giant-ape'] && !state.sel.includes('giant-ape')) state.sel.push('giant-ape'); save(); store('mathias-wildshape-migr-3', true); }
   const MIGR2 = 'mathias-wildshape-migr-2', ELEM = ['air-elemental','earth-elemental','fire-elemental','water-elemental'];
   if (!load(MIGR2, false)) { for (const id of ELEM) if (BY[id] && !state.sel.includes(id)) state.sel.push(id); save(); store(MIGR2, true); }
   if (!load(MIGR, false)) { for (const id of ['spotted-lion','sword-spider']) if (BY[id] && !state.sel.includes(id)) state.sel.push(id); if (saved) save(); store(MIGR, true); }
@@ -6694,6 +6769,10 @@ const WS = (() => {
     shift(id) {
       const b = BY[id]; if (!b) return '';
       ACT.id = id; ACT.cur = b.hp; ACT.confirmEnd = false; ACT.cwsAsk = 0;
+      if (b.kind === 'polymorph') {
+        const slot = SLOTS.spend(4); setConc('polymorph'); saveAct();
+        return `${b.en} formuna Polymorph ile dönüştün · ${slot ? '4. seviye slot harcandı' : '4. seviye slotun yoktu'} · konsantrasyon: Polymorph`;
+      }
       // an elemental form (Elemental Wild Shape) uses two of the Wild Shape uses
       const need = b.kind === 'elemental' ? 2 : 1, free = ACT.uses.filter(u => !u).length;
       let i = -1; for (let n = 0; n < need; n++) { i = ACT.uses.indexOf(0); if (i >= 0) ACT.uses[i] = 1; }
@@ -6754,15 +6833,18 @@ const WS = (() => {
         <div class="act two">${btn}</div>`;
     },
   };
+  // Martial Arts in any form (user's request): bonus action after the Attack action, the better of the form's STR/DEX, proficiency +4, 1d4
+  const unarmed = b => { const m = Math.max(mod(b.abil[0]), mod(b.abil[1])); return `<b>Unarmed Strike</b> (bonus aksiyon · Monk Martial Arts) <b>${sg(4 + m)}</b>, erişim 5 ft · <b>1d4${m ? (m > 0 ? '+' : '') + m : ''}</b> ezme (${Math.max(1, Math.floor(2.5 + m))}) · aynı tur Saldırı aksiyonunu yaptıysan`; };
   function detail(b) {
       const acSub = `${b.acBase} + 5` + b.acAlt.map(([v, c]) => ` · ${c === 'while prone' ? 'yere seriliyken' : esc(c)} AC ${v}`).join('');
-      const abil = b.abil.map((v, i) => `<div class="wa${i > 2 ? ' me' : ''}" style="--wb:${AB_HUE[ABN[i]]}"><span>${ABN[i]}</span><b>${v}</b><small>${sg(mod(v))}</small></div>`).join('');
+      const poly = b.kind === 'polymorph';
+      const abil = b.abil.map((v, i) => `<div class="wa${i > 2 && !poly ? ' me' : ''}" style="--wb:${AB_HUE[ABN[i]]}"><span>${ABN[i]}</span><b>${v}</b><small>${sg(mod(v))}</small></div>`).join('');
       // saves and skills as small boxes, coloured by ability, with the Turkish name underneath (user's request)
       const ABTR = { STR: 'Güç', DEX: 'Çeviklik', CON: 'Dayanıklılık', INT: 'Zekâ', WIS: 'Bilgelik', CHA: 'Karizma' };
       const box = (ab, en, v, tr, extra) => `<div class="wb" style="--wb:${AB_HUE[ab]}"><span lang="en">${en}</span><b>${v}</b><small>${tr}${extra || ''}</small></div>`;
       const saves = b.sv.map((v, i) => box(ABN[i], ABN[i], sg(v), ABTR[ABN[i]])).join('');
       const skills = b.sk.map(([k, v]) => { const r = SKILLS.find(x => x[0] === k); return box(r ? r[2] : 'WIS', k, sg(v), r ? `${r[1]} · ${r[2]}` : ''); }).join('')
-        + box('WIS', 'Passive Perception', 19, 'Pasif Algı', b.traits.some(([n]) => /^Keen /.test(n)) ? ' · Keen ile <b>24</b>' : '');
+        + box('WIS', 'Passive Perception', poly ? 10 + ((b.sk.find(s => s[0] === 'Perception') || [0, mod(b.abil[4])])[1]) : 19, 'Pasif Algı', b.traits.some(([n]) => /^Keen /.test(n)) ? ' · Keen ile <b>24</b>' : '');
       const def = [
         b.res.length ? `Direnç: ${esc(listTr(b.res, DMG))}` : '',
         b.imm.length ? `Bağışıklık: ${esc(listTr(b.imm, DMG))}` : '',
@@ -6780,10 +6862,11 @@ const WS = (() => {
         <div class="blk"><h3>Saldırılar</h3><div class="atk">
           ${b.multi ? `<p class="mu"><span lang="en">Multiattack</span> <b>${esc(b.multi)}</b> <small>tek Saldırı aksiyonunda</small></p>` : ''}
           ${b.atk.map(fmtAtk).join('')}
+          ${fmtAtk(unarmed(b))}
         </div></div>
         ${b.acts.length ? `<div class="blk"><h3>Diğer aksiyonlar</h3><div class="trt">${b.acts.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
         ${b.traits.length ? `<div class="blk"><h3>Özellikler</h3><div class="trt">${b.traits.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
-        <div class="blk"><h3 lang="en">Abilities</h3><div class="abil">${abil}</div><p class="note">STR/DEX/CON hayvandan, <span style="color:var(--me)">INT/WIS/CHA</span> Mathias'tan.</p></div>
+        <div class="blk"><h3 lang="en">Abilities</h3><div class="abil">${abil}</div><p class="note">${poly ? '<span lang="en">Polymorph</span>: bütün değerler (INT/WIS/CHA dahil) formun; AC\'ye +5 masa kuralı eklendi.' : 'STR/DEX/CON hayvandan, <span style="color:var(--me)">INT/WIS/CHA</span> Mathias\'tan.'}</p></div>
         <div class="blk"><h3 lang="en">Saves</h3><div class="wbox">${saves}</div></div>
         <div class="blk"><h3 lang="en">Skills</h3><div class="wbox">${skills}</div></div>
         ${def ? `<div class="blk"><h3>Savunma</h3><div class="kv"><span>${def}</span></div></div>` : ''}
