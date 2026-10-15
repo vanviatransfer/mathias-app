@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '811900d2d6'; window.__BUILT__ = '2026-10-15 16:47';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'd6afd7c780'; window.__BUILT__ = '2026-10-15 16:51';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -532,9 +532,13 @@ nav button{ white-space:nowrap; }
 .rules-boxes > .lvl-h{ margin-top:0; }
 .chs.legend{ gap:5px; }
 /* gold sub-boxes and every item / note entry in its own soft hue */
-.gsum div{ --qh:32; background:color-mix(in oklab, hsl(var(--qh) 40% 45%) 13%, var(--bg)); border-color:color-mix(in oklab, hsl(var(--qh) 35% 58%) 38%, var(--line)); border-left:3px solid hsl(var(--qh) 38% 56%); }
-.gsum small{ color:hsl(var(--qh) 30% 70%); }
-.gsum b{ color:hsl(var(--qh) 48% 76%); }
+.gsum div{ --qh:45; background:color-mix(in oklab, hsl(var(--qh) 70% 45%) 16%, var(--bg)); border-color:color-mix(in oklab, hsl(var(--qh) 65% 55%) 45%, var(--line)); border-left:3px solid hsl(var(--qh) 70% 55%); }
+.gsum small{ color:hsl(var(--qh) 45% 68%); }
+.gsum b{ color:hsl(var(--qh) 75% 70%); }
+.gsum .me b{ color:hsl(var(--qh) 85% 66%); }
+.gold #goldIn{ border-color:hsl(45 45% 42%); background:color-mix(in oklab, hsl(45 70% 45%) 8%, var(--bg)); }
+.gold .gin .mini{ border-color:hsl(45 45% 42%); color:hsl(45 70% 72%); }
+.gold .gin .mini.pri{ background:hsl(45 75% 58%); border-color:hsl(45 75% 58%); color:#2a1f08; }
 .entry{ --eh:30; background:color-mix(in oklab, hsl(var(--eh) 40% 45%) 12%, var(--bg)); border-color:color-mix(in oklab, hsl(var(--eh) 35% 58%) 36%, var(--line)); border-left:3px solid hsl(var(--eh) 38% 56%); }
 .entry .gv b{ color:hsl(var(--eh) 45% 76%); }
 /* Wild Shape form facts: one hue per box */
@@ -6436,7 +6440,7 @@ function renderInv() {
   $('#invItems').innerHTML = `
     <div class="card gold">
       <h3>Altın</h3>
-      <div class="gsum"><div class="me" style="--qh:45"><small>Kesende</small><b>${gp(inv.gold)}</b></div><div style="--qh:205"><small>Eşyaların değeri</small><b>${gp(iv)}</b></div><div style="--qh:130"><small>Toplam</small><b>${gp(inv.gold + iv)}</b></div></div>
+      <div class="gsum"><div class="me" style="--qh:46"><small>Kesende</small><b>${gp(inv.gold)}</b></div><div style="--qh:34"><small>Eşyaların değeri</small><b>${gp(iv)}</b></div><div style="--qh:54"><small>Toplam</small><b>${gp(inv.gold + iv)}</b></div></div>
       <div class="gin"><input id="goldIn" type="text" inputmode="decimal" placeholder="Miktar (gp)" aria-label="Altın miktarı, gp"><button class="mini pri" data-gold="add">+ Ekle</button><button class="mini" data-gold="spend">− Harca</button><button class="mini" data-gold="set">Ayarla</button></div>
     </div>
     <div class="card inv" style="--ih:42">
