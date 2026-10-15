@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '91e19b36fc'; window.__BUILT__ = '2026-10-15 17:18';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '1d359015b0'; window.__BUILT__ = '2026-10-15 17:22';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -421,7 +421,12 @@ html, body{ overscroll-behavior:none; }
 .tile.conc-on .nm .en::after{ content:"● konsantrasyonda"; display:inline-block; margin-left:6px; font-size:.68rem; font-weight:700; color:hsl(275 55% 78%); vertical-align:middle; }
 .act button.conc-b{ color:hsl(275 55% 80%); border-color:hsl(275 45% 62%); }
 .act button.conc-b.on{ background:hsl(275 35% 30%); }
-@media (prefers-reduced-motion: reduce){ .concbar .cdot{ animation:none; } }
+/* the dot: a soft beat and a ring that grows and fades (transform/opacity only; plays even with reduce motion, user's request) */
+.cdot{ position:relative; animation:cbeat 1.6s ease-in-out infinite !important; box-shadow:none !important; }
+.cdot::after{ content:""; position:absolute; inset:-2px; border-radius:50%; border:2px solid currentColor; color:hsl(275 70% 75%); animation:cring 1.6s ease-out infinite; }
+.wsbar .cdot{ background:hsl(28 70% 62%); } .wsbar .cdot::after{ color:hsl(28 75% 68%); }
+@keyframes cbeat{ 0%,100%{ transform:scale(1); } 30%{ transform:scale(1.25); } }
+@keyframes cring{ 0%{ transform:scale(.8); opacity:.9; } 100%{ transform:scale(2.8); opacity:0; } }
 /* tek uzun dinlenme */
 #restAct{ margin-bottom:6px; }
 .restb{ min-height:44px; width:100%; }
@@ -564,13 +569,31 @@ nav button{ white-space:nowrap; }
 .conc-float .concbar{ gap:8px; }
 .conc-float .concbar .mini{ min-height:34px; padding:4px 12px; }
 .conc-float .cdot{ width:10px; height:10px; }
-html.has-conc main{ padding-top:56px; }
+html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
+.conc-float{ display:grid; gap:6px; }
+.conc-float > [hidden]{ display:none; }
+.wsbar{ pointer-events:auto; max-width:560px; width:100%; margin:0 auto; padding:4px 10px 4px 12px; border-radius:14px; display:flex; align-items:center; gap:8px; position:relative; overflow:hidden;
+  background:color-mix(in oklab, hsl(28 45% 28%) 72%, var(--bg)) !important; border:1px solid hsl(28 50% 55% / .6) !important; box-shadow:0 6px 22px rgb(0 0 0 / .45); min-height:44px; }
+.wsbar .cdot{ width:10px; height:10px; border-radius:50%; flex:0 0 auto; }
+.wsbar .ct{ flex:1; min-width:0; background:none; border:0; color:inherit; font:inherit; text-align:left; padding:0; display:flex; align-items:baseline; gap:8px; white-space:nowrap; overflow:hidden; cursor:pointer; }
+.wsbar .ct small{ font-size:.62rem; text-transform:uppercase; letter-spacing:.08em; color:hsl(28 55% 75%); font-weight:700; }
+.wsbar .ct b{ font-size:1rem; overflow:hidden; text-overflow:ellipsis; }
+.wsbar .ct em{ font-style:normal; font-size:.8rem; color:hsl(28 40% 80%); flex:0 0 auto; }
+.wshp{ position:absolute; left:0; right:0; bottom:0; height:3px; background:hsl(28 30% 20%); }
+.wshp i{ display:block; height:100%; background:hsl(28 70% 58%); }
 /* Wild Shape saves / skills: small boxes in the ability's hue */
 .wbox{ display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:6px; }
-.wb{ --wb:30; min-width:0; padding:6px 9px; border-radius:10px; background:color-mix(in oklab, hsl(var(--wb) 40% 45%) 13%, var(--bg)); border:1px solid color-mix(in oklab, hsl(var(--wb) 35% 58%) 38%, var(--line)); border-left:3px solid hsl(var(--wb) 38% 56%); display:grid; line-height:1.2; }
-.wb span{ font-size:.8rem; color:hsl(var(--wb) 40% 76%); font-weight:600; overflow-wrap:anywhere; }
-.wb b{ font-size:1.15rem; font-variant-numeric:tabular-nums; color:hsl(var(--wb) 48% 78%); }
-.wb small{ font-size:.7rem; color:var(--muted); overflow-wrap:anywhere; }
+.wbox{ grid-template-columns:repeat(auto-fill,minmax(84px,1fr)) !important; gap:5px !important; }
+.wb{ --wb:30; min-width:0; padding:4px 7px; border-radius:8px; background:color-mix(in oklab, hsl(var(--wb) 22% 45%) 7%, var(--bg)); border:1px solid color-mix(in oklab, hsl(var(--wb) 18% 55%) 20%, var(--line)); border-left:2px solid hsl(var(--wb) 20% 46%); display:grid; line-height:1.15; }
+.wb span{ font-size:.72rem; color:hsl(var(--wb) 18% 72%); font-weight:600; overflow-wrap:anywhere; }
+.wb b{ font-size:.98rem; font-variant-numeric:tabular-nums; color:var(--ink); }
+.wb small{ font-size:.64rem; color:var(--muted); overflow-wrap:anywhere; }
+/* Wild Shape abilities: the main numbers, stronger than saves/skills */
+.abil .wa{ background:color-mix(in oklab, hsl(var(--wb) 32% 45%) 12%, var(--surface)); border:1px solid color-mix(in oklab, hsl(var(--wb) 30% 58%) 38%, var(--line)); border-top:3px solid hsl(var(--wb) 34% 56%); padding:6px 0 5px; border-radius:10px; }
+.abil .wa span{ color:hsl(var(--wb) 34% 74%); font-weight:700; font-size:.72rem; }
+.abil .wa b{ font-size:1.25rem; color:hsl(var(--wb) 38% 80%); }
+.abil .wa small{ color:hsl(var(--wb) 20% 70%); font-size:.78rem; }
+.abil .wa.me b, .abil .wa.me span{ color:hsl(var(--wb) 38% 80%); }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -631,7 +654,7 @@ html.has-conc main{ padding-top:56px; }
  </div>
 </header>
 
-<div class="conc-float" id="concFloat" role="status" hidden></div>
+<div class="conc-float" id="floatBar"><div id="concFloat" role="status" hidden></div><div id="wsFloat" role="status" hidden></div></div>
 <main class="wrap" id="main">
  <div class="view" id="charView">
   <div class="card install" id="updBanner" hidden><p><b>Yeni sürüm hazır.</b> Güncellemek için dokun; notların ve seçimlerin silinmez.</p><div class="row"><button class="mini pri" data-update="apply">Güncelle</button></div></div>
@@ -5672,7 +5695,17 @@ function syncConc() {
   for (const t of document.querySelectorAll('#spAll .tile, #spPrep .tile')) t.classList.toggle('conc-on', t.dataset.id === CONC.id);
   for (const el of document.querySelectorAll('[data-concbar]')) el.innerHTML = concBar();
   const f = $('#concFloat'), html = concFloat();
-  f.innerHTML = html; f.hidden = !html; document.documentElement.classList.toggle('has-conc', !!html);
+  f.innerHTML = html; f.hidden = !html;
+  syncFloat();
+}
+// the floating bars (concentration, active Wild Shape) stack under the header; the page keeps room for them
+function syncFloat() {
+  const wf = $('#wsFloat'), b = WS.ACT.id && WS.BY[WS.ACT.id];
+  wf.innerHTML = b ? `<div class="card wsbar"><span class="cdot" aria-hidden="true"></span><button class="ct" data-wsfloat aria-label="Aktif form: ${esc(b.en)}, Aktif sayfasını aç"><small>Wild Shape</small><b lang="en">${esc(b.en)}</b><em>${WS.ACT.cur}/${b.hp} can · AC ${b.ac}</em></button><span class="wshp" aria-hidden="true"><i style="width:${Math.round(WS.ACT.cur / b.hp * 100)}%"></i></span></div>` : '';
+  wf.hidden = !b;
+  const any = [...$('#floatBar').children].some(c => !c.hidden);
+  document.documentElement.classList.toggle('has-conc', any);
+  document.documentElement.style.setProperty('--floatH', $('#floatBar').getBoundingClientRect().height + 'px');
 }
 // keep the floating bar right under the sticky header, whatever its height on this page
 (function(){
@@ -6019,7 +6052,7 @@ const WS = (() => {
   if (!Array.isArray(ACT.uses) || ACT.uses.length !== 2) ACT.uses = [0, 0];
   if (ACT.id) ACT.cur = Math.max(0, Math.min(BY[ACT.id].hp, Math.round(+ACT.cur) || 0));
   ACT.confirmEnd = false;
-  const saveAct = () => { store(ACT_KEY, { id: ACT.id, cur: ACT.cur, uses: ACT.uses }); askPersist(); };
+  const saveAct = () => { store(ACT_KEY, { id: ACT.id, cur: ACT.cur, uses: ACT.uses }); askPersist(); if (typeof syncFloat === 'function') try { syncFloat(); } catch (e) {} };
   if (!load(MIGR, false)) { for (const id of ['spotted-lion','sword-spider']) if (BY[id] && !state.sel.includes(id)) state.sel.push(id); if (saved) save(); store(MIGR, true); }
   const ICON = (() => {
     const m = {
@@ -6270,7 +6303,7 @@ const WS = (() => {
   };
   function detail(b) {
       const acSub = `${b.acBase} + 5` + b.acAlt.map(([v, c]) => ` · ${c === 'while prone' ? 'yere seriliyken' : esc(c)} AC ${v}`).join('');
-      const abil = b.abil.map((v, i) => `<div${i > 2 ? ' class="me"' : ''}><span>${ABN[i]}</span><b>${v}</b><small>${sg(mod(v))}</small></div>`).join('');
+      const abil = b.abil.map((v, i) => `<div class="wa${i > 2 ? ' me' : ''}" style="--wb:${AB_HUE[ABN[i]]}"><span>${ABN[i]}</span><b>${v}</b><small>${sg(mod(v))}</small></div>`).join('');
       // saves and skills as small boxes, coloured by ability, with the Turkish name underneath (user's request)
       const ABTR = { STR: 'Güç', DEX: 'Çeviklik', CON: 'Dayanıklılık', INT: 'Zekâ', WIS: 'Bilgelik', CHA: 'Karizma' };
       const box = (ab, en, v, tr, extra) => `<div class="wb" style="--wb:${AB_HUE[ab]}"><span lang="en">${en}</span><b>${v}</b><small>${tr}${extra || ''}</small></div>`;
@@ -6330,9 +6363,9 @@ function applyFilter(C) {
   if (!any) nh.textContent = C.query.trim() ? `“${C.query.trim()}” için sonuç bulunamadı.` : 'Bu filtreye uyan sonuç yok.';
 }
 let askCb = null, askBack = null;
-function ask(q, cb) {
+function ask(q, cb, yes) {
   askCb = cb; askBack = document.activeElement;
-  $('#askT').innerHTML = q; $('#ask').hidden = false;
+  $('#askT').innerHTML = q; $('#ask .yes').textContent = yes || 'Evet, çıkar'; $('#ask').hidden = false;
   focusQuiet($('#ask [data-ask="no"]'));
 }
 function closeAsk(ok) {
@@ -6657,6 +6690,7 @@ const viewKey = () => tab === 'char' ? 'char' : tab + CATS[tab].sub;
 const charStats = () => `<button class="st acst" id="acBtn" data-acopen aria-label="AC ${AC.v}. Dokun: elle değiştir"><span>AC</span><b>${AC.v}</b></button><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
 function syncChrome() {
   document.documentElement.dataset.tab = tab;
+  try { syncFloat(); } catch (e) {}
   const C = CATS[tab];
   $('#hdChar').hidden = !!C;
   $('#seg').hidden = !C;
@@ -6726,7 +6760,7 @@ function swipe(dir) {
 })();
 
 let hideT, skipPop = 0;
-const background = () => [$('#hdr'), $('#main'), $('#nav'), $('#concFloat')];
+const background = () => [$('#hdr'), $('#main'), $('#nav'), $('#floatBar')];
 function openSheet(C, id) {
   clearTimeout(hideT);
   openRef = { c: C, id };
@@ -6820,7 +6854,7 @@ document.addEventListener('click', e => {
     if (a || !e.target.closest('.ask-box')) closeAsk(!!a && a.dataset.ask === 'yes');
     return;
   }
-  const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-ac],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],#scrim');
+  const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-ac],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],[data-wsfloat],#scrim');
   if (!t) return;
   const C = t.dataset.c === 'sk' ? SK : CATS[t.dataset.c];
   if (t.hasAttribute('data-portrait')) return openLightbox();
@@ -6831,6 +6865,10 @@ document.addEventListener('click', e => {
   if (t.dataset.conc) {
     const id = t.dataset.conc, old = CONC.id && SP.BY[CONC.id];
     if (id === 'end') { setConc(null); toast(old ? `${old.en}: konsantrasyon bitti` : 'Konsantrasyon bitti'); }
+    else if (old && old.id !== id && !t.hasAttribute('data-sure')) {
+      // another concentration spell is running: starting this one ends it (user's request: warn first)
+      return ask(`Şu an <b lang="en">${esc(old.en)}</b> için konsantrasyondasın. <b lang="en">${esc(SP.BY[id].en)}</b> başlarsa <b>mevcut konsantrasyonun bozulacak</b>. Devam edilsin mi?`, () => { const x = document.createElement('button'); x.dataset.conc = id; x.setAttribute('data-sure', ''); document.body.appendChild(x); x.click(); x.remove(); }, 'Evet, değiştir');
+    }
     else { setConc(id); toast(old && old.id !== id ? `${old.en} bitti · ${SP.BY[id].en}: konsantrasyon başladı` : `${SP.BY[id].en}: konsantrasyon başladı`); }
     if (openRef && openRef.c === SP) { $('#sheetIn').innerHTML = SP.fill(openRef.id); focusQuiet(sheet.querySelector('.conc-b')); }
     return;
@@ -6848,6 +6886,7 @@ document.addEventListener('click', e => {
     focusQuiet(WS.act.querySelector('.hb'));
     return toast(msg);
   }
+  if (t.hasAttribute('data-wsfloat')) { if (tab === 'ws' && WS.sub === 'act') { window.scrollTo(0, 0); return; } return go('ws', 'act'); }
   if (t.dataset.act) return WS.actAction(t.dataset.act);
   if (t.dataset.pick) return toggleIn(C, t.dataset.pick);
   if (t.dataset.open) return openSheet(C, t.dataset.open);
