@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '041d3790e7'; window.__BUILT__ = '2026-10-16 03:36';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '20b6afeb95'; window.__BUILT__ = '2026-10-16 03:44';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -12653,26 +12653,12 @@ const SUM = (() => {
   };
   return C;
 })();
-// show C/id in the open sheet (or open it); beast pages get their own history entry so back returns to the list
-function sheetSwap(C, id, push) {
-  if (!openRef) { openSheet(C, id); return; }
-  openRef = { c: C, id };
-  const inn = $('#sheetIn');
-  inn.innerHTML = C.fill(id);
-  const hue = C.hue && C.hue(id); if (hue != null) inn.style.setProperty('--h', hue); else inn.style.removeProperty('--h');
-  inn.scrollTop = 0;
-  if (push) { try { history.pushState({ sheet: 1, sum: 1 }, ''); } catch (e) {} }
-  focusQuiet(sheet.querySelector('.sum-back') || sheet.querySelector('[data-close]'));
-}
+// "‹ Hayvan listesi" / "‹ Büyünün açıklaması": when that card is the previous one, step back; otherwise open it on top
 function sumNav(v) {
-  const inBeast = openRef && openRef.c === SUM && openRef.id;
-  if (v === 'spell') return sheetSwap(SP, SUM.SPELL);
-  if (!v) {
-    // beast → list: pop the beast's history entry
-    if (inBeast) { try { if (history.state && history.state.sum) { skipPop++; history.back(); } } catch (e) {} }
-    return sheetSwap(SUM, '');
-  }
-  sheetSwap(SUM, v, !inBeast);
+  const top = sheetStack[sheetStack.length - 1];
+  const [C, id] = v === "spell" ? [SP, SUM.SPELL] : [SUM, v];
+  if (top && top.c === C && top.id === id) return sheetBack();
+  sheetSwap(C, id);
 }
 
 // Karakter → Saldırılar → Wild Shape: one chip per selected form (average damage per round), tap opens the form
@@ -13130,7 +13116,33 @@ function swipe(dir) {
 
 let hideT, skipPop = 0;
 const background = () => [$('#hdr'), $('#main'), $('#nav'), $('#floatBar')];
+// Cards opened from inside an open sheet stack up (each with its own history entry); X, back gesture, swipe-down and
+// Escape first return to the previous card, only the first card closes the sheet (user's request, app-wide).
+const sheetStack = [];
+function renderSheet(C, id, y) {
+  openRef = { c: C, id };
+  const inn = $('#sheetIn');
+  inn.innerHTML = C.fill(id);
+  const hue = C.hue && C.hue(id); if (hue != null) inn.style.setProperty('--h', hue); else inn.style.removeProperty('--h');
+  inn.scrollTop = y || 0; sheet.style.transform = '';
+  focusQuiet(sheet.querySelector('.sum-back') || sheet.querySelector('[data-close]'));
+}
+function sheetSwap(C, id) {
+  if (!openRef) return openSheet(C, id);
+  sheetStack.push({ c: openRef.c, id: openRef.id, y: $('#sheetIn').scrollTop });
+  try { history.pushState({ sheet: 1, depth: sheetStack.length }, ''); } catch (e) {}
+  renderSheet(C, id);
+}
+function sheetBack(fromPop) {
+  if (!openRef || !sheetStack.length) return false;
+  const p = sheetStack.pop();
+  if (fromPop !== true) { try { if (history.state && history.state.sheet) { skipPop++; history.back(); } } catch (e) {} }
+  renderSheet(p.c, p.id, p.y);
+  return true;
+}
 function openSheet(C, id) {
+  if (openRef) return sheetSwap(C, id);
+  sheetStack.length = 0;
   clearTimeout(hideT);
   openRef = { c: C, id };
   $('#sheetIn').innerHTML = C.fill(id);
@@ -13147,12 +13159,14 @@ function openSheet(C, id) {
 }
 function closeSheet(fromPop) {
   if (!openRef) return;
+  if (fromPop !== true && sheetBack()) return;
+  const depth = 1 + sheetStack.length; sheetStack.length = 0;
   const { c: C, id } = openRef; openRef = null;
   scrim.classList.remove('show'); sheet.classList.remove('show'); sheet.style.transform = '';
   document.documentElement.classList.remove('sheet-open');
   background().forEach(el => { el.inert = false; });
   clearTimeout(hideT); hideT = setTimeout(() => { scrim.hidden = true; sheet.hidden = true; }, 220);
-  if (fromPop !== true) { try { if (history.state && history.state.sheet) { skipPop++; history.go(history.state.sum ? -2 : -1); } } catch (e) {} }
+  if (fromPop !== true) { try { if (history.state && history.state.sheet) { skipPop++; history.go(-depth); } } catch (e) {} }
   focusQuiet(C.back ? C.back(id) : (C.sub === 'all' ? C.all : C.sub === 'act' ? C.act : C.prep).querySelector(`[data-open="${id}"]`));
 }
 // portrait: tap the small round picture → the full image in a lightbox (the file is loaded only the first time)
@@ -13177,8 +13191,7 @@ addEventListener('popstate', e => {
   if (skipPop) { skipPop--; return; }
   closeAsk(false);
   if (lbOpen) { closeLightbox(true); return; }
-  if (openRef && openRef.c === SUM && openRef.id) { sheetSwap(SUM, ''); return; }
-  if (openRef) { closeSheet(true); return; }
+  if (openRef) { if (!sheetBack(true)) closeSheet(true); return; }
   const st = e.state;
   go(st && st.nav ? st.tab : 'char', st && st.sub ? st.sub : undefined, 'pop');
 });
