@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '20b6afeb95'; window.__BUILT__ = '2026-10-16 03:44';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '643ab67c7b'; window.__BUILT__ = '2026-10-16 04:29';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -631,6 +631,8 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 .sum-row .tags .tg:not(.role){ background:transparent; color:var(--muted); border:1px solid var(--line); font-weight:500; }
 .sum-rules h4{ margin:0 0 8px; }
 .sum-open{ margin:12px 0 8px; }
+.sum-q{ margin:12px 0 0; }
+.sum-none{ margin:14px 0; color:var(--muted); text-align:center; }
 
 </style>
 
@@ -12564,6 +12566,7 @@ const SUM_MAX_SLOT = 5;
    ===================================================================== */
 const SUM = (() => {
   const items = JSON.parse($('#sumData').textContent);
+  items.forEach(b => { b.key = fold(b.en + ' ' + b.tr); });
   const BY = Object.fromEntries(items.map(b => [b.id, b]));
   const SPELL = 'conjure-animals';
   // spell option → how many of that CR (×2 with a 5th-level slot, ×3 with 7th, ×4 with 9th)
@@ -12586,16 +12589,30 @@ const SUM = (() => {
   const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
   const howMany = cr => { const n = NUM[cr]; return `${n} tane` + UP.map(([l, x]) => ` · ${l}. sv slotla ${n * x}`).join(''); };
   const C = {
-    k: 'sum', BY, SPELL, filter: 'all',
+    k: 'sum', BY, SPELL, filter: 'all', query: '',
     hue: id => (id && BY[id] ? kind(BY[id])[1] : 28),
     back: () => document.querySelector(`[data-open="${SPELL}"]:not([hidden])`) || document.querySelector('[data-sum]'),
+    // search (English or Turkish name) + CR chip; rows are hidden, not redrawn, so typing keeps focus
+    show: b => (C.filter === 'all' || C.filter === b.cr) && (!C.query.trim() || b.key.includes(fold(C.query.trim()))),
+    apply() {
+      const box = document.getElementById('sheetIn'); if (!box) return;
+      let any = false;
+      for (const sec of box.querySelectorAll('.sum-cr')) {
+        let n = 0;
+        for (const r of sec.querySelectorAll('.sum-row')) { const v = C.show(BY[r.dataset.sum]); r.hidden = !v; if (v) n++; }
+        sec.hidden = !n; if (n) any = true;
+      }
+      for (const b of box.querySelectorAll('[data-sumf]')) b.setAttribute('aria-pressed', String(C.filter === b.dataset.sumf));
+      const none = box.querySelector('.sum-none');
+      if (none) { none.hidden = any; none.textContent = C.query.trim() ? `“${C.query.trim()}” için sonuç yok${C.filter !== 'all' ? ' (CR ' + C.filter + ' içinde; Tümü’ne bas)' : ''}.` : 'Bu filtrede hayvan yok.'; }
+    },
     list() {
-      const crs = CRS.filter(([c]) => C.filter === 'all' || C.filter === c);
       const opts = [['all', 'Tümü'], ...CRS.map(([c]) => [c, 'CR ' + c])];
-      const rows = crs.map(([c, n, h]) => {
+      const rows = CRS.map(([c, n, h]) => {
         const list = items.filter(b => b.cr === c);
-        return `<section class="sum-cr" style="--l:${h}"><h3 class="lvl-h">CR ${c} <small>${howMany(c)}</small></h3><div class="sum-list">${list.map(b => `
-          <button class="sum-row" data-sum="${b.id}" style="--h:${kind(b)[1]}">${icon(b)}<span class="nm"><span class="en" lang="en">${esc(b.en)}</span>${b.tr !== b.en ? `<span class="tr">${esc(b.tr)}</span>` : ''}
+        const vis = list.filter(C.show).length;
+        return `<section class="sum-cr" style="--l:${h}"${vis ? '' : ' hidden'}><h3 class="lvl-h">CR ${c} <small>${howMany(c)}</small></h3><div class="sum-list">${list.map(b => `
+          <button class="sum-row" data-sum="${b.id}" style="--h:${kind(b)[1]}"${C.show(b) ? '' : ' hidden'}>${icon(b)}<span class="nm"><span class="en" lang="en">${esc(b.en)}</span>${b.tr !== b.en ? `<span class="tr">${esc(b.tr)}</span>` : ''}
             <span class="qs">AC <b>${b.ac}</b> · Can <b>${b.hp}</b> · Hasar <b>~${b.dpr[0]}</b></span>
             <span class="tags"><span class="tg role">${kind(b)[2]}</span><span class="tg">${esc(b.size)}</span>${MOVES.filter(([k]) => b.spd[k]).map(([k, l]) => `<span class="tg">${l} ${b.spd[k]}</span>`).join('')}</span></span></button>`).join('')}</div></section>`;
       }).join('');
@@ -12609,8 +12626,10 @@ const SUM = (() => {
           <article class="ab" style="--ah:205"><h4>Savaşta</h4><div class="chs"><span class="ch"><small>Süre</small><b>Kons. · 1 saat</b></span><span class="ch"><small>Menzil</small><b>60 ft</b></span></div>
             <p>Hayvanlar dosttur, kendi sıralarında <b>grup olarak</b> hareket eder. Sözlü komutlarına uyar (komut vermek aksiyon değildir); komut yoksa düşmana karşı kendilerini savunur. Canı 0’a inen kaybolur; konsantrasyon bozulunca hepsi kaybolur.</p></article>
         </div>
+        <input class="search sum-q" id="sumQ" type="search" value="${esc(C.query)}" placeholder="Hayvan ara (İngilizce ya da Türkçe)" aria-label="Hayvan ara" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
         <div class="sum-chips" role="group" aria-label="CR filtresi">${opts.map(([v, l]) => `<button class="chip" data-sumf="${v}" aria-pressed="${C.filter === v}">${l}</button>`).join('')}</div>
-        ${rows}`;
+        ${rows}
+        <p class="empty sum-none"${items.some(C.show) ? ' hidden' : ''}></p>`;
     },
     beast(b) {
       const abil = b.abil.map((v, i) => `<div class="wa" style="--wb:${AB_HUE[ABN[i]]}"><span>${ABN[i]}</span><b>${v}</b><small>${sg(mod(v))}</small></div>`).join('');
@@ -12653,6 +12672,7 @@ const SUM = (() => {
   };
   return C;
 })();
+document.addEventListener('input', e => { if (e.target.id === 'sumQ') { SUM.query = e.target.value; SUM.apply(); } });
 // "‹ Hayvan listesi" / "‹ Büyünün açıklaması": when that card is the previous one, step back; otherwise open it on top
 function sumNav(v) {
   const top = sheetStack[sheetStack.length - 1];
@@ -13238,7 +13258,7 @@ document.addEventListener('click', e => {
     return;
   }
   const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-ac],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],[data-wsfloat],[data-sum],[data-sumf],#scrim');
-  if (t && t.dataset.sumf) { SUM.filter = t.dataset.sumf; const y = $('#sheetIn').scrollTop; $('#sheetIn').innerHTML = SUM.fill(''); $('#sheetIn').scrollTop = y; return; }
+  if (t && t.dataset.sumf) { SUM.filter = t.dataset.sumf; SUM.apply(); return; }
   if (t && t.hasAttribute('data-sum')) return sumNav(t.dataset.sum);
   if (!t) return;
   const C = t.dataset.c === 'sk' ? SK : CATS[t.dataset.c];
