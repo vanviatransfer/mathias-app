@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '6fa1dff58c'; window.__BUILT__ = '2026-10-16 03:16';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '041d3790e7'; window.__BUILT__ = '2026-10-16 03:36';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -598,6 +598,40 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 #wsChips .chip{ padding-inline:2px; font-size:.86rem; }
 .eqb{ display:inline-block; margin-right:6px; padding:1px 7px; border-radius:999px; font-size:.7rem; font-weight:700; letter-spacing:.04em; background:hsl(140 30% 26%); color:hsl(140 45% 82%); vertical-align:1px; }
 .entry .mini.on{ border-color:hsl(140 35% 50%); color:hsl(140 45% 78%); }
+/* ---- Conjure Animals list (shared/summon.css; the box styles repeat the Wild Shape ones so apps without Wild Shape get them too) ---- */
+.tg.role{ background:hsl(var(--h, 30) 26% 24%); color:hsl(var(--h, 30) 40% 80%); }
+.fact.wide{ grid-column:1/-1; }
+.wbox{ display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:6px; }
+.wbox{ grid-template-columns:repeat(auto-fill,minmax(84px,1fr)) !important; gap:5px !important; }
+.wb{ --wb:30; min-width:0; padding:4px 7px; border-radius:8px; background:color-mix(in oklab, hsl(var(--wb) 22% 45%) 7%, var(--bg)); border:1px solid color-mix(in oklab, hsl(var(--wb) 18% 55%) 20%, var(--line)); border-left:2px solid hsl(var(--wb) 20% 46%); display:grid; line-height:1.15; }
+.wb span{ font-size:.72rem; color:hsl(var(--wb) 18% 72%); font-weight:600; overflow-wrap:anywhere; }
+.wb b{ font-size:.98rem; font-variant-numeric:tabular-nums; color:var(--ink); }
+.wb small{ font-size:.64rem; color:var(--muted); overflow-wrap:anywhere; }
+.abil .wa{ background:color-mix(in oklab, hsl(var(--wb) 32% 45%) 12%, var(--surface)); border:1px solid color-mix(in oklab, hsl(var(--wb) 30% 58%) 38%, var(--line)); border-top:3px solid hsl(var(--wb) 34% 56%); padding:6px 0 5px; border-radius:10px; }
+.abil .wa span{ color:hsl(var(--wb) 34% 74%); font-weight:700; font-size:.72rem; }
+.abil .wa b{ font-size:1.25rem; color:hsl(var(--wb) 38% 80%); }
+.abil .wa small{ color:hsl(var(--wb) 20% 70%); font-size:.78rem; }
+.wb.pr{ border-left-width:3px; }
+.wb.pr b{ color:hsl(var(--wb) 40% 80%); }
+.sum-open{ display:flex; align-items:center; gap:12px; width:100%; margin:14px 0 4px; padding:12px 14px; text-align:left; border-radius:12px;
+  background:color-mix(in oklab, hsl(28 40% 45%) 16%, var(--surface)); border:1px solid hsl(28 30% 40%); border-left:4px solid hsl(28 45% 56%); color:var(--ink); }
+.sum-open svg{ width:26px; height:26px; flex:0 0 auto; color:hsl(28 50% 70%); }
+.sum-open span{ flex:1; display:grid; font-weight:700; font-size:1rem; }
+.sum-open small{ font-weight:500; font-size:.8rem; color:var(--muted); }
+.sum-open b{ font-size:1.4rem; color:hsl(28 50% 70%); }
+.sum-back{ display:inline-block; margin:2px 0 10px; padding:6px 12px; min-height:36px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--muted); font-size:.88rem; }
+.sum-rules{ margin-bottom:10px; }
+.sum-rules p{ margin:6px 0 0; font-size:.88rem; line-height:1.45; color:color-mix(in oklab, var(--ink) 85%, var(--muted)); }
+.sum-chips{ display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; margin:12px 0 4px; }
+.sum-chips .chip{ padding:6px 4px; }
+.sum-cr .lvl-h{ color:hsl(var(--l) 38% 72%); }
+.sum-cr .lvl-h::after{ background:hsl(var(--l) 22% 30%); }
+.sum-list{ display:grid; gap:6px; border-left:2px solid hsl(var(--l) 25% 34%); padding-left:8px; }
+.sum-row{ display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:color-mix(in oklab, hsl(var(--h) 25% 40%) 7%, var(--surface)); border:1px solid var(--line); border-radius:12px; padding:8px 10px; color:var(--ink); }
+.sum-row .tags .tg:not(.role){ background:transparent; color:var(--muted); border:1px solid var(--line); font-weight:500; }
+.sum-rules h4{ margin:0 0 8px; }
+.sum-open{ margin:12px 0 8px; }
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -910,6 +944,5649 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
  }
 ]
 </script>
+<script id="sumData" type="application/json">[
+ {
+  "id": "axe-beak",
+  "cr": "1/4",
+  "en": "Axe Beak",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 50
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   14,
+   12,
+   12,
+   2,
+   10,
+   5
+  ],
+  "sv": [
+   2,
+   1,
+   1,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Balta Gagalı",
+  "role": "Hız · Hasar",
+  "multi": "",
+  "atk": [
+   "<b>Beak<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d8+2<\/b> kesme (6)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   6,
+   "Gaga"
+  ],
+  "tip": "50 ft hızla savaş alanının her yerine yetişir; arka saftaki büyücüleri kovalayıp konsantrasyonlarını zorla."
+ },
+ {
+  "id": "boar",
+  "cr": "1/4",
+  "en": "Boar",
+  "src": "Monster Manual (2024)",
+  "size": "Orta",
+  "ac": 11,
+  "hp": 13,
+  "hd": "2d8+4",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 9,
+  "abil": [
+   13,
+   11,
+   14,
+   2,
+   9,
+   5
+  ],
+  "sv": [
+   1,
+   0,
+   2,
+   -4,
+   -1,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Yaban Domuzu",
+  "role": "Hücum · Kontrol",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+3<\/b>, erişim 5 ft, 1 hedef · <b>1d6+1<\/b> delme (4) + <b>1d6<\/b> delme (3) (hücumla) · hücumla vurulan orta ya da küçük hedef save'siz <b>yere serilir<\/b>"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Charge",
+    "Hedefe doğru düz 20+ ft koşup hemen vurursa ek <b>1d6<\/b> delme ve orta ya da daha küçük hedef yere serilir."
+   ],
+   [
+    "Bloodied Fury",
+    "Canı yarının altındayken saldırılarında avantaj."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Hücumlu Boynuz"
+  ],
+  "tip": "Her tur hücumla açmaya çalış: save'siz yere serme dostlarına avantaj verir; yaralanınca avantajla saldırır."
+ },
+ {
+  "id": "constrictor-snake",
+  "cr": "1/4",
+  "en": "Constrictor Snake",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 13,
+  "hd": "2d10+2",
+  "spd": {
+   "walk": 30,
+   "swim": 30
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   15,
+   14,
+   12,
+   1,
+   10,
+   3
+  ],
+  "sv": [
+   2,
+   2,
+   1,
+   -5,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Boğucu Yılan",
+  "role": "Kontrol · Yüzen",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 yaratık · <b>1d6+2<\/b> delme (5)",
+   "<b>Constrict<\/b> <b>+4<\/b>, erişim 5 ft, 1 yaratık · <b>1d8+2<\/b> ezme (6) · hedef <b>kavranır<\/b> (kaçış: DC 14 Athletics ya da Acrobatics check) ve kavrama sürerken <b>kısıtlanır<\/b>; bu sürede başka hedefi saramaz"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   6,
+   "Sarma"
+  ],
+  "tip": "Önce Sarma ile tehlikeli bir hedefi kısıtla (kaçış DC 14 yüksek), sonra her tur ısırırken dostların avantajla vursun."
+ },
+ {
+  "id": "cow",
+  "cr": "1/4",
+  "en": "Cow",
+  "src": "Volo's Guide to Monsters",
+  "size": "Büyük",
+  "ac": 10,
+  "hp": 15,
+  "hd": "2d10+4",
+  "spd": {
+   "walk": 30
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   18,
+   10,
+   14,
+   2,
+   10,
+   4
+  ],
+  "sv": [
+   4,
+   0,
+   2,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "İnek",
+  "role": "Hücum · Dayanıklı",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>1d6+4<\/b> delme (7)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Charge",
+    "En az 20 ft düz koşup aynı tur Gore ile vurursa + <b>2d6<\/b> delme (7)."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Boynuz; hücumla 14"
+  ],
+  "tip": "Her tur 20 ft düz koşacak boşluk bırak ki hücum hasarı eklensin; büyük gövdesiyle yol da kapatır."
+ },
+ {
+  "id": "deep-roth",
+  "cr": "1/4",
+  "en": "Deep Rothé",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Orta",
+  "ac": 10,
+  "hp": 13,
+  "hd": "2d8+4",
+  "spd": {
+   "walk": 30
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   18,
+   10,
+   14,
+   2,
+   10,
+   4
+  ],
+  "sv": [
+   4,
+   0,
+   2,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Derin Rothé",
+  "role": "Hücum · Yük",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>1d6+4<\/b> delme (7) · hemen öncesinde 20 ft düz koştuysa + <b>2d6<\/b> delme (7)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Beast of Burden",
+    "Taşıma kapasitesi bir boy büyükmüş gibi hesaplanır."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Boynuz; hücumla 14"
+  ],
+  "tip": "Her tur 20 ft düz koşacak yer bırak; hücumla boynuz hasarı ikiye katlanır. 60 ft karanlık görüşü yeraltında işe yarar."
+ },
+ {
+  "id": "dimetrodon",
+  "cr": "1/4",
+  "en": "Dimetrodon",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 19,
+  "hd": "3d8+6",
+  "spd": {
+   "walk": 30,
+   "swim": 20
+  },
+  "senses": [],
+  "passive": 12,
+  "abil": [
+   14,
+   10,
+   15,
+   2,
+   10,
+   5
+  ],
+  "sv": [
+   2,
+   0,
+   2,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dimetrodon",
+  "role": "Hasar · Yüzme",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>2d6+2<\/b> delme (9)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   9,
+   "Isırık"
+  ],
+  "tip": "Bu CR'de iyi can ve ısırık hasarı var; ön safa sür ya da 20 ft yüzme hızıyla suyun içindeki hedeflere gönder."
+ },
+ {
+  "id": "draft-horse",
+  "cr": "1/4",
+  "en": "Draft Horse",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 10,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   18,
+   10,
+   12,
+   2,
+   11,
+   7
+  ],
+  "sv": [
+   4,
+   0,
+   1,
+   -4,
+   0,
+   -2
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Yük Atı",
+  "role": "Binek · Taşıma",
+  "multi": "",
+  "atk": [
+   "<b>Hooves<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>2d4+4<\/b> ezme (9)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   9,
+   "Toynak"
+  ],
+  "tip": "STR 18 ile ağır yük çeker ya da binek olur; +6 isabetli toynağı CR 1/4 için şaşırtıcı derecede iyi vurur."
+ },
+ {
+  "id": "elk",
+  "cr": "1/4",
+  "en": "Elk",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 10,
+  "hp": 13,
+  "hd": "2d10+2",
+  "spd": {
+   "walk": 50
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   16,
+   10,
+   12,
+   2,
+   10,
+   6
+  ],
+  "sv": [
+   3,
+   0,
+   1,
+   -4,
+   0,
+   -2
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Geyik",
+  "role": "Hücum · Kontrol",
+  "multi": "",
+  "atk": [
+   "<b>Ram<\/b> <b>+5<\/b>, erişim 5 ft, 1 hedef · <b>1d6+3<\/b> ezme (6) + <b>2d6<\/b> (7) (hücumla), sonra <b>DC 13 STR<\/b> save: başarısızsa <b>yere serilir<\/b> (hücumla)",
+   "<b>Hooves<\/b> <b>+5<\/b>, erişim 5 ft, yerde yatan 1 yaratık · <b>2d4+3<\/b> ezme (8)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Charge",
+    "Hedefe doğru düz en az 20 ft koşup aynı tur Toslama ile vurursa ek <b>2d6<\/b> hasar ve hedef <b>DC 13 STR<\/b> save'inde başarısızsa yere serilir."
+   ]
+  ],
+  "dpr": [
+   13,
+   "Hücumlu Toslama"
+  ],
+  "tip": "50 ft hızla her tur hücum mesafesi bulur; yere serdiği hedefe sonraki turlarda Toynak ile avantajlı vurur."
+ },
+ {
+  "id": "fastieth",
+  "cr": "1/4",
+  "en": "Fastieth",
+  "src": "Eberron: Rising from the Last War",
+  "size": "Orta",
+  "ac": 14,
+  "hp": 9,
+  "hd": "2d8",
+  "spd": {
+   "walk": 50
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   12,
+   18,
+   10,
+   4,
+   11,
+   4
+  ],
+  "sv": [
+   1,
+   4,
+   0,
+   -3,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Fastieth",
+  "role": "Hız · Hasar",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>1d8+4<\/b> delme (8)"
+  ],
+  "acts": [
+   [
+    "Quickness",
+    "(5–6'da yenilenir) Bonus aksiyonla Dodge aksiyonu yapar."
+   ]
+  ],
+  "traits": [],
+  "dpr": [
+   8,
+   "Isırık"
+  ],
+  "tip": "50 ft hızla arka saftaki hedeflere ulaşır; Quickness hazırken ısırıp Dodge ile hayatta kalmasını sağla."
+ },
+ {
+  "id": "giant-badger",
+  "cr": "1/4",
+  "en": "Giant Badger",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 10,
+  "hp": 13,
+  "hd": "2d8+4",
+  "spd": {
+   "walk": 30,
+   "burrow": 10
+  },
+  "senses": [
+   "Darkvision 30 ft"
+  ],
+  "passive": 11,
+  "abil": [
+   13,
+   10,
+   15,
+   2,
+   12,
+   5
+  ],
+  "sv": [
+   1,
+   0,
+   2,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Porsuk",
+  "role": "Hasar · Kazan",
+  "multi": "Bir Isırık + bir Pençe",
+  "atk": [
+   "<b>Bite<\/b> <b>+3<\/b>, erişim 5 ft, 1 hedef · <b>1d6+1<\/b> delme (4)",
+   "<b>Claws<\/b> <b>+3<\/b>, erişim 5 ft, 1 hedef · <b>2d4+1<\/b> kesme (6)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Smell",
+    "Kokuya dayalı Perception check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   10,
+   "Isırık + Pençe"
+  ],
+  "tip": "İki saldırısıyla düzenli hasar verir; karanlık görüşü ve kazma hızıyla yeraltı ve tünellerde iyi iş görür."
+ },
+ {
+  "id": "giant-bat",
+  "cr": "1/4",
+  "en": "Giant Bat",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 22,
+  "hd": "4d10",
+  "spd": {
+   "walk": 10,
+   "fly": 60
+  },
+  "senses": [
+   "Blindsight 120 ft"
+  ],
+  "passive": 11,
+  "abil": [
+   15,
+   16,
+   11,
+   2,
+   12,
+   6
+  ],
+  "sv": [
+   2,
+   3,
+   0,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Yarasa",
+  "role": "Uçan · Keşif",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+5<\/b>, erişim 5 ft · <b>1d6+3<\/b> delme (6)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Blindsight",
+    "120 ft kör görüş; karanlıkta ve görünmez hedeflere karşı rahat."
+   ]
+  ],
+  "dpr": [
+   6,
+   "Isırık"
+  ],
+  "tip": "60 ft uçuş ve 120 ft blindsight ile karanlık mağaralarda keşif ve görünmez düşmanı bulmak için ideal; zayıf olduğundan ön safa sokma."
+ },
+ {
+  "id": "giant-centipede",
+  "cr": "1/4",
+  "en": "Giant Centipede",
+  "src": "Monster Manual (2014)",
+  "size": "Küçük",
+  "ac": 13,
+  "hp": 4,
+  "hd": "1d6+1",
+  "spd": {
+   "walk": 30,
+   "climb": 30
+  },
+  "senses": [
+   "Blindsight 30 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   5,
+   14,
+   12,
+   1,
+   7,
+   3
+  ],
+  "sv": [
+   -3,
+   2,
+   1,
+   -5,
+   -2,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kırkayak",
+  "role": "Zehir · Tırmanma",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 yaratık · <b>1d4+2<\/b> delme (4), sonra <b>DC 11 CON<\/b> save: başarısızsa <b>3d6<\/b> zehir (10) · zehir hedefi 0 cana indirirse hedef stabil ama 1 saat <b>zehirlenir<\/b> ve bu sürede <b>felç<\/b> olur"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Blindsight",
+    "30 ft kör görüş."
+   ]
+  ],
+  "dpr": [
+   9,
+   "Isırık + ortalama zehir (save'e bağlı)"
+  ],
+  "tip": "Canı çok düşük (4); sürü halinde çağırıp zayıf CON save'li düşmanlara salın, zehir onları felç ederek düşürebilir."
+ },
+ {
+  "id": "giant-frog",
+  "cr": "1/4",
+  "en": "Giant Frog",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 11,
+  "hp": 18,
+  "hd": "4d8",
+  "spd": {
+   "walk": 30,
+   "swim": 30
+  },
+  "senses": [
+   "Darkvision 30 ft"
+  ],
+  "passive": 12,
+  "abil": [
+   12,
+   13,
+   11,
+   2,
+   10,
+   3
+  ],
+  "sv": [
+   1,
+   1,
+   0,
+   -4,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ],
+   [
+    "Stealth",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kurbağa",
+  "role": "Kontrol · Yüzen",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+3<\/b>, erişim 5 ft, 1 hedef · <b>1d6+1<\/b> delme (4) · hedef <b>kavranır<\/b> (kaçış: DC 11 Athletics ya da Acrobatics check) ve kavrama sürerken <b>kısıtlanır<\/b>; kurbağa başka hedefi ısıramaz"
+  ],
+  "acts": [
+   [
+    "Swallow",
+    "Kavradığı Small ya da daha küçük hedefe bir Isırık yapar; isabet ederse hedefi yutar, kavrama biter. Yutulan hedef kör ve kısıtlanmış, dışarıya karşı siperli; kurbağanın her turu başında 2d4 asit (5) alır. Aynı anda tek hedef yutabilir; kurbağa ölürse hedef 5 ft hareketle yere serilmiş olarak çıkar."
+   ]
+  ],
+  "traits": [
+   [
+    "Amphibious",
+    "Hem havada hem suda nefes alır."
+   ],
+   [
+    "Standing Leap",
+    "Koşmadan 20 ft uzun, 10 ft yüksek atlar."
+   ]
+  ],
+  "dpr": [
+   4,
+   "Isırık (yutulmuş hedefe her tur +5 asit)"
+  ],
+  "tip": "Küçük boyutlu büyücü ya da okçuları kavrayıp yutarak savaş dışı bırak; kısıtlanan hedefe müttefikler avantajla saldırır."
+ },
+ {
+  "id": "giant-lizard",
+  "cr": "1/4",
+  "en": "Giant Lizard",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 40,
+   "climb": 40
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   15,
+   12,
+   13,
+   2,
+   10,
+   5
+  ],
+  "sv": [
+   2,
+   3,
+   1,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [
+   "dex"
+  ],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kertenkele",
+  "role": "Tırmanma · Binek",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft · <b>1d8+2<\/b> delme (6)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Spider Climb",
+    "Tavan dahil zorlu yüzeylere check gerekmeden tırmanır."
+   ]
+  ],
+  "dpr": [
+   6,
+   "Isırık"
+  ],
+  "tip": "40 ft tırmanma ve Spider Climb ile duvar ve tavanlardan düşmanın arkasına geç; Large olduğu için Medium bir müttefike binek de olabilir."
+ },
+ {
+  "id": "giant-owl",
+  "cr": "1/4",
+  "en": "Giant Owl",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 5,
+   "fly": 60
+  },
+  "senses": [
+   "Darkvision 120 ft"
+  ],
+  "passive": 15,
+  "abil": [
+   13,
+   15,
+   12,
+   8,
+   13,
+   10
+  ],
+  "sv": [
+   1,
+   2,
+   1,
+   -1,
+   1,
+   0
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    5
+   ],
+   [
+    "Stealth",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Baykuş",
+  "role": "Uçan · Keşif",
+  "multi": "",
+  "atk": [
+   "<b>Talons<\/b> <b>+3<\/b>, erişim 5 ft, 1 hedef · <b>2d6+1<\/b> kesme (8)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Flyby",
+    "Uçarak düşmanın erişiminden çıkınca fırsat saldırısı tetiklemez."
+   ],
+   [
+    "Keen Hearing and Sight",
+    "Duyma ve görmeye dayalı Perception check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   8,
+   "Pençe"
+  ],
+  "tip": "Vur-kaç yap: Flyby ile pençeleyip havaya geri çekil; Perception +5, Stealth +4 ve 120 ft darkvision ile gece keşfi için en iyi seçeneklerden."
+ },
+ {
+  "id": "giant-poisonous-snake",
+  "cr": "1/4",
+  "en": "Giant Poisonous Snake",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 14,
+  "hp": 11,
+  "hd": "2d8+2",
+  "spd": {
+   "walk": 30,
+   "swim": 30
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 12,
+  "abil": [
+   10,
+   18,
+   13,
+   2,
+   10,
+   3
+  ],
+  "sv": [
+   0,
+   4,
+   1,
+   -4,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Zehirli Yılan",
+  "role": "Zehir · Erişim",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+6<\/b>, erişim 10 ft, 1 hedef · <b>1d4+4<\/b> delme (6), sonra <b>DC 11 CON<\/b> save: başarısızsa <b>3d6<\/b> zehir (10), başarılıysa yarısı"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Blindsight",
+    "10 ft kör görüş."
+   ]
+  ],
+  "dpr": [
+   14,
+   "Isırık + ortalama zehir"
+  ],
+  "tip": "10 ft erişimi sayesinde ön safın arkasından saldırabilir; +6 isabetle düşük AC'li hedeflere güvenilir zehir hasarı verir."
+ },
+ {
+  "id": "giant-riding-lizard",
+  "cr": "1/4",
+  "en": "Giant Riding Lizard",
+  "src": "Out of the Abyss",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 30,
+   "climb": 30
+  },
+  "senses": [
+   "Darkvision 30 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   15,
+   12,
+   13,
+   2,
+   10,
+   5
+  ],
+  "sv": [
+   2,
+   1,
+   1,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Binek Kertenkelesi",
+  "role": "Tırmanma · Binek",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d8+2<\/b> delme (6)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Spider Climb",
+    "Duvarda ve tavanda baş aşağı, check atmadan tırmanır."
+   ]
+  ],
+  "dpr": [
+   6,
+   "Isırık"
+  ],
+  "tip": "Duvar ve tavandan dolaşarak ön safın arkasına geçer; binek olarak da dik yüzeyleri aşmayı sağlar."
+ },
+ {
+  "id": "giant-snail",
+  "cr": "1/4",
+  "en": "Giant Snail",
+  "src": "The Wild Beyond the Witchlight",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 22,
+  "hd": "4d10",
+  "spd": {
+   "walk": 10,
+   "climb": 10
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   15,
+   3,
+   11,
+   3,
+   10,
+   3
+  ],
+  "sv": [
+   2,
+   -4,
+   0,
+   -4,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Salyangoz",
+  "role": "Tank · Engel",
+  "multi": "",
+  "atk": [
+   "<b>Slam<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d6+2<\/b> ezme (5)"
+  ],
+  "acts": [
+   [
+    "Shell Defense",
+    "Kabuğuna çekilir, çıkana kadar AC'si +4 olur; turunda bonus aksiyonla çıkar."
+   ]
+  ],
+  "traits": [
+   [
+    "Salt Osmosis",
+    "Turuna en az yarım kilo tuzla temas halinde başlarsa <b>1d4<\/b> nekrotik alır. Biri aksiyonla üstüne tuz serperse hemen 1d4 nekrotik, bir sonraki turunun başında 1d4 daha (kabuğuna çekilmediyse)."
+   ]
+  ],
+  "dpr": [
+   5,
+   "Çarpma"
+  ],
+  "tip": "Çok yavaş (10 ft); dar bir geçidi kapatmak için çağır ve Shell Defense ile AC 15'e çıkarıp orada tut."
+ },
+ {
+  "id": "giant-space-hamster",
+  "cr": "1/4",
+  "en": "Giant Space Hamster",
+  "src": "Boo's Astral Menagerie",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 22,
+  "hd": "4d10",
+  "spd": {
+   "walk": 30,
+   "burrow": 10
+  },
+  "senses": [],
+  "passive": 11,
+  "abil": [
+   14,
+   12,
+   10,
+   2,
+   12,
+   4
+  ],
+  "sv": [
+   2,
+   1,
+   0,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Uzay Hamsteri",
+  "role": "Kazan · Dayanıklı",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>2d4+2<\/b> delme (7)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   7,
+   "Isırık"
+  ],
+  "tip": "22 canıyla ucuz bir et kalkanı; düşmanın yolunu kesmek ya da toprağı kazıp saklanmak için kullan."
+ },
+ {
+  "id": "giant-wolf-spider",
+  "cr": "1/4",
+  "en": "Giant Wolf Spider",
+  "src": "Monster Manual (2024)",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 11,
+  "hd": "2d8+2",
+  "spd": {
+   "walk": 40,
+   "climb": 40
+  },
+  "senses": [
+   "Blindsight 10 ft",
+   "Darkvision 60 ft"
+  ],
+  "passive": 13,
+  "abil": [
+   12,
+   16,
+   13,
+   3,
+   12,
+   4
+  ],
+  "sv": [
+   1,
+   3,
+   1,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ],
+   [
+    "Stealth",
+    7
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kurt Örümceği",
+  "role": "Pusu · Tırmanma",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+5<\/b>, erişim 5 ft · <b>1d4+3<\/b> delme (5) + <b>2d4<\/b> zehir (5)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Spider Climb",
+    "Tavan dahil zorlu yüzeylere check gerekmeden tırmanır."
+   ]
+  ],
+  "dpr": [
+   10,
+   "Isırık"
+  ],
+  "tip": "Stealth +7 ve tavana tırmanmayla pusu kur; 40 ft hızla kanatlardan dolanıp büyücüleri hedef al."
+ },
+ {
+  "id": "hadrosaurus",
+  "cr": "1/4",
+  "en": "Hadrosaurus",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 12,
+  "abil": [
+   15,
+   10,
+   13,
+   2,
+   10,
+   5
+  ],
+  "sv": [
+   2,
+   0,
+   1,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Hadrozor",
+  "role": "Dayanıklı · Hız",
+  "multi": "",
+  "atk": [
+   "<b>Tail<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d10+2<\/b> ezme (7)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   7,
+   "Kuyruk"
+  ],
+  "tip": "Büyük gövdesiyle geçitleri tıka ve düşmanı oyala; 40 ft hızla hızlı yer tutar."
+ },
+ {
+  "id": "male-steeder",
+  "cr": "1/4",
+  "en": "Male Steeder",
+  "src": "Out of the Abyss",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 13,
+  "hd": "2d8+4",
+  "spd": {
+   "walk": 30,
+   "climb": 30
+  },
+  "senses": [
+   "Darkvision 120 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   15,
+   12,
+   14,
+   2,
+   10,
+   3
+  ],
+  "sv": [
+   2,
+   1,
+   2,
+   -4,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Stealth",
+    5
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Erkek Steeder",
+  "role": "Tırmanma · Sıçrama · Asit",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 yaratık · <b>1d8+2<\/b> delme (7), sonra <b>DC 12 CON<\/b> save: başarısızsa <b>1d8<\/b> asit (4), başarılıysa yarısı",
+   "<b>Sticky Leg<\/b> (kavradığı yaratık yokken yenilenir) <b>+4<\/b>, erişim 5 ft, 1 Küçük ya da Minik yaratık · hedef bacağa yapışır ve <b>kavranır<\/b> (kaçış: DC 12 Athletics ya da Acrobatics check)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Spider Climb",
+    "Duvarda ve tavanda baş aşağı, check atmadan tırmanır."
+   ],
+   [
+    "Leap",
+    "Hızı en az 30 ft ise tüm hareketini harcayıp yatay ya da dikey 60 ft sıçrar."
+   ]
+  ],
+  "dpr": [
+   11,
+   "Isırık + asit (save başarısız)"
+  ],
+  "tip": "Leap ile 60 ft sıçrayarak uzaktaki hedefe ulaş; küçük düşmanları Sticky Leg ile yapıştırıp kaçmasını engelle."
+ },
+ {
+  "id": "ox",
+  "cr": "1/4",
+  "en": "Ox",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Büyük",
+  "ac": 10,
+  "hp": 15,
+  "hd": "2d10+4",
+  "spd": {
+   "walk": 30
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   18,
+   10,
+   14,
+   2,
+   10,
+   4
+  ],
+  "sv": [
+   4,
+   0,
+   2,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Öküz",
+  "role": "Hücum · Yük",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>1d6+4<\/b> delme (7) · hemen öncesinde 20 ft düz koştuysa + <b>2d6<\/b> delme (7)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Beast of Burden",
+    "Taşıma kapasitesi bir boy büyükmüş gibi hesaplanır."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Boynuz; hücumla 14"
+  ],
+  "tip": "Her tur 20 ft düz koşarak boynuzla; geri çekilip yeniden hücum etmek hasarı ikiye katlar. Büyük gövdesiyle yolu da kapatır."
+ },
+ {
+  "id": "panther",
+  "cr": "1/4",
+  "en": "Panther",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 13,
+  "hd": "3d8",
+  "spd": {
+   "walk": 50,
+   "climb": 40
+  },
+  "senses": [],
+  "passive": 14,
+  "abil": [
+   14,
+   15,
+   10,
+   3,
+   14,
+   7
+  ],
+  "sv": [
+   2,
+   2,
+   0,
+   -4,
+   2,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    4
+   ],
+   [
+    "Stealth",
+    6
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Panter",
+  "role": "Hız · Pusu",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d6+2<\/b> delme (5)",
+   "<b>Claw<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d4+2<\/b> kesme (4)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Smell",
+    "Kokuya dayalı Perception check'lerinde avantaj."
+   ],
+   [
+    "Pounce",
+    "Düz çizgide en az 20 ft koşup aynı turda Pençe ile vurursa hedef DC 12 STR save'inde başarısız olursa yere serilir; serilen hedefe bonus aksiyonla bir Isırık yapar."
+   ]
+  ],
+  "dpr": [
+   9,
+   "Atılışla Pençe + bonus Isırık"
+  ],
+  "tip": "50 ft hızla her tur geri çekilip Pounce ile atıl; yere serilen hedefe hem bonus Isırık hem müttefiklerin avantajı gelir."
+ },
+ {
+  "id": "pteranodon",
+  "cr": "1/4",
+  "en": "Pteranodon",
+  "src": "Monster Manual (2024)",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 13,
+  "hd": "3d8",
+  "spd": {
+   "walk": 10,
+   "fly": 60
+  },
+  "senses": [],
+  "passive": 11,
+  "abil": [
+   12,
+   15,
+   10,
+   2,
+   9,
+   5
+  ],
+  "sv": [
+   1,
+   2,
+   0,
+   -4,
+   -1,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    1
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Pteranodon",
+  "role": "Uçan · Vur-kaç",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft · <b>1d8+2<\/b> delme (6)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Flyby",
+    "Uçarak düşmanın erişiminden çıkınca fırsat saldırısı tetiklemez."
+   ]
+  ],
+  "dpr": [
+   6,
+   "Isırık"
+  ],
+  "tip": "Flyby ile ısırıp havaya çekil; yerdeki yakın dövüşçülerin ulaşamadığı yükseklikte kalarak arka safı taciz et."
+ },
+ {
+  "id": "riding-horse",
+  "cr": "1/4",
+  "en": "Riding Horse",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 10,
+  "hp": 13,
+  "hd": "2d10+2",
+  "spd": {
+   "walk": 60
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   16,
+   10,
+   12,
+   2,
+   11,
+   7
+  ],
+  "sv": [
+   3,
+   0,
+   1,
+   -4,
+   0,
+   -2
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Binek Atı",
+  "role": "Binek · Hız",
+  "multi": "",
+  "atk": [
+   "<b>Hooves<\/b> <b>+5<\/b>, erişim 5 ft, 1 hedef · <b>2d4+3<\/b> ezme (8)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   8,
+   "Toynak"
+  ],
+  "tip": "60 ft hızıyla öncelikle binek ya da kaçış aracı olarak kullan; savaşta düşük AC'si yüzünden çabuk düşer."
+ },
+ {
+  "id": "roth",
+  "cr": "1/4",
+  "en": "Rothé",
+  "src": "Volo's Guide to Monsters",
+  "size": "Büyük",
+  "ac": 10,
+  "hp": 15,
+  "hd": "2d10+4",
+  "spd": {
+   "walk": 30
+  },
+  "senses": [
+   "Darkvision 30 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   18,
+   10,
+   14,
+   2,
+   10,
+   4
+  ],
+  "sv": [
+   4,
+   0,
+   2,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Rothé",
+  "role": "Hasar · Hücum",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>1d6+4<\/b> delme (7) + <b>2d6<\/b> delme (7) (hücumla)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Charge",
+    "Hedefe doğru düz en az 20 ft koşup aynı tur Boynuz ile vurursa ek <b>2d6<\/b> delme (7)."
+   ]
+  ],
+  "dpr": [
+   14,
+   "Hücumlu Boynuz"
+  ],
+  "tip": "Her tur 20 ft geri çekilip yeniden hücum etmeye çalış; +6 isabet ve hücumla CR 1/4 için çok sert vurur."
+ },
+ {
+  "id": "space-swine",
+  "cr": "1/4",
+  "en": "Space Swine",
+  "src": "Boo's Astral Menagerie",
+  "size": "Orta",
+  "ac": 11,
+  "hp": 22,
+  "hd": "4d8+4",
+  "spd": {
+   "walk": 40,
+   "fly": 40
+  },
+  "senses": [],
+  "passive": 14,
+  "abil": [
+   12,
+   12,
+   12,
+   4,
+   10,
+   3
+  ],
+  "sv": [
+   1,
+   1,
+   1,
+   -3,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    4
+   ],
+   [
+    "Survival",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Uzay Domuzu",
+  "role": "Uçan · Keşif",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+3<\/b>, erişim 5 ft, 1 hedef · <b>1d6+1<\/b> delme (4)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   4,
+   "Isırık"
+  ],
+  "tip": "40 ft uçuşu ve Perception +4'üyle iyi bir gözcü ya da binek; hasarı zayıf, savaşta oyalayıcı olarak kullan."
+ },
+ {
+  "id": "spiderfrog",
+  "cr": "1/4",
+  "en": "Spiderfrog",
+  "src": "Muk's Guide to Everything He Learned From Tasha",
+  "size": "Küçük",
+  "ac": 13,
+  "hp": 13,
+  "hd": "2d8+4",
+  "spd": {
+   "walk": 30,
+   "climb": 30
+  },
+  "senses": [
+   "Blindsight 10 ft",
+   "Darkvision 60 ft"
+  ],
+  "passive": 13,
+  "abil": [
+   10,
+   16,
+   14,
+   3,
+   12,
+   4
+  ],
+  "sv": [
+   0,
+   3,
+   2,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ],
+   [
+    "Stealth",
+    7
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Örümcek Kurbağa",
+  "role": "Kontrol · Tırmanma",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+2<\/b>, erişim 5 ft, 1 hedef · <b>1d6+1<\/b> delme (4) · hedef <b>kavranır<\/b> (kaçış: DC 11 Athletics ya da Acrobatics check) ve kavrama sürerken <b>kısıtlanır<\/b>; bu sürede başka hedefi ısıramaz"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Amphibious",
+    "Hem havada hem suda nefes alır."
+   ],
+   [
+    "Spider Climb",
+    "Tavan dahil zor yüzeylerde check yapmadan tırmanır."
+   ],
+   [
+    "Standing Leap",
+    "Koşu almadan 20 ft uzun, 10 ft yüksek atlar."
+   ]
+  ],
+  "dpr": [
+   4,
+   "Isırık"
+  ],
+  "tip": "Hasarı az ama ısırığı hedefi kısıtlar; kısıtlanan düşmana herkes avantajla saldırır, Stealth +7 ile tavandan pusu kur."
+ },
+ {
+  "id": "stench-kow",
+  "cr": "1/4",
+  "en": "Stench Kow",
+  "src": "Volo's Guide to Monsters",
+  "size": "Büyük",
+  "ac": 10,
+  "hp": 15,
+  "hd": "2d10+4",
+  "spd": {
+   "walk": 30
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   18,
+   10,
+   14,
+   2,
+   10,
+   4
+  ],
+  "sv": [
+   4,
+   0,
+   2,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "cold",
+   "fire",
+   "poison"
+  ],
+  "imm": [],
+  "cimm": [],
+  "tr": "Pis Kokulu İnek",
+  "role": "Hücum · Kontrol · Dayanıklı",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>1d6+4<\/b> delme (7)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Charge",
+    "En az 20 ft düz koşup aynı tur Gore ile vurursa + <b>2d6<\/b> delme (7)."
+   ],
+   [
+    "Stench",
+    "Turuna 5 ft yakınında başlayan her yaratık (diğer kokulu inekler hariç) <b>DC 12 CON<\/b> save atar; başarısızsa sonraki turunun başına kadar <b>zehirlenir<\/b>. Başarılı olan 1 saat bu kokudan etkilenmez."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Boynuz; hücumla 14"
+  ],
+  "tip": "Düşman kalabalığının ortasına sür: koku zehirleyip saldırılarına dezavantaj verir. Soğuk, ateş ve zehre dirençli; dostlarını kokudan uzak tut."
+ },
+ {
+  "id": "swarm-of-bats",
+  "cr": "1/4",
+  "en": "Swarm of Bats",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 0,
+   "fly": 30
+  },
+  "senses": [
+   "Blindsight 60 ft"
+  ],
+  "passive": 11,
+  "abil": [
+   5,
+   15,
+   10,
+   2,
+   12,
+   4
+  ],
+  "sv": [
+   -3,
+   2,
+   0,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Yarasa Sürüsü",
+  "role": "Sürü · Uçan",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+4<\/b>, erişim 0 ft, sürünün alanındaki 1 yaratık · <b>2d4<\/b> delme (5); canı yarıya ya da altına inince <b>1d4<\/b> delme (2)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Echolocation",
+    "Sağırken blindsight kullanamaz."
+   ],
+   [
+    "Keen Hearing",
+    "Duymaya dayalı Perception check'lerinde avantaj."
+   ],
+   [
+    "Swarm",
+    "Başka bir yaratığın alanına girebilir (o da onunkine), Tiny bir yarasa sığacak her aralıktan geçer. Can geri kazanamaz, geçici can alamaz."
+   ],
+   [
+    "Resistances",
+    "Ezme, delme ve kesme hasarına dirençli; charmed, frightened, kavranma, felç, taşlaşma, yere serilme, kısıtlanma ve sersemlemeye bağışık."
+   ]
+  ],
+  "dpr": [
+   5,
+   "Isırıklar (yaralıyken 2)"
+  ],
+  "tip": "Silah hasarına dirençli olduğu için dövüşçüleri oyalar; düşmanın alanına girip onu meşgul et, alan büyülerinden uzak tut."
+ },
+ {
+  "id": "swarm-of-rats",
+  "cr": "1/4",
+  "en": "Swarm of Rats",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 10,
+  "hp": 24,
+  "hd": "7d8-7",
+  "spd": {
+   "walk": 30
+  },
+  "senses": [
+   "Darkvision 30 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   9,
+   11,
+   9,
+   2,
+   10,
+   3
+  ],
+  "sv": [
+   -1,
+   0,
+   -1,
+   -4,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Fare Sürüsü",
+  "role": "Sürü · Oyalama",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+2<\/b>, erişim 0 ft, sürünün alanındaki 1 hedef · <b>2d6<\/b> delme (7); canı yarıya ya da altına inince <b>1d6<\/b> delme (3)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Smell",
+    "Kokuya dayalı Perception check'lerinde avantaj."
+   ],
+   [
+    "Swarm",
+    "Başka bir yaratığın alanına girebilir (o da onunkine), Tiny bir fare sığacak her aralıktan geçer. Can geri kazanamaz, geçici can alamaz."
+   ],
+   [
+    "Resistances",
+    "Ezme, delme ve kesme hasarına dirençli; charmed, frightened, kavranma, felç, taşlaşma, yere serilme, kısıtlanma ve sersemlemeye bağışık."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Isırıklar (yaralıyken 3)"
+  ],
+  "tip": "24 can ve silah direnciyle bu seviyedeki en dayanıklı sürülerden; dar koridorlarda düşmanı tıkamak için kullan."
+ },
+ {
+  "id": "swarm-of-ravens",
+  "cr": "1/4",
+  "en": "Swarm of Ravens",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 24,
+  "hd": "7d8-7",
+  "spd": {
+   "walk": 10,
+   "fly": 50
+  },
+  "senses": [],
+  "passive": 15,
+  "abil": [
+   6,
+   14,
+   8,
+   3,
+   12,
+   6
+  ],
+  "sv": [
+   -2,
+   2,
+   -1,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    5
+   ]
+  ],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Kuzgun Sürüsü",
+  "role": "Uçan · Sürü · Oyalama",
+  "multi": "",
+  "atk": [
+   "<b>Beaks<\/b> <b>+4<\/b>, erişim 5 ft, sürünün alanındaki 1 hedef · <b>2d6<\/b> delme (7) · canı yarıya ya da altına inince <b>1d6<\/b> delme (3)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka yaratığın alanına girebilir, onlar da sürünün alanına; minik bir kuzgunun sığdığı her aralıktan geçer. Can kazanamaz, geçici can alamaz. Ezme, delme ve kesmeye dirençli; kavranamaz, yere serilemez, korkutulamaz."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Gagalar (yarı canda 3)"
+  ],
+  "tip": "50 ft uçuşla büyücülerin ya da okçuların üstüne gönder; silah hasarına dirençli olduğu için uzun süre oyalar. Alan hasarlı büyülerden uzak tut."
+ },
+ {
+  "id": "velociraptor",
+  "cr": "1/4",
+  "en": "Velociraptor",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Minik",
+  "ac": 13,
+  "hp": 10,
+  "hd": "3d4+3",
+  "spd": {
+   "walk": 30
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   6,
+   14,
+   13,
+   4,
+   12,
+   6
+  ],
+  "sv": [
+   -2,
+   2,
+   1,
+   -3,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Velociraptor",
+  "role": "Sürü · Hasar",
+  "multi": "Bir Isırık + bir Pençe",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 yaratık · <b>1d6+2<\/b> delme (5)",
+   "<b>Claw<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d4+2<\/b> kesme (4)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Pack Tactics",
+    "Hedefin 5 ft yakınında aklı başında bir müttefiki varsa saldırıda avantaj."
+   ]
+  ],
+  "dpr": [
+   9,
+   "Isırık + Pençe"
+  ],
+  "tip": "En çok sayıda çağrılacak seçeneklerden; hepsini tek hedefe sür, Pack Tactics ile her saldırı avantajlı olur. Canları az, alan büyülerinden uzak tut."
+ },
+ {
+  "id": "walrus",
+  "cr": "1/4",
+  "en": "Walrus",
+  "src": "Icewind Dale: Rime of the Frostmaiden",
+  "size": "Büyük",
+  "ac": 9,
+  "hp": 22,
+  "hd": "3d10+6",
+  "spd": {
+   "walk": 20,
+   "swim": 40
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   15,
+   9,
+   14,
+   3,
+   11,
+   4
+  ],
+  "sv": [
+   2,
+   -1,
+   2,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Mors",
+  "role": "Yüzen · Dayanıklı",
+  "multi": "",
+  "atk": [
+   "<b>Tusks<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>2d4+2<\/b> delme (7)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Hold Breath",
+    "Nefesini 10 dakika tutabilir."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Dişler"
+  ],
+  "tip": "Karada yavaş ve AC'si 9; en iyi suda ya da buzlu kıyıda, 22 canıyla geçidi tıkayan bir engel olarak işe yarar."
+ },
+ {
+  "id": "wolf",
+  "cr": "1/4",
+  "en": "Wolf",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 11,
+  "hd": "2d8+2",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   12,
+   15,
+   12,
+   3,
+   12,
+   6
+  ],
+  "sv": [
+   1,
+   2,
+   1,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ],
+   [
+    "Stealth",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Kurt",
+  "role": "Sürü · Yere serme",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>2d4+2<\/b> delme (7), sonra <b>DC 11 STR<\/b> save: başarısızsa hedef <b>yere serilir<\/b>"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Hearing and Smell",
+    "Duyma ya da kokuya dayalı Wisdom (Perception) check'lerinde avantaj."
+   ],
+   [
+    "Pack Tactics",
+    "Hedefin 5 ft yakınında aklı başında bir müttefiki varsa saldırıda avantaj."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Isırık"
+  ],
+  "tip": "Kurtları aynı hedefin etrafına topla: Pack Tactics avantaj verir, yere serilen hedefe yakın saldırılar da avantajlı olur."
+ },
+ {
+  "id": "wolf-of-the-overworld",
+  "cr": "1/4",
+  "en": "Wolf of the Overworld",
+  "src": "Monstrous Compendium Vol. 3: Minecraft Creatures",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 11,
+  "hd": "2d8+2",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 15,
+  "abil": [
+   12,
+   15,
+   12,
+   3,
+   12,
+   6
+  ],
+  "sv": [
+   1,
+   2,
+   1,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    5
+   ],
+   [
+    "Stealth",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Üst Dünya Kurdu",
+  "role": "Sürü · Kontrol",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>2d4+2<\/b> delme (7), sonra <b>DC 11 STR<\/b> save: başarısızsa <b>yere serilir<\/b>"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Pack Tactics",
+    "Hedefin 5 ft yakınında aktif bir dostu varsa saldırılarda avantaj."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Isırık"
+  ],
+  "tip": "Sekizini birden çağırıp tek hedefi sar: Pack Tactics ile avantajlı vururlar, yere serilen hedefe kalanlar yine avantaj alır."
+ },
+ {
+  "id": "ape",
+  "cr": "1/2",
+  "en": "Ape",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 19,
+  "hd": "3d8+6",
+  "spd": {
+   "walk": 30,
+   "climb": 30
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   16,
+   14,
+   14,
+   6,
+   12,
+   7
+  ],
+  "sv": [
+   3,
+   2,
+   2,
+   -2,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Athletics",
+    5
+   ],
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Maymun",
+  "role": "Hasar · Tırmanma",
+  "multi": "İki Yumruk",
+  "atk": [
+   "<b>Fist<\/b> <b>+5<\/b>, erişim 5 ft, 1 hedef · <b>1d6+3<\/b> ezme (6)",
+   "<b>Rock<\/b> (menzilli) <b>+5<\/b>, erişim 25/50 ft, 1 hedef · <b>1d6+3<\/b> ezme (6)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   12,
+   "İki Yumruk"
+  ],
+  "tip": "Yakında iki yumrukla tur başı 12 vurur, ulaşamadığı hedefe taş atar; tırmanma hızıyla yükseğe çıkıp okçuları rahatsız etsin."
+ },
+ {
+  "id": "black-bear",
+  "cr": "1/2",
+  "en": "Black Bear",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 11,
+  "hp": 19,
+  "hd": "3d8+6",
+  "spd": {
+   "walk": 40,
+   "climb": 30
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   15,
+   10,
+   14,
+   2,
+   12,
+   7
+  ],
+  "sv": [
+   2,
+   0,
+   2,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Kara Ayı",
+  "role": "Hasar · Tırmanma",
+  "multi": "Bir Isırık + bir Pençe",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d6+2<\/b> delme (5)",
+   "<b>Claws<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>2d4+2<\/b> kesme (7)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Smell",
+    "Kokuya dayalı Perception check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   12,
+   "Isırık + Pençe"
+  ],
+  "tip": "İki saldırısıyla güvenilir hasar verir ve 40 ft hızla çabuk yetişir; ağaçlık alanda tırmanarak hedefe ulaşır."
+ },
+ {
+  "id": "crocodile",
+  "cr": "1/2",
+  "en": "Crocodile",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 20,
+   "swim": 30
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   15,
+   10,
+   13,
+   2,
+   10,
+   5
+  ],
+  "sv": [
+   2,
+   0,
+   1,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Stealth",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Timsah",
+  "role": "Kontrol · Yüzen",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 yaratık · <b>1d10+2<\/b> delme (7) · hedef <b>kavranır<\/b> (kaçış: DC 12 Athletics ya da Acrobatics check) ve kavrama sürerken <b>kısıtlanır<\/b>; bu sürede başka hedefi ısıramaz"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Hold Breath",
+    "Nefesini 15 dakika tutabilir."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Isırık"
+  ],
+  "tip": "Kısıtladığı hedefi suya sürükleyebilir; ısırık her tur hem hasar verir hem hedefi yerinde tutar."
+ },
+ {
+  "id": "giant-canary",
+  "cr": "1/2",
+  "en": "Giant Canary",
+  "src": "Fizban's Treasury of Dragons",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 26,
+  "hd": "4d10+4",
+  "spd": {
+   "walk": 30,
+   "fly": 60
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   10,
+   14,
+   12,
+   2,
+   10,
+   6
+  ],
+  "sv": [
+   0,
+   2,
+   1,
+   -4,
+   0,
+   -2
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kanarya",
+  "role": "Uçan · Binek",
+  "multi": "",
+  "atk": [
+   "<b>Peck<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d10+2<\/b> delme (7)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   7,
+   "Gagalama"
+  ],
+  "tip": "Büyük boy ve 60 ft uçuşla küçük ya da orta bir dostu taşıyabilir; havadan gagalayıp yerdeki yakın dövüşçülerden uzak dur."
+ },
+ {
+  "id": "giant-dragonfly",
+  "cr": "1/2",
+  "en": "Giant Dragonfly",
+  "src": "The Wild Beyond the Witchlight",
+  "size": "Büyük",
+  "ac": 16,
+  "hp": 22,
+  "hd": "4d10",
+  "spd": {
+   "walk": 10,
+   "fly": 60
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   15,
+   18,
+   11,
+   3,
+   10,
+   3
+  ],
+  "sv": [
+   2,
+   4,
+   0,
+   -4,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Yusufçuk",
+  "role": "Uçan · Hız · Dayanıklı",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>1d4+4<\/b> delme (6)"
+  ],
+  "acts": [
+   [
+    "Uncanny Dodge",
+    "Tepki: görebildiği bir saldırganın saldırısından aldığı hasarı yarıya indirir."
+   ]
+  ],
+  "traits": [
+   [
+    "Drone",
+    "Kanat çırparken 120 ft'ten duyulan yüksek bir vızıltı çıkarır."
+   ]
+  ],
+  "dpr": [
+   6,
+   "Isırık"
+  ],
+  "tip": "AC 16, 60 ft uçuş ve Uncanny Dodge ile çok dayanıklı bir oyalayıcı; büyücüyü kuşat ama gizlilik gerektiğinde çağırma, vızıltısı duyulur."
+ },
+ {
+  "id": "giant-goat",
+  "cr": "1/2",
+  "en": "Giant Goat",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 11,
+  "abil": [
+   17,
+   11,
+   12,
+   3,
+   12,
+   6
+  ],
+  "sv": [
+   3,
+   0,
+   1,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Keçi",
+  "role": "Hücum · Devirme",
+  "multi": "",
+  "atk": [
+   "<b>Ram<\/b> <b>+5<\/b>, erişim 5 ft, 1 hedef · <b>2d4+3<\/b> ezme (8)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Charge",
+    "Düz çizgide en az 20 ft koşup aynı turda Ram ile vurursa +2d4 ezme (5); hedef DC 13 STR save'inde başarısız olursa yere serilir."
+   ],
+   [
+    "Sure-Footed",
+    "Yere serilmeye karşı STR ve DEX save'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   13,
+   "Hücumla Ram (8 + 5)"
+  ],
+  "tip": "Her tur 20 ft geri çekilip yeniden hücum et; yere serilen hedefe müttefiklerin yakın saldırıları avantaj kazanır."
+ },
+ {
+  "id": "giant-sea-eel",
+  "cr": "1/2",
+  "en": "Giant Sea Eel",
+  "src": "Ghosts of Saltmarsh",
+  "size": "Büyük",
+  "ac": 14,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 0,
+   "swim": 40
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 12,
+  "abil": [
+   11,
+   14,
+   12,
+   7,
+   10,
+   7
+  ],
+  "sv": [
+   0,
+   4,
+   1,
+   -2,
+   0,
+   -2
+  ],
+  "svp": [
+   "dex"
+  ],
+  "sk": [
+   [
+    "Perception",
+    2
+   ],
+   [
+    "Stealth",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Deniz Yılan Balığı",
+  "role": "Yüzen · Hasar",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>2d10+2<\/b> delme (13)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Water Breathing",
+    "Yalnız su altında nefes alabilir; karada çaresizdir."
+   ]
+  ],
+  "dpr": [
+   13,
+   "Isırık"
+  ],
+  "tip": "Yalnız su altı savaşında çağır; tek ısırığı 13 ortalamayla CR 1/2 için çok güçlü, Stealth +4 ile pusu kurar."
+ },
+ {
+  "id": "giant-sea-horse",
+  "cr": "1/2",
+  "en": "Giant Seahorse",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 14,
+  "hp": 16,
+  "hd": "3d10",
+  "spd": {
+   "walk": 5,
+   "swim": 40
+  },
+  "senses": [],
+  "passive": 11,
+  "abil": [
+   15,
+   12,
+   11,
+   2,
+   12,
+   5
+  ],
+  "sv": [
+   2,
+   1,
+   0,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Denizatı",
+  "role": "Yüzen · Hücum",
+  "multi": "",
+  "atk": [
+   "<b>Ram<\/b> <b>+4<\/b>, erişim 5 ft · <b>2d6+2<\/b> ezme (9) · düz çizgide 20 ft yüzüp vurursa yerine <b>2d8+2<\/b> ezme (11)"
+  ],
+  "acts": [
+   [
+    "Bubble Dash",
+    "Bonus aksiyon, yalnız su altında: yüzme hızının yarısı kadar fırsat saldırısı tetiklemeden hareket eder."
+   ]
+  ],
+  "traits": [
+   [
+    "Water Breathing",
+    "Yalnız su altında nefes alabilir."
+   ]
+  ],
+  "dpr": [
+   11,
+   "Hücumla Ram"
+  ],
+  "tip": "Yalnız su altı savaşlarında çağır; Bubble Dash ile geri çekilip her tur yeniden hücumla 11 hasar vur."
+ },
+ {
+  "id": "giant-wasp",
+  "cr": "1/2",
+  "en": "Giant Wasp",
+  "src": "Monster Manual (2024)",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 10,
+   "fly": 50
+  },
+  "senses": [],
+  "passive": 10,
+  "abil": [
+   10,
+   14,
+   10,
+   1,
+   10,
+   3
+  ],
+  "sv": [
+   0,
+   2,
+   0,
+   -5,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Eşekarısı",
+  "role": "Uçan · Zehir",
+  "multi": "",
+  "atk": [
+   "<b>Sting<\/b> <b>+4<\/b>, erişim 5 ft · <b>1d6+2<\/b> delme (5) + <b>2d4<\/b> zehir (5)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Flyby",
+    "Uçarak düşmanın erişiminden çıkınca fırsat saldırısı tetiklemez."
+   ]
+  ],
+  "dpr": [
+   10,
+   "İğne"
+  ],
+  "tip": "Flyby ile soka soka arka saftaki büyücülere ulaş ve geri uç; zehir save'siz geldiği için güvenilir hasar verir."
+ },
+ {
+  "id": "jaculi",
+  "cr": "1/2",
+  "en": "Jaculi",
+  "src": "Tomb of Annihilation",
+  "size": "Büyük",
+  "ac": 14,
+  "hp": 16,
+  "hd": "3d10",
+  "spd": {
+   "walk": 30,
+   "climb": 20
+  },
+  "senses": [
+   "Blindsight 30 ft"
+  ],
+  "passive": 11,
+  "abil": [
+   15,
+   14,
+   11,
+   2,
+   8,
+   3
+  ],
+  "sv": [
+   2,
+   2,
+   0,
+   -4,
+   -1,
+   -4
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Athletics",
+    4
+   ],
+   [
+    "Perception",
+    1
+   ],
+   [
+    "Stealth",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Jaculi",
+  "role": "Pusu · Sıçrama · Hasar",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>2d6+2<\/b> delme (9)"
+  ],
+  "acts": [
+   [
+    "Spring",
+    "30 ft düz çizgide fırlayıp erişimindeki bir hedefe Bite yapar; en az 10 ft fırladıysa saldırı avantajlı. İsabet ederse + <b>2d6<\/b> delme (7)."
+   ]
+  ],
+  "traits": [
+   [
+    "Camouflage",
+    "Saklanmak için yaptığı Dexterity (Stealth) check'lerinde avantaj."
+   ],
+   [
+    "Keen Smell",
+    "Kokuya dayalı Wisdom (Perception) check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   16,
+   "Spring ile Isırık (9 + 7)"
+  ],
+  "tip": "Her tur hedeften en az 10 ft uzaktan Spring kullan: avantajlı saldırı ve 16 ortalama hasar. 30 ft kör görüşü görünmez hedefleri de bulur."
+ },
+ {
+  "id": "reef-shark",
+  "cr": "1/2",
+  "en": "Reef Shark",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 22,
+  "hd": "4d8+4",
+  "spd": {
+   "swim": 40
+  },
+  "senses": [
+   "Blindsight 30 ft"
+  ],
+  "passive": 12,
+  "abil": [
+   14,
+   13,
+   13,
+   1,
+   10,
+   4
+  ],
+  "sv": [
+   2,
+   1,
+   1,
+   -5,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Resif Köpekbalığı",
+  "role": "Yüzen · Sürü",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft, 1 hedef · <b>1d8+2<\/b> delme (6)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Pack Tactics",
+    "Hedefin 5 ft yakınında saldırabilir durumda bir müttefiki varsa saldırıda avantaj."
+   ],
+   [
+    "Water Breathing",
+    "Yalnız su altında nefes alabilir."
+   ]
+  ],
+  "dpr": [
+   6,
+   "Isırık"
+  ],
+  "tip": "Su altında birkaç tanesini aynı hedefin etrafına topla; Pack Tactics ile hepsi avantajla ısırır."
+ },
+ {
+  "id": "space-eel",
+  "cr": "1/2",
+  "en": "Space Eel",
+  "src": "Boo's Astral Menagerie",
+  "size": "Küçük",
+  "ac": 14,
+  "hp": 7,
+  "hd": "2d6",
+  "spd": {
+   "walk": 10,
+   "fly": 30
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   12,
+   18,
+   11,
+   1,
+   10,
+   1
+  ],
+  "sv": [
+   1,
+   4,
+   0,
+   -5,
+   0,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Uzay Yılan Balığı",
+  "role": "Kontrol · Uçan",
+  "multi": "Yapışık değilse bir Isırık + bir Kuyruk Dikeni",
+  "atk": [
+   "<b>Bite<\/b> <b>+3<\/b>, erişim 5 ft, 1 yaratık · <b>1d6+1<\/b> delme (4) · hedefe <b>yapışır<\/b>: yapışıkken ısıramaz, her turunun başında hedef otomatik <b>1d6+1<\/b> delme (4) alır",
+   "<b>Tail Spine<\/b> <b>+3<\/b>, erişim 5 ft, 1 yaratık · <b>1d4+1<\/b> delme (3), sonra <b>DC 10 CON<\/b> save: başarısızsa 1 dakika <b>zehirlenir<\/b> ve bu süre boyunca <b>felç<\/b> olur (her turunun sonunda save tekrarlanır)"
+  ],
+  "acts": [
+   [
+    "Detach",
+    "Bonus aksiyonla kendini hedeften ayırır; hedef ya da başka biri de aksiyonuyla söküp atabilir."
+   ]
+  ],
+  "traits": [
+   [
+    "Unusual Nature",
+    "Havaya ihtiyaç duymaz."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Isırık + Kuyruk Dikeni"
+  ],
+  "tip": "Canı çok düşük ama Kuyruk Dikeni felç eder; düşük CON'lu büyücülere sür, felçli hedefe dostların yakından otomatik kritik vurur."
+ },
+ {
+  "id": "swarm-of-beetles",
+  "cr": "1/2",
+  "en": "Swarm of Beetles",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 20,
+   "burrow": 5,
+   "climb": 20
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   3,
+   13,
+   10,
+   1,
+   7,
+   1
+  ],
+  "sv": [
+   -4,
+   1,
+   0,
+   -5,
+   -2,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Böcek Sürüsü",
+  "role": "Sürü · Kazma",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+3<\/b>, erişim 0 ft, sürünün alanındaki 1 hedef · <b>4d4<\/b> delme (10); canı yarıya ya da altına inince <b>2d4<\/b> delme (5)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka bir yaratığın alanına girebilir (o da onunkine), Tiny bir böcek sığacak her aralıktan geçer. Can geri kazanamaz, geçici can alamaz."
+   ],
+   [
+    "Resistances",
+    "Ezme, delme ve kesme hasarına dirençli; charmed, frightened, kavranma, felç, taşlaşma, yere serilme, kısıtlanma ve sersemlemeye bağışık."
+   ]
+  ],
+  "dpr": [
+   10,
+   "Isırıklar (yaralıyken 5)"
+  ],
+  "tip": "Kazma ve tırmanma hızıyla engelleri aşar; silah dirençli olduğundan yakın dövüşçünün alanına girip onu bağla."
+ },
+ {
+  "id": "swarm-of-centipedes",
+  "cr": "1/2",
+  "en": "Swarm of Centipedes",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 20,
+   "climb": 20
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   3,
+   13,
+   10,
+   1,
+   7,
+   1
+  ],
+  "sv": [
+   -4,
+   1,
+   0,
+   -5,
+   -2,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Kırkayak Sürüsü",
+  "role": "Sürü · Zehir",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+3<\/b>, erişim 0 ft, sürünün alanındaki 1 hedef · <b>4d4<\/b> delme (10); canı yarıya ya da altına inince <b>2d4<\/b> delme (5) · hedef 0 cana inerse stabil ama 1 saat <b>zehirlenir<\/b> ve bu sürede <b>felç<\/b> olur"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka bir yaratığın alanına girebilir (o da onunkine), Tiny bir böcek sığacak her aralıktan geçer. Can geri kazanamaz, geçici can alamaz."
+   ],
+   [
+    "Resistances",
+    "Ezme, delme ve kesme hasarına dirençli; charmed, frightened, kavranma, felç, taşlaşma, yere serilme, kısıtlanma ve sersemlemeye bağışık."
+   ]
+  ],
+  "dpr": [
+   10,
+   "Isırıklar (yaralıyken 5)"
+  ],
+  "tip": "Düşürdüğü hedef 1 saat felç kalır; kaçmaya çalışan zayıf düşmanları yakalamak için birkaç sürüyü aynı hedefe yolla."
+ },
+ {
+  "id": "swarm-of-insects",
+  "cr": "1/2",
+  "en": "Swarm of Insects",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 20,
+   "climb": 20
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   3,
+   13,
+   10,
+   1,
+   7,
+   1
+  ],
+  "sv": [
+   -4,
+   1,
+   0,
+   -5,
+   -2,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Haşere Sürüsü",
+  "role": "Sürü · Tırmanma",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+3<\/b>, erişim 0 ft, sürünün alanındaki 1 hedef · <b>4d4<\/b> delme (10); canı yarıya ya da altına inince <b>2d4<\/b> delme (5)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka bir yaratığın alanına girebilir (o da onunkine), Tiny bir böcek sığacak her aralıktan geçer. Can geri kazanamaz, geçici can alamaz."
+   ],
+   [
+    "Resistances",
+    "Ezme, delme ve kesme hasarına dirençli; charmed, frightened, kavranma, felç, taşlaşma, yere serilme, kısıtlanma ve sersemlemeye bağışık."
+   ]
+  ],
+  "dpr": [
+   10,
+   "Isırıklar (yaralıyken 5)"
+  ],
+  "tip": "Silah hasarına dirençli, ucuz bir oyalayıcı; büyücünün alanına girip konsantrasyon save'lerini zorlat."
+ },
+ {
+  "id": "swarm-of-rot-grubs",
+  "cr": "1/2",
+  "en": "Swarm of Rot Grubs",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Orta",
+  "ac": 8,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 5,
+   "climb": 5
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 6,
+  "abil": [
+   2,
+   7,
+   10,
+   1,
+   2,
+   1
+  ],
+  "sv": [
+   -4,
+   -2,
+   0,
+   -5,
+   -4,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained"
+  ],
+  "tr": "Çürük Kurt Sürüsü",
+  "role": "Sürü · Zehir",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+0<\/b>, erişim 0 ft, sürünün alanındaki 1 yaratık · <b>2d6<\/b> delme (7), sonra <b>DC 10 CON<\/b> save: başarısızsa <b>zehirlenir<\/b>; zehirliyken her turunun sonunda <b>1d6<\/b> zehir (3). Ateş hasarı alınca save'i tekrarlar, başarıda biter. Zehirliyken turunu 0 canla bitirirse ölür."
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka yaratığın alanına girebilir, onlar da sürünün alanına; minik bir kurtçuğun sığdığı her aralıktan geçer. Can kazanamaz, geçici can alamaz. Delme ve kesmeye dirençli, ateşe karşı hassas."
+   ]
+  ],
+  "dpr": [
+   7,
+   "Isırıklar + sonraki turlarda 3 zehir"
+  ],
+  "tip": "Çok yavaş (5 ft) ve isabeti zayıf; düşmanın sana geleceği yere çağır ya da yere serilmiş, kısıtlanmış hedeflerin üstüne koy."
+ },
+ {
+  "id": "swarm-of-spiders",
+  "cr": "1/2",
+  "en": "Swarm of Spiders",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 20,
+   "climb": 20
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   3,
+   13,
+   10,
+   1,
+   7,
+   1
+  ],
+  "sv": [
+   -4,
+   1,
+   0,
+   -5,
+   -2,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Örümcek Sürüsü",
+  "role": "Sürü · Tırmanma · Oyalama",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+3<\/b>, erişim 0 ft, sürünün alanındaki 1 hedef · <b>4d4<\/b> delme (10) · canı yarıya ya da altına inince <b>2d4<\/b> delme (5)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka yaratığın alanına girebilir, onlar da sürünün alanına; minik bir böceğin sığdığı her aralıktan geçer. Can kazanamaz, geçici can alamaz. Ezme, delme ve kesmeye dirençli; kavranamaz, yere serilemez."
+   ],
+   [
+    "Spider Climb",
+    "Duvarda ve tavanda baş aşağı, check atmadan tırmanır."
+   ],
+   [
+    "Web Sense",
+    "Bir ağa değerken, aynı ağa değen her yaratığın yerini tam bilir."
+   ],
+   [
+    "Web Walker",
+    "Ağların hareket kısıtlamalarından etkilenmez."
+   ]
+  ],
+  "dpr": [
+   10,
+   "Isırıklar (yarı canda 5)"
+  ],
+  "tip": "Hedefin alanına girip saldırmak zorunda, bu yüzden düşmanın tam üstüne yürüt. Duvar ve tavandan dolaşarak ön safı atlayabilir."
+ },
+ {
+  "id": "swarm-of-wasps",
+  "cr": "1/2",
+  "en": "Swarm of Wasps",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 12,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 5,
+   "fly": 30
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   3,
+   13,
+   10,
+   1,
+   7,
+   1
+  ],
+  "sv": [
+   -4,
+   1,
+   0,
+   -5,
+   -2,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Eşek Arısı Sürüsü",
+  "role": "Uçan · Sürü · Oyalama",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+3<\/b>, erişim 0 ft, sürünün alanındaki 1 hedef · <b>4d4<\/b> delme (10) · canı yarıya ya da altına inince <b>2d4<\/b> delme (5)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka yaratığın alanına girebilir, onlar da sürünün alanına; minik bir böceğin sığdığı her aralıktan geçer. Can kazanamaz, geçici can alamaz. Ezme, delme ve kesmeye dirençli; kavranamaz, yere serilemez."
+   ]
+  ],
+  "dpr": [
+   10,
+   "Isırıklar (yarı canda 5)"
+  ],
+  "tip": "30 ft uçarak arka saftaki büyücülerin alanına yerleştir; silaha dirençli olduğu için temizlemek zordur. Yerde neredeyse hareketsiz (5 ft)."
+ },
+ {
+  "id": "warhorse",
+  "cr": "1/2",
+  "en": "Warhorse",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 60
+  },
+  "senses": [],
+  "passive": 11,
+  "abil": [
+   18,
+   12,
+   13,
+   2,
+   12,
+   7
+  ],
+  "sv": [
+   4,
+   1,
+   1,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Savaş Atı",
+  "role": "Hücum · Hız · Binek",
+  "multi": "",
+  "atk": [
+   "<b>Hooves<\/b> <b>+6<\/b>, erişim 5 ft, 1 hedef · <b>2d6+4<\/b> ezme (11)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Trampling Charge",
+    "En az 20 ft düz koşup aynı tur Hooves ile vurursa hedef <b>DC 14 STR<\/b> save atar; başarısızsa <b>yere serilir<\/b>. Hedef yerdeyse at bonus aksiyonla bir Hooves saldırısı daha yapar."
+   ]
+  ],
+  "dpr": [
+   11,
+   "Toynak; hücumla yere serince 22"
+  ],
+  "tip": "60 ft hızıyla her tur geri çekilip yeniden 20 ft koşarak hücum et; hedefi yere serince bonus toynak saldırısı gelir. Binek olarak da kullanılabilir."
+ },
+ {
+  "id": "brown-bear",
+  "cr": "1",
+  "en": "Brown Bear",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 34,
+  "hd": "4d10+12",
+  "spd": {
+   "walk": 40,
+   "climb": 30
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   19,
+   10,
+   16,
+   2,
+   13,
+   7
+  ],
+  "sv": [
+   4,
+   0,
+   3,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Boz Ayı",
+  "role": "Hasar · Tank · Tırmanma",
+  "multi": "Bir Isırık + bir Pençe",
+  "atk": [
+   "<b>Bite<\/b> <b>+6<\/b>, erişim 5 ft · <b>1d8+4<\/b> delme (8)",
+   "<b>Claws<\/b> <b>+6<\/b>, erişim 5 ft · <b>2d6+4<\/b> kesme (11)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Smell",
+    "Kokuya dayalı Perception check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   19,
+   "Isırık + Pençe"
+  ],
+  "tip": "İki saldırısı ve 34 canıyla ön safta düşmanı oyalar; 30 ft tırmanır."
+ },
+ {
+  "id": "clawfoot",
+  "cr": "1",
+  "en": "Clawfoot",
+  "src": "Eberron: Rising from the Last War",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 19,
+  "hd": "3d8+6",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   12,
+   16,
+   14,
+   4,
+   12,
+   10
+  ],
+  "sv": [
+   1,
+   3,
+   2,
+   -3,
+   1,
+   0
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ],
+   [
+    "Stealth",
+    5
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Clawfoot",
+  "role": "Hasar · Hücum · Sürü",
+  "multi": "Bir Isırık + bir Pençe",
+  "atk": [
+   "<b>Bite<\/b> <b>+5<\/b>, erişim 5 ft · <b>1d8+3<\/b> delme (7)",
+   "<b>Claws<\/b> <b>+5<\/b>, erişim 5 ft · <b>1d8+3<\/b> kesme (7)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Pack Tactics",
+    "Hedefin 5 ft yakınında etkisiz kalmamış bir müttefik varsa saldırıda avantaj."
+   ],
+   [
+    "Pounce",
+    "Düz bir çizgide en az 20 ft koşup aynı turda Pençe ile isabet ederse hedef <b>DC 11 STR<\/b> save yapar; başarısızsa <b>yere serilir<\/b>. Hedef yerdeyse bonus aksiyonla bir Isırık daha."
+   ]
+  ],
+  "dpr": [
+   21,
+   "Isırık + Pençe, Pounce ile hedef yere serilirse bonus Isırık dahil"
+  ],
+  "tip": "Müttefikler yanındayken Pack Tactics ile sürekli avantaj alır; açık alanda 20 ft koşup Pounce ile hedefi yere ser. Canı düşük (19), uzun dövüşte dikkat."
+ },
+ {
+  "id": "deinonychus",
+  "cr": "1",
+  "en": "Deinonychus",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 26,
+  "hd": "4d8+8",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   15,
+   15,
+   14,
+   4,
+   12,
+   6
+  ],
+  "sv": [
+   2,
+   2,
+   2,
+   -3,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Deinonychus",
+  "role": "Hasar · Hücum",
+  "multi": "Bir Isırık + iki Pençe",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft · <b>1d8+2<\/b> delme (6)",
+   "<b>Claw<\/b> <b>+4<\/b>, erişim 5 ft · <b>1d8+2<\/b> kesme (6)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Pounce",
+    "Düz bir çizgide en az 20 ft koşup aynı turda Pençe ile isabet ederse hedef <b>DC 12 STR<\/b> save yapar; başarısızsa <b>yere serilir<\/b>. Hedef yerdeyse bonus aksiyonla bir Isırık daha."
+   ]
+  ],
+  "dpr": [
+   24,
+   "Isırık + 2 Pençe, Pounce ile hedef yere serilirse bonus Isırık dahil"
+  ],
+  "tip": "Tur başına üç saldırı ve Pounce ile tutarlı hasar verir; yere serilen hedefe ek saldırıların avantajlı olur. Saldırı bonusu düşük (+4), yüksek AC'li hedeflerde zorlanır."
+ },
+ {
+  "id": "dire-wolf",
+  "cr": "1",
+  "en": "Dire Wolf",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 14,
+  "hp": 37,
+  "hd": "5d10+10",
+  "spd": {
+   "walk": 50
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   17,
+   15,
+   15,
+   3,
+   12,
+   7
+  ],
+  "sv": [
+   3,
+   2,
+   2,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ],
+   [
+    "Stealth",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kurt",
+  "role": "Kontrol · Hareket · Sürü",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+5<\/b>, erişim 5 ft · <b>2d6+3<\/b> delme (10) · hedef yaratıksa <b>DC 13 STR<\/b> save: başarısızsa <b>yere serilir<\/b>"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Hearing and Smell",
+    "Duyma ya da kokuya dayalı Perception check'lerinde avantaj."
+   ],
+   [
+    "Pack Tactics",
+    "Hedefin 5 ft yakınında etkisiz kalmamış bir müttefik varsa saldırıda avantaj."
+   ]
+  ],
+  "dpr": [
+   10,
+   "tek Isırık"
+  ],
+  "tip": "50 ft hız ve yüksek AC ile hızlı takip ve kaçış için iyi; her ısırık hedefi yere serebilir, böylece müttefiklerin yakın saldırıları avantajlı olur."
+ },
+ {
+  "id": "female-steeder",
+  "cr": "1",
+  "en": "Female Steeder",
+  "src": "Out of the Abyss",
+  "size": "Büyük",
+  "ac": 14,
+  "hp": 30,
+  "hd": "4d10+8",
+  "spd": {
+   "walk": 30,
+   "climb": 30
+  },
+  "senses": [
+   "Darkvision 120 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   15,
+   16,
+   14,
+   2,
+   10,
+   3
+  ],
+  "sv": [
+   2,
+   3,
+   2,
+   -4,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Stealth",
+    7
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dişi Steeder",
+  "role": "Kavrama · Tırmanma · Hareket",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+5<\/b>, erişim 5 ft, 1 yaratık · <b>1d8+3<\/b> delme (7), sonra <b>DC 12 CON<\/b> save: başarısızsa <b>2d8<\/b> asit (9), başarılıysa yarısı",
+   "<b>Sticky Leg<\/b> (kavradığı yaratık yokken yenilenir) <b>+5<\/b>, erişim 5 ft, Orta ya da daha küçük 1 yaratık · hasar yok · hedef bacağa yapışır ve <b>kavranır<\/b> (kaçış: DC 12 Athletics ya da Acrobatics check)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Spider Climb",
+    "Zor yüzeylere ve tavana baş aşağı check atmadan tırmanır."
+   ],
+   [
+    "Leap",
+    "Hızı en az 30 ft ise turundaki tüm hareketini harcayarak dikey ya da yatay 90 ft'e kadar sıçrar."
+   ]
+  ],
+  "dpr": [
+   16,
+   "Isırık, asit save başarısızsa"
+  ],
+  "tip": "Tavanda yürüme ve 90 ft sıçrama ile keşif, kaçış ve ulaşılmaz yerlere çıkmak için ideal. 120 ft karanlık görüş yeraltında büyük avantaj."
+ },
+ {
+  "id": "giant-eagle",
+  "cr": "1",
+  "en": "Giant Eagle",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 26,
+  "hd": "4d10+4",
+  "spd": {
+   "walk": 10,
+   "fly": 80
+  },
+  "senses": [],
+  "passive": 14,
+  "abil": [
+   16,
+   17,
+   13,
+   8,
+   14,
+   10
+  ],
+  "sv": [
+   3,
+   3,
+   1,
+   -1,
+   2,
+   0
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kartal",
+  "role": "Uçuş · Keşif · Hasar",
+  "multi": "Bir Gaga + bir Pençe",
+  "atk": [
+   "<b>Beak<\/b> <b>+5<\/b>, erişim 5 ft · <b>1d6+3<\/b> delme (6)",
+   "<b>Talons<\/b> <b>+5<\/b>, erişim 5 ft · <b>2d6+3<\/b> kesme (10)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Sight",
+    "Görmeye dayalı Perception check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   16,
+   "Gaga + Pençe"
+  ],
+  "tip": "80 ft uçuşla hızlı keşif ve yolculuk için en iyi seçenek; Büyük boyutta olduğu için Orta bir müttefiği taşıyabilir (DM onayıyla). Yerde hızı sadece 10 ft."
+ },
+ {
+  "id": "giant-hyena",
+  "cr": "1",
+  "en": "Giant Hyena",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 45,
+  "hd": "6d10+12",
+  "spd": {
+   "walk": 50
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   16,
+   14,
+   14,
+   2,
+   12,
+   7
+  ],
+  "sv": [
+   3,
+   2,
+   2,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Sırtlan",
+  "role": "Hasar · Tank · Hareket",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+5<\/b>, erişim 5 ft · <b>2d6+3<\/b> delme (10)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Rampage",
+    "Kendi turunda yakın dövüş saldırısıyla bir yaratığı 0 cana indirirse bonus aksiyonla hızının yarısı kadar hareket edip bir Isırık daha yapabilir."
+   ]
+  ],
+  "dpr": [
+   20,
+   "Isırık + Rampage ile ikinci Isırık (hedef öldüyse)"
+  ],
+  "tip": "45 can ve 50 ft hızla hızlı bir ön saf; zayıf düşmanı öldürünce Rampage ile bir ısırık daha."
+ },
+ {
+  "id": "giant-octopus",
+  "cr": "1",
+  "en": "Giant Octopus",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 52,
+  "hd": "8d10+8",
+  "spd": {
+   "walk": 10,
+   "swim": 60
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 14,
+  "abil": [
+   17,
+   13,
+   13,
+   4,
+   10,
+   4
+  ],
+  "sv": [
+   3,
+   1,
+   1,
+   -3,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    4
+   ],
+   [
+    "Stealth",
+    5
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Ahtapot",
+  "role": "Su altı · Kavrama · Kontrol",
+  "multi": "",
+  "atk": [
+   "<b>Tentacles<\/b> <b>+5<\/b>, erişim 15 ft · <b>2d6+3<\/b> ezme (10) · hedef yaratıksa <b>kavranır<\/b> (kaçış: DC 16 Athletics ya da Acrobatics check) ve kavrama sürdükçe <b>kısıtlanır<\/b>; bu sırada başka hedefe dokunaçla saldıramaz"
+  ],
+  "acts": [
+   [
+    "Ink Cloud",
+    "Kısa ya da uzun dinlenmede yenilenir. Sadece su altındayken etrafına 20 ft yarıçaplı mürekkep bulutu yayar; alan 1 dakika yoğun karartılmış olur (güçlü akıntı dağıtabilir). Ardından bonus aksiyonla Dash yapabilir."
+   ]
+  ],
+  "traits": [
+   [
+    "Hold Breath",
+    "Su dışındayken nefesini 1 saat tutabilir."
+   ],
+   [
+    "Underwater Camouflage",
+    "Su altında Stealth check'lerinde avantaj."
+   ],
+   [
+    "Water Breathing",
+    "Sadece su altında nefes alabilir; karada 1 saat sonra boğulmaya başlar."
+   ]
+  ],
+  "dpr": [
+   10,
+   "tek Dokunaç"
+  ],
+  "tip": "Su altında 60 ft yüzme, 15 ft erişim ve kaçışı DC 16 (Athletics ya da Acrobatics check) olan kavrama ile bir düşmanı kilitlemek için mükemmel. Karada yavaş (10 ft) ve en fazla 1 saat dayanır."
+ },
+ {
+  "id": "giant-spider",
+  "cr": "1",
+  "en": "Giant Spider",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 14,
+  "hp": 26,
+  "hd": "4d10+4",
+  "spd": {
+   "walk": 30,
+   "climb": 30
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 14,
+  "abil": [
+   14,
+   16,
+   12,
+   2,
+   11,
+   4
+  ],
+  "sv": [
+   2,
+   3,
+   1,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    4
+   ],
+   [
+    "Stealth",
+    7
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Örümcek",
+  "role": "Kontrol · Tırmanma · Stealth",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+5<\/b>, erişim 5 ft · <b>1d8+3<\/b> delme (7) + <b>2d6<\/b> zehir (7)",
+   "<b>Web<\/b> (5–6'da yenilenir) · <b>DC 13 DEX<\/b> save, 60 ft, görebildiği 1 yaratık: başarısızsa ağ yok edilene dek <b>kısıtlanır<\/b> (ağ: AC 10, 5 can, ateşe karşı savunmasız, zehir ve psişik hasara bağışık)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Spider Climb",
+    "Zor yüzeylere ve tavana check atmadan tırmanır."
+   ],
+   [
+    "Web Walker",
+    "Ağların hareket kısıtlamalarını yok sayar; aynı ağa temas eden diğer yaratıkların yerini bilir."
+   ]
+  ],
+  "dpr": [
+   14,
+   "Isırık (delme + zehir)"
+  ],
+  "tip": "Ağ ile kaçan ya da tehlikeli bir hedefi uzaktan kısıtla, sonra müttefikler avantajla saldırsın. Tavan ve duvarlarda gizlenip pusu kurmak için ideal."
+ },
+ {
+  "id": "giant-swan",
+  "cr": "1",
+  "en": "Giant Swan",
+  "src": "The Wild Beyond the Witchlight",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 26,
+  "hd": "4d10+4",
+  "spd": {
+   "walk": 10,
+   "fly": 80
+  },
+  "senses": [],
+  "passive": 14,
+  "abil": [
+   16,
+   17,
+   13,
+   8,
+   14,
+   10
+  ],
+  "sv": [
+   3,
+   3,
+   1,
+   -1,
+   2,
+   0
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kuğu",
+  "role": "Uçuş · Keşif",
+  "multi": "İki Gaga",
+  "atk": [
+   "<b>Beak<\/b> <b>+5<\/b>, erişim 5 ft · <b>1d6+3<\/b> delme (6)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Sight",
+    "Görmeye dayalı Perception check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   12,
+   "2 Gaga"
+  ],
+  "tip": "Dev Kartal ile aynı 80 ft uçuş ve dayanıklılık; daha az hasar verir, bu yüzden daha çok yolculuk ve gözetleme için. Yerde hızı sadece 10 ft."
+ },
+ {
+  "id": "giant-toad",
+  "cr": "1",
+  "en": "Giant Toad",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 39,
+  "hd": "6d10+6",
+  "spd": {
+   "walk": 20,
+   "swim": 40
+  },
+  "senses": [
+   "Darkvision 30 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   15,
+   13,
+   13,
+   2,
+   10,
+   3
+  ],
+  "sv": [
+   2,
+   1,
+   1,
+   -4,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kurbağa",
+  "role": "Kavrama · Kontrol · Su altı",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft · <b>1d10+2<\/b> delme (7) + <b>1d10<\/b> zehir (5) · hedef <b>kavranır<\/b> (kaçış: DC 13 Athletics ya da Acrobatics check) ve kavrama sürdükçe <b>kısıtlanır<\/b>; bu sırada başka hedefi ısıramaz",
+   "<b>Swallow<\/b> · kavradığı Orta ya da daha küçük hedefe bir Isırık; isabet ederse hedef yutulur, kavrama biter. Yutulan hedef <b>kör olur<\/b> ve <b>kısıtlanır<\/b>, dışarıdan gelen saldırı ve etkilere karşı siperdedir, kurbağanın her tur başında <b>3d6<\/b> asit (10) alır. Aynı anda tek hedef yutulabilir; kurbağa ölürse hedef 5 ft hareketle cesetten <b>yere serilmiş<\/b> çıkar"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Amphibious",
+    "Hem havada hem su altında nefes alabilir."
+   ],
+   [
+    "Standing Leap",
+    "Koşu almadan 20 ft uzun, 10 ft yüksek atlayabilir."
+   ]
+  ],
+  "dpr": [
+   12,
+   "Isırık (delme + zehir); yutunca her tur ayrıca 3d6 (10) asit"
+  ],
+  "tip": "Bir büyücüyü ya da tek tehlikeli hedefi yutup savaş dışı bırakmak için harika; yutulan hedef dışarıdan saldırılara karşı korunur. 39 can ve amfibi olması güvenli bir seçim yapar."
+ },
+ {
+  "id": "giant-vulture",
+  "cr": "1",
+  "en": "Giant Vulture",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 10,
+  "hp": 22,
+  "hd": "3d10+6",
+  "spd": {
+   "walk": 10,
+   "fly": 60
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   15,
+   10,
+   15,
+   6,
+   12,
+   7
+  ],
+  "sv": [
+   2,
+   0,
+   2,
+   -2,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Akbaba",
+  "role": "Uçuş · Hasar · Sürü",
+  "multi": "Bir Gaga + bir Pençe",
+  "atk": [
+   "<b>Beak<\/b> <b>+4<\/b>, erişim 5 ft · <b>2d4+2<\/b> delme (7)",
+   "<b>Talons<\/b> <b>+4<\/b>, erişim 5 ft · <b>2d6+2<\/b> kesme (9)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Sight and Smell",
+    "Görme ya da kokuya dayalı Perception check'lerinde avantaj."
+   ],
+   [
+    "Pack Tactics",
+    "Hedefin 5 ft yakınında etkisiz kalmamış bir müttefik varsa saldırıda avantaj."
+   ]
+  ],
+  "dpr": [
+   16,
+   "Gaga + Pençe"
+  ],
+  "tip": "Uçarak arka saftaki büyücülere iner; müttefikler yanındayken Pack Tactics ile avantajlı saldırır. Canı az (22)."
+ },
+ {
+  "id": "lion",
+  "cr": "1",
+  "en": "Lion",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 22,
+  "hd": "4d10",
+  "spd": {
+   "walk": 50
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 13,
+  "abil": [
+   17,
+   15,
+   11,
+   3,
+   12,
+   8
+  ],
+  "sv": [
+   3,
+   2,
+   0,
+   -4,
+   1,
+   -1
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ],
+   [
+    "Stealth",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Aslan",
+  "role": "Hasar · Kontrol · Sürü",
+  "multi": "İki Rend; biri yerine Roar kullanılabilir",
+  "atk": [
+   "<b>Rend<\/b> <b>+5<\/b>, erişim 5 ft · <b>1d8+3<\/b> kesme (7)",
+   "<b>Roar<\/b> · <b>DC 11 WIS<\/b> save, 15 ft içinde 1 yaratık: başarısızsa aslanın bir sonraki turunun başına kadar <b>korkar<\/b>"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Pack Tactics",
+    "Hedefin 5 ft yakınında etkisiz kalmamış bir müttefik varsa saldırıda avantaj."
+   ],
+   [
+    "Running Leap",
+    "10 ft koşu alarak 25 ft'e kadar uzun atlayabilir."
+   ]
+  ],
+  "dpr": [
+   14,
+   "2 Rend"
+  ],
+  "tip": "50 ft hız ve Pack Tactics ile müttefiklerle birlikte saldırmak için; Kükreme ile bir düşmanı korkutup saldırılarını zayıflat. Canı düşük (22)."
+ },
+ {
+  "id": "moorbounder",
+  "cr": "1",
+  "en": "Moorbounder",
+  "src": "Explorer's Guide to Wildemount",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 30,
+  "hd": "4d10+8",
+  "spd": {
+   "walk": 70
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 11,
+  "abil": [
+   18,
+   14,
+   14,
+   2,
+   13,
+   5
+  ],
+  "sv": [
+   4,
+   2,
+   2,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Moorbounder",
+  "role": "Hareket · Hasar",
+  "multi": "",
+  "atk": [
+   "<b>Claws<\/b> <b>+6<\/b>, erişim 5 ft · <b>4d4+4<\/b> kesme (14)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Standing Leap",
+    "Koşu almadan 40 ft uzun, 20 ft yüksek atlayabilir."
+   ]
+  ],
+  "dpr": [
+   14,
+   "tek Pençe"
+  ],
+  "tip": "70 ft hızla haritanın öbür ucuna anında ulaşır; kaçan düşmanı kovalamak için ideal."
+ },
+ {
+  "id": "swarm-of-quippers",
+  "cr": "1",
+  "en": "Swarm of Quippers",
+  "src": "Monster Manual (2014)",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 28,
+  "hd": "8d8-8",
+  "spd": {
+   "walk": 0,
+   "swim": 40
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   13,
+   16,
+   9,
+   1,
+   7,
+   2
+  ],
+  "sv": [
+   1,
+   3,
+   -1,
+   -5,
+   -2,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Pirana Sürüsü",
+  "role": "Su altı · Hasar",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+5<\/b>, erişim 0 ft, sürünün alanındaki 1 yaratık · <b>4d6<\/b> delme (14); sürünün canı yarı ya da daha azsa <b>2d6<\/b> delme (7)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Blood Frenzy",
+    "Canı tam olmayan yaratıklara karşı yakın dövüş saldırılarında avantaj."
+   ],
+   [
+    "Swarm",
+    "Başka yaratığın alanına girebilir, minik bir balığın geçebileceği her açıklıktan geçer. Can kazanamaz, geçici can alamaz."
+   ],
+   [
+    "Water Breathing",
+    "Sadece su altında nefes alabilir; karada boğulur. Yürüme hızı 0 ft."
+   ]
+  ],
+  "dpr": [
+   14,
+   "Isırıklar, sürü canı yarıdan fazlayken (sonra 7)"
+  ],
+  "tip": "Su altında silahla dövüşen düşmanlara karşı fiziksel hasar direnci ve koşul bağışıklıkları sayesinde çok dayanıklı. İyileşemez, karada tamamen işe yaramaz."
+ },
+ {
+  "id": "tiger",
+  "cr": "1",
+  "en": "Tiger",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 30,
+  "hd": "4d10+8",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 13,
+  "abil": [
+   17,
+   16,
+   14,
+   3,
+   12,
+   8
+  ],
+  "sv": [
+   3,
+   3,
+   2,
+   -4,
+   1,
+   -1
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ],
+   [
+    "Stealth",
+    7
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Kaplan",
+  "role": "Hasar · Kontrol · Stealth",
+  "multi": "",
+  "atk": [
+   "<b>Rend<\/b> <b>+5<\/b>, erişim 5 ft · <b>2d6+3<\/b> kesme (10) · hedef Büyük ya da daha küçükse save'siz <b>yere serilir<\/b>"
+  ],
+  "acts": [
+   [
+    "Nimble Escape",
+    "Bonus aksiyon: Disengage ya da Hide aksiyonu."
+   ]
+  ],
+  "traits": [],
+  "dpr": [
+   10,
+   "tek Rend"
+  ],
+  "tip": "Her isabette save'siz yere serme müttefiklere avantaj sağlar; ardından bonus aksiyonla Disengage yapıp güvenle geri çekil ya da saklan."
+ },
+ {
+  "id": "two-headed-crocodile",
+  "cr": "1",
+  "en": "Two-Headed Crocodile",
+  "src": "Infernal Machine Rebuild",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 19,
+  "hd": "3d10+3",
+  "spd": {
+   "walk": 20,
+   "swim": 30
+  },
+  "senses": [],
+  "passive": 12,
+  "abil": [
+   15,
+   10,
+   13,
+   2,
+   10,
+   5
+  ],
+  "sv": [
+   2,
+   0,
+   1,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ],
+   [
+    "Stealth",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "İki Başlı Timsah",
+  "role": "Kavrama · Su altı · Kontrol",
+  "multi": "İki Isırık",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 5 ft · <b>1d10+2<\/b> delme (7) · hedef <b>kavranır<\/b> (kaçış: DC 12 Athletics ya da Acrobatics check) ve kavrama sürdükçe <b>kısıtlanır<\/b>; o baş başka hedefi ısıramaz"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Hold Breath",
+    "Nefesini 15 dakika tutabilir."
+   ],
+   [
+    "Two Heads",
+    "Perception check'lerinde ve kör olma, büyülenme, sağırlaşma, korkma, sersemleme ve bilinçsiz kalmaya karşı save'lerde avantaj."
+   ],
+   [
+    "Wakeful",
+    "Bir başı uyurken diğeri uyanıktır."
+   ]
+  ],
+  "dpr": [
+   14,
+   "2 Isırık"
+  ],
+  "tip": "İki başla iki ayrı hedefi kavrayıp kısıtlayabilir; suda ve kıyıda kontrol için iyi. Canı çok düşük (19), uzun dövüşe uygun değil."
+ },
+ {
+  "id": "allosaurus",
+  "cr": "2",
+  "en": "Allosaurus",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 51,
+  "hd": "6d10+18",
+  "spd": {
+   "walk": 60
+  },
+  "senses": [],
+  "passive": 15,
+  "abil": [
+   19,
+   13,
+   17,
+   2,
+   12,
+   5
+  ],
+  "sv": [
+   4,
+   1,
+   3,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    5
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Allosaurus",
+  "role": "Hasar · Hücum · Hareket",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+6<\/b>, erişim 5 ft · <b>2d10+4<\/b> delme (15)",
+   "<b>Claws<\/b> <b>+6<\/b>, erişim 5 ft · <b>1d8+4<\/b> kesme (8) · hedef Büyük ya da daha küçükse ve allosaurus vuruştan hemen önce ona doğru düz 30+ ft hareket ettiyse save'siz <b>yere serilir<\/b> ve allosaurus ona bir Isırık daha yapabilir"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   23,
+   "hücumla Pençe + ek Isırık; normal turda tek Isırık 15"
+  ],
+  "tip": "60 ft hız ve 51 can ile güçlü bir vurucu: 30 ft koşup Pençe ile yere ser, ardından ağır Isırığı indir. Normal turda sadece Isırık kullan."
+ },
+ {
+  "id": "aurochs",
+  "cr": "2",
+  "en": "Aurochs",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Büyük",
+  "ac": 11,
+  "hp": 38,
+  "hd": "4d10+16",
+  "spd": {
+   "walk": 50
+  },
+  "senses": [],
+  "passive": 11,
+  "abil": [
+   20,
+   10,
+   19,
+   2,
+   12,
+   5
+  ],
+  "sv": [
+   5,
+   0,
+   4,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Yaban Sığırı (Aurochs)",
+  "role": "Hasar · Hücum",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+7<\/b>, erişim 5 ft · <b>2d8+5<\/b> delme (14) · hemen önce hedefe doğru düz en az 20 ft koştuysa <b>+2d8<\/b> delme (9) ve yaratık hedef <b>DC 15 STR<\/b> save'inde başarısızsa <b>yere serilir<\/b>"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   23,
+   "Hücumlu Gore (20 ft düz koşu sonrası)"
+  ],
+  "tip": "Açık alanda her tur 20 ft geri çekilip yeniden hücum et; 50 ft hız buna rahatça yeter. Tek vuruşla hem ağır hasar hem yere serme sağlar."
+ },
+ {
+  "id": "cave-bear",
+  "cr": "2",
+  "en": "Cave Bear",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 42,
+  "hd": "5d10+15",
+  "spd": {
+   "walk": 40,
+   "swim": 30
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 13,
+  "abil": [
+   20,
+   10,
+   16,
+   2,
+   13,
+   7
+  ],
+  "sv": [
+   5,
+   0,
+   3,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Mağara Ayısı",
+  "role": "Hasar · Tank · Yüzme",
+  "multi": "Bir Isırık + bir Pençe",
+  "atk": [
+   "<b>Bite<\/b> <b>+7<\/b>, erişim 5 ft · <b>1d8+5<\/b> delme (9)",
+   "<b>Claws<\/b> <b>+7<\/b>, erişim 5 ft · <b>2d6+5<\/b> kesme (12)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Smell",
+    "Kokuya dayalı Perception check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   21,
+   "Isırık + Pençe"
+  ],
+  "tip": "42 can ve iki güçlü saldırı; suda da yüzerek savaşabilir."
+ },
+ {
+  "id": "giant-boar",
+  "cr": "2",
+  "en": "Giant Boar",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 42,
+  "hd": "5d10+15",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 8,
+  "abil": [
+   17,
+   10,
+   16,
+   2,
+   7,
+   5
+  ],
+  "sv": [
+   5,
+   0,
+   3,
+   -4,
+   -2,
+   -3
+  ],
+  "svp": [
+   "str"
+  ],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Yaban Domuzu",
+  "role": "Hasar · Hücum",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+5<\/b>, erişim 5 ft · <b>2d6+3<\/b> delme (10) · hedef Büyük ya da daha küçük bir yaratıksa ve domuz hemen önce ona doğru düz 20+ ft hareket ettiyse <b>+2d6<\/b> delme (7) ve hedef <b>yere serilir<\/b> (save yok)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Bloodied Fury",
+    "Yaralıyken (canı yarıdan az) yakın dövüş saldırılarında avantaj."
+   ]
+  ],
+  "dpr": [
+   17,
+   "Hücumlu Gore (20 ft düz koşu sonrası)"
+  ],
+  "tip": "Önce 20 ft düz koş, sonra Gore ile vur; Relentless sayesinde bir kez 0 cana düşmez."
+ },
+ {
+  "id": "giant-constrictor-snake",
+  "cr": "2",
+  "en": "Giant Constrictor Snake",
+  "src": "Monster Manual (2024)",
+  "size": "Devasa",
+  "ac": 12,
+  "hp": 60,
+  "hd": "8d12+8",
+  "spd": {
+   "walk": 30,
+   "swim": 30
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 12,
+  "abil": [
+   19,
+   14,
+   12,
+   1,
+   10,
+   3
+  ],
+  "sv": [
+   4,
+   2,
+   1,
+   -5,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Boğucu Yılan",
+  "role": "Kavrama · Kontrol · Yüzme",
+  "multi": "Bir Isırık + Constrict",
+  "atk": [
+   "<b>Bite<\/b> <b>+6<\/b>, erişim 10 ft · <b>2d6+4<\/b> delme (11)",
+   "<b>Constrict<\/b> · <b>DC 14 STR<\/b> save, 10 ft içinde görülen Büyük ya da daha küçük 1 yaratık: başarısızsa <b>2d8+4<\/b> ezme (13) ve hedef <b>kavranır<\/b> (kaçış: DC 14 Athletics ya da Acrobatics check)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   24,
+   "Isırık + Constrict save başarısızsa"
+  ],
+  "tip": "Bir düşmanı sarıp kısıtlar; büyücüleri ya da kaçmaya çalışanı tutmak için en iyi kontrol çağrısı."
+ },
+ {
+  "id": "giant-crayfish",
+  "cr": "2",
+  "en": "Giant Crayfish",
+  "src": "Tales from the Yawning Portal",
+  "size": "Büyük",
+  "ac": 15,
+  "hp": 45,
+  "hd": "7d10+7",
+  "spd": {
+   "walk": 30,
+   "swim": 30
+  },
+  "senses": [
+   "Blindsight 30 ft"
+  ],
+  "passive": 9,
+  "abil": [
+   15,
+   13,
+   13,
+   1,
+   9,
+   3
+  ],
+  "sv": [
+   2,
+   1,
+   1,
+   -5,
+   -1,
+   -4
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Stealth",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Kerevit",
+  "role": "Kavrama · Tank · Su altı",
+  "multi": "İki Pençe",
+  "atk": [
+   "<b>Claw<\/b> <b>+4<\/b>, erişim 5 ft · <b>1d10+2<\/b> ezme (7) · hedef <b>kavranır<\/b> (kaçış: DC 12 Athletics ya da Acrobatics check); iki kıskaç ayrı ayrı kavrar → en fazla 2 yaratık"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Amphibious",
+    "Hem havada hem suda nefes alır (karada boğulmaz)."
+   ]
+  ],
+  "dpr": [
+   14,
+   "2 Pençe"
+  ],
+  "tip": "Yüksek AC (20) ve amfibi yapısıyla su kenarında iki hedefi birden kavrayıp tutmak için ideal. Körgörü 30 ft sayesinde bulanık suda da etkili; hasarı düşük."
+ },
+ {
+  "id": "giant-elk",
+  "cr": "2",
+  "en": "Giant Elk",
+  "src": "Monster Manual (2014)",
+  "size": "Devasa",
+  "ac": 14,
+  "hp": 42,
+  "hd": "5d12+10",
+  "spd": {
+   "walk": 60
+  },
+  "senses": [],
+  "passive": 14,
+  "abil": [
+   19,
+   16,
+   14,
+   7,
+   14,
+   10
+  ],
+  "sv": [
+   4,
+   3,
+   2,
+   -2,
+   2,
+   0
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Dev Geyik",
+  "role": "Hareket · Hücum · Kontrol",
+  "multi": "",
+  "atk": [
+   "<b>Ram<\/b> <b>+6<\/b>, erişim 10 ft · <b>2d6+4<\/b> ezme (11)",
+   "<b>Hooves<\/b> <b>+6<\/b>, erişim 5 ft, yalnızca <b>yere serilmiş<\/b> yaratık · <b>4d8+4<\/b> ezme (22)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Charge",
+    "Hedefe doğru düz en az 20 ft hareket edip aynı turda Ram ile vurursa <b>+2d6<\/b> hasar (7); hedef yaratıksa <b>DC 14 STR<\/b> save'inde başarısızsa <b>yere serilir<\/b>."
+   ]
+  ],
+  "dpr": [
+   22,
+   "Yere serilmiş hedefe Hooves; hücumlu Ram 18"
+  ],
+  "tip": "Hücumla düşmanı yere serer, sonra Hooves ile ezer; 60 ft hızlı."
+ },
+ {
+  "id": "hunter-shark",
+  "cr": "2",
+  "en": "Hunter Shark",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 45,
+  "hd": "6d10+12",
+  "spd": {
+   "walk": 5,
+   "swim": 40
+  },
+  "senses": [
+   "Blindsight 60 ft"
+  ],
+  "passive": 12,
+  "abil": [
+   18,
+   14,
+   15,
+   1,
+   10,
+   4
+  ],
+  "sv": [
+   4,
+   2,
+   2,
+   -5,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Avcı Köpekbalığı",
+  "role": "Su altı · Hasar",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+6<\/b> (hedefin canı tam değilse avantajlı), erişim 5 ft · <b>3d6+4<\/b> delme (14)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Water Breathing",
+    "Yalnızca su altında nefes alabilir; <b>karada boğulur<\/b>."
+   ]
+  ],
+  "dpr": [
+   14,
+   "Isırık"
+  ],
+  "tip": "Yalnızca su altı çatışması için: 40 ft yüzme ve 60 ft körgörüyle yaralı hedefleri avantajla avlar. Karaya çıkma, karada nefes alamaz ve 5 ft hızla kalırsın."
+ },
+ {
+  "id": "plesiosaurus",
+  "cr": "2",
+  "en": "Plesiosaurus",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 68,
+  "hd": "8d10+24",
+  "spd": {
+   "walk": 20,
+   "swim": 40
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   18,
+   15,
+   16,
+   2,
+   12,
+   5
+  ],
+  "sv": [
+   4,
+   2,
+   3,
+   -4,
+   1,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ],
+   [
+    "Stealth",
+    4
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Plesiosaurus",
+  "role": "Su altı · Tank · Hasar",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+6<\/b>, erişim 10 ft · <b>3d6+4<\/b> delme (14)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Hold Breath",
+    "Nefesini 1 saat tutabilir (suda nefes alamaz, ama karada sorun yok)."
+   ]
+  ],
+  "dpr": [
+   14,
+   "Isırık"
+  ],
+  "tip": "Su altı savaşında en dayanıklı seçeneklerden: 68 can, nefesini 1 saat tutar."
+ },
+ {
+  "id": "polar-bear",
+  "cr": "2",
+  "en": "Polar Bear",
+  "src": "Monster Manual (2014)",
+  "size": "Büyük",
+  "ac": 12,
+  "hp": 42,
+  "hd": "5d10+15",
+  "spd": {
+   "walk": 40,
+   "swim": 30
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   20,
+   10,
+   16,
+   2,
+   13,
+   7
+  ],
+  "sv": [
+   5,
+   0,
+   3,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Kutup Ayısı",
+  "role": "Hasar · Tank · Yüzme",
+  "multi": "Bir Isırık + bir Pençe",
+  "atk": [
+   "<b>Bite<\/b> <b>+7<\/b>, erişim 5 ft · <b>1d8+5<\/b> delme (9)",
+   "<b>Claws<\/b> <b>+7<\/b>, erişim 5 ft · <b>2d6+5<\/b> kesme (12)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Keen Smell",
+    "Kokuya dayalı Perception check'lerinde avantaj."
+   ]
+  ],
+  "dpr": [
+   21,
+   "Isırık + Pençe"
+  ],
+  "tip": "Boz ayıdan daha güçlü vuran iki saldırı; soğuk ve sulu bölgelerde yüzerek savaşır."
+ },
+ {
+  "id": "quetzalcoatlus",
+  "cr": "2",
+  "en": "Quetzalcoatlus",
+  "src": "Mordenkainen Presents: Monsters of the Multiverse",
+  "size": "Devasa",
+  "ac": 13,
+  "hp": 30,
+  "hd": "4d12+4",
+  "spd": {
+   "walk": 10,
+   "fly": 80
+  },
+  "senses": [],
+  "passive": 12,
+  "abil": [
+   15,
+   13,
+   13,
+   2,
+   10,
+   5
+  ],
+  "sv": [
+   2,
+   1,
+   1,
+   -4,
+   0,
+   -3
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    2
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Quetzalcoatlus",
+  "role": "Uçuş · Keşif · Vur-kaç",
+  "multi": "",
+  "atk": [
+   "<b>Bite<\/b> <b>+4<\/b>, erişim 10 ft, 1 yaratık · <b>3d6+2<\/b> delme (12) · hemen önce hedefe doğru en az 30 ft uçtuysa <b>+3d6<\/b> delme (10)"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Flyby",
+    "Düşmanın erişiminden uçarak çıkarken fırsat saldırısı tetiklemez."
+   ]
+  ],
+  "dpr": [
+   22,
+   "Dalışlı Isırık (30 ft uçuş sonrası)"
+  ],
+  "tip": "80 ft uçuşla hızlı keşif ve ulaşım; her tur 30 ft dalıp ısır, Flyby ile geri çekil. Can düşük (30), uzun yakın dövüşte kalma."
+ },
+ {
+  "id": "relic-sloth",
+  "cr": "2",
+  "en": "Relic Sloth",
+  "src": "Strixhaven: A Curriculum of Chaos",
+  "size": "Devasa",
+  "ac": 13,
+  "hp": 76,
+  "hd": "8d12+24",
+  "spd": {
+   "walk": 20,
+   "climb": 20
+  },
+  "senses": [],
+  "passive": 13,
+  "abil": [
+   20,
+   9,
+   17,
+   2,
+   12,
+   8
+  ],
+  "sv": [
+   5,
+   -1,
+   3,
+   -4,
+   1,
+   -1
+  ],
+  "svp": [],
+  "sk": [
+   [
+    "Perception",
+    3
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Kadim Tembel Hayvan",
+  "role": "Tank · Kavrama",
+  "multi": "",
+  "atk": [
+   "<b>Claws<\/b> <b>+7<\/b>, erişim 10 ft · <b>2d8+5<\/b> kesme (14) · hedef <b>kavranır<\/b> (kaçış: DC 15 Athletics ya da Acrobatics check); aynı anda en fazla 2 hedef"
+  ],
+  "acts": [
+   [
+    "Slow but Sturdy",
+    "Reaksiyon: Onu yerinden itecek ya da yere serecek bir etkiye maruz kalınca ne itilir ne <b>yere serilir<\/b>."
+   ]
+  ],
+  "traits": [],
+  "dpr": [
+   14,
+   "Pençe"
+  ],
+  "tip": "76 canla en sağlam CR 2 çağrılarından; kapı ya da dar geçidi tutmak için koy."
+ },
+ {
+  "id": "rhinoceros",
+  "cr": "2",
+  "en": "Rhinoceros",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 45,
+  "hd": "6d10+12",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [],
+  "passive": 11,
+  "abil": [
+   21,
+   8,
+   15,
+   2,
+   12,
+   6
+  ],
+  "sv": [
+   5,
+   -1,
+   2,
+   -4,
+   1,
+   -2
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Gergedan",
+  "role": "Hasar · Hücum",
+  "multi": "",
+  "atk": [
+   "<b>Gore<\/b> <b>+7<\/b>, erişim 5 ft · <b>2d8+5<\/b> delme (14) · hedef Büyük ya da daha küçük bir yaratıksa ve gergedan hemen önce ona doğru düz 20+ ft hareket ettiyse <b>+2d8<\/b> delme (9) ve hedef <b>yere serilir<\/b> (save yok)"
+  ],
+  "acts": [],
+  "traits": [],
+  "dpr": [
+   23,
+   "Hücumlu Gore (20 ft düz koşu sonrası)"
+  ],
+  "tip": "Hücumla save'siz yere serme ve yüksek tek vuruş hasarı. Müttefiklerin yerdeki hedefe avantajla vurması için açılış hamlesi olarak kullan."
+ },
+ {
+  "id": "saber-toothed-tiger",
+  "cr": "2",
+  "en": "Saber-Toothed Tiger",
+  "src": "Monster Manual (2024)",
+  "size": "Büyük",
+  "ac": 13,
+  "hp": 52,
+  "hd": "7d10+14",
+  "spd": {
+   "walk": 40
+  },
+  "senses": [
+   "Darkvision 60 ft"
+  ],
+  "passive": 15,
+  "abil": [
+   18,
+   17,
+   15,
+   3,
+   12,
+   8
+  ],
+  "sv": [
+   6,
+   5,
+   2,
+   -4,
+   1,
+   -1
+  ],
+  "svp": [
+   "str",
+   "dex"
+  ],
+  "sk": [
+   [
+    "Perception",
+    5
+   ],
+   [
+    "Stealth",
+    7
+   ]
+  ],
+  "res": [],
+  "imm": [],
+  "cimm": [],
+  "tr": "Kılıç Dişli Kaplan",
+  "role": "Hasar · Stealth · Hareket",
+  "multi": "İki Rend",
+  "atk": [
+   "<b>Rend<\/b> <b>+6<\/b>, erişim 5 ft · <b>2d6+4<\/b> kesme (11)"
+  ],
+  "acts": [
+   [
+    "Nimble Escape",
+    "Bonus aksiyon: Disengage ya da Hide aksiyonu alır."
+   ]
+  ],
+  "traits": [
+   [
+    "Running Leap",
+    "10 ft koşarak uzun atlamada 25 ft'e kadar atlar."
+   ]
+  ],
+  "dpr": [
+   22,
+   "2 Rend"
+  ],
+  "tip": "Her tur iki saldırı, ardından bonus aksiyonla Disengage ile güvenle çekil ya da saklan. Karanlık görüş ve iyi Stealth ile pusu ve vur-kaç için en iyi seçeneklerden."
+ },
+ {
+  "id": "swarm-of-infesting-insects",
+  "cr": "2",
+  "en": "Swarm of Infesting Insects",
+  "src": "Ravenloft: The Haunting of Ravenloft (RHW)",
+  "size": "Orta",
+  "ac": 13,
+  "hp": 33,
+  "hd": "6d8+6",
+  "spd": {
+   "walk": 20,
+   "climb": 20,
+   "swim": 20
+  },
+  "senses": [
+   "Blindsight 30 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   3,
+   14,
+   12,
+   1,
+   7,
+   1
+  ],
+  "sv": [
+   -4,
+   2,
+   1,
+   -5,
+   -2,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "İstilacı Böcek Sürüsü",
+  "role": "Sürü · Stealth · Keşif",
+  "multi": "",
+  "atk": [
+   "<b>Infestation<\/b> <b>+4<\/b>, erişim 5 ft · <b>4d4+2<\/b> zehir (12), sürü yaralıysa (canı yarıdan az) <b>2d4+2<\/b> (7) · hedef <b>zehirlenir<\/b>; 1 saat sonra hâlâ zehirliyse <b>DC 11 CON<\/b> save: başarısızsa 1d6 at → 1–2 <b>kör olur<\/b>, 3–4 can maksimumu <b>1d10<\/b> (5) azalır, 5–6 1 Exhaustion seviyesi; etki zehirlenme bitene kadar sürer; başarılıysa zehirlenme biter"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka bir yaratığın alanını paylaşabilir, Minik (Tiny) bir yaratığın geçebileceği her açıklıktan geçer. Can kazanamaz, geçici can alamaz."
+   ]
+  ],
+  "dpr": [
+   12,
+   "Infestation (yaralı değilken)"
+  ],
+  "tip": "Düşmanın alanına girip içinde kalır; ezme/delme/kesme direnciyle uzun dayanır."
+ },
+ {
+  "id": "swarm-of-maggots",
+  "cr": "2",
+  "en": "Swarm of Maggots",
+  "src": "Van Richten's Guide to Ravenloft",
+  "size": "Orta",
+  "ac": 11,
+  "hp": 22,
+  "hd": "5d8",
+  "spd": {
+   "walk": 20,
+   "swim": 20
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 8,
+  "abil": [
+   3,
+   12,
+   10,
+   1,
+   7,
+   1
+  ],
+  "sv": [
+   -4,
+   1,
+   0,
+   -5,
+   -2,
+   -5
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Kurtçuk Sürüsü",
+  "role": "Sürü · Stealth",
+  "multi": "",
+  "atk": [
+   "<b>Infestation<\/b> <b>+3<\/b>, erişim 0 ft (sürünün alanındaki 1 hedef) · <b>4d4<\/b> delme (10), sürünün canı yarı ya da altındaysa <b>2d4<\/b> (5) · hasar alan <b>DC 12 CON<\/b> save'inde başarısızsa hastalanır; her uzun dinlenme sonunda d6: 1–2 sonraki uzun dinlenmeye kadar <b>kör olur<\/b>, 3–4 can maksimumu <b>2d4<\/b> (5) azalır (hastalık bitene kadar; 0'a inerse ölür), 5–6 sonraki uzun dinlenmeye kadar ability check'leri ve saldırılarda dezavantaj. Büyüyle ya da arka arkaya iki uzun dinlenmede aynı sonuç gelince biter"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka bir yaratığın alanını paylaşabilir, Minik (Tiny) bir kurtçuğun geçebileceği her açıklıktan geçer. Can kazanamaz, geçici can alamaz."
+   ]
+  ],
+  "dpr": [
+   10,
+   "Infestation (canı yarıdan fazlayken)"
+  ],
+  "tip": "Düşmanın alanına girip sürekli hasar verir; kavranamaz ve yere serilemez."
+ },
+ {
+  "id": "swarm-of-poisonous-snakes",
+  "cr": "2",
+  "en": "Swarm of Venomous Snakes",
+  "src": "Monster Manual (2024)",
+  "size": "Orta",
+  "ac": 14,
+  "hp": 36,
+  "hd": "8d8",
+  "spd": {
+   "walk": 30,
+   "swim": 30
+  },
+  "senses": [
+   "Blindsight 10 ft"
+  ],
+  "passive": 10,
+  "abil": [
+   8,
+   18,
+   11,
+   1,
+   10,
+   3
+  ],
+  "sv": [
+   -1,
+   4,
+   0,
+   -5,
+   0,
+   -4
+  ],
+  "svp": [],
+  "sk": [],
+  "res": [
+   "bludgeoning",
+   "piercing",
+   "slashing"
+  ],
+  "imm": [],
+  "cimm": [
+   "charmed",
+   "frightened",
+   "grappled",
+   "paralyzed",
+   "petrified",
+   "prone",
+   "restrained",
+   "stunned"
+  ],
+  "tr": "Zehirli Yılan Sürüsü",
+  "role": "Hasar · Sürü",
+  "multi": "",
+  "atk": [
+   "<b>Bites<\/b> <b>+6<\/b>, erişim 5 ft · <b>1d8+4<\/b> delme (8) + <b>3d6<\/b> zehir (10) · canı yarının altındaysa <b>1d4+4<\/b> delme (6) + zehir"
+  ],
+  "acts": [],
+  "traits": [
+   [
+    "Swarm",
+    "Başka bir yaratığın alanına girebilir, minik bir yılanın geçebileceği her aralıktan geçer. Can kazanamaz, geçici can alamaz."
+   ]
+  ],
+  "dpr": [
+   18,
+   "Isırıklar + zehir (canı yarının altında 16)"
+  ],
+  "tip": "Zehir hasarı save'siz gelir; ezme/delme/kesme direnci ve kavranamaması onu düşman saflarına sokmak için iyi kılar."
+ }
+]</script>
 <script id="wsData" type="application/json">[
  {
   "id": "brown-bear",
@@ -6206,7 +11883,7 @@ function concBar() { return ''; }
 function concFloat() {
   const sp = CONC.id && SP.BY[CONC.id];
   if (!sp) return '';
-  return `<div class="card concbar"><span class="cdot" aria-hidden="true"></span><button class="ct" data-c="sp" data-open="${sp.id}" aria-label="Konsantrasyon: ${esc(sp.en)}, büyüyü aç"><small>Konsantrasyon</small><b lang="en">${esc(sp.en)}</b><em>${esc(sp.dur)}</em></button><button class="mini" data-conc="end">Bitir</button></div>`;
+  return `<div class="card concbar"><span class="cdot" aria-hidden="true"></span><button class="ct" ${sp.id === SUM.SPELL ? 'data-sum=""' : `data-c="sp" data-open="${sp.id}"`} aria-label="Konsantrasyon: ${esc(sp.en)}, ${sp.id === SUM.SPELL ? 'hayvan listesini aç' : 'büyüyü aç'}"><small>Konsantrasyon</small><b lang="en">${esc(sp.en)}</b><em>${esc(sp.dur)}</em></button><button class="mini" data-conc="end">Bitir</button></div>`;
 }
 function syncConc() {
   for (const t of document.querySelectorAll('#spAll .tile, #spPrep .tile')) t.classList.toggle('conc-on', t.dataset.id === CONC.id);
@@ -6506,6 +12183,7 @@ const SP = (() => {
           <div class="fact fq" style="--fq:290"><dt>Süre</dt><dd>${esc(s.dur)}</dd></div>
           <div class="fact fq" style="--fq:70"><dt>Bileşen</dt><dd>${comp}</dd></div>
         </dl>
+        ${id === 'conjure-animals' ? `<button class="sum-open" data-sum=""><svg aria-hidden="true"><use href="#i-paw"/></svg><span>Çağırabileceğin hayvanlar<small>CR’ye göre liste · AC, can, saldırılar</small></span><b>›</b></button>` : ''}
         <div class="desc">${s.d}</div>
         <div class="src">Kaynak: ${esc(noEd(s.src))}</div>
         <div class="act${s.conc ? ' two' : ''}">${btn}${s.conc ? (CONC.id === id ? `<button class="sec2 conc-b on" data-conc="end">Konsantrasyonu bitir</button>` : `<button class="sec2 conc-b" data-conc="${id}">Konsantrasyon başlat</button>`) : ''}</div>`;
@@ -6876,6 +12554,127 @@ const WS = (() => {
   return C;
 })();
 const CATS = { sp: SP, ws: WS };
+// Conjure Animals summon list (shared/summon.js); 5: highest spell slot
+const SUM_MAX_SLOT = 5;
+/* =====================================================================
+   Conjure Animals: the beasts it can call, by CR (shared by every character app; build.mjs embeds it).
+   Plain animal stats: printed AC, the animal's own INT/WIS/CHA, printed saves and skills.
+   Needs: $, esc, noEd, fmtAtk, AB_HUE, SKILLS, focusQuiet, sheet; SUM_MAX_SLOT (highest spell slot of the character).
+   Opens inside the sheet: the spell → list (data-sum="") → one beast (data-sum="<id>"); data-sum="spell" goes back.
+   ===================================================================== */
+const SUM = (() => {
+  const items = JSON.parse($('#sumData').textContent);
+  const BY = Object.fromEntries(items.map(b => [b.id, b]));
+  const SPELL = 'conjure-animals';
+  // spell option → how many of that CR (×2 with a 5th-level slot, ×3 with 7th, ×4 with 9th)
+  const CRS = [['1/4', 8, 150], ['1/2', 4, 95], ['1', 2, 45], ['2', 1, 8]];
+  const NUM = Object.fromEntries(CRS.map(([c, n]) => [c, n]));
+  const UP = [[5, 2], [7, 3], [9, 4]].filter(([l]) => l <= SUM_MAX_SLOT);
+  const ABN = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
+  const ABTR = { STR: 'Güç', DEX: 'Çeviklik', CON: 'Dayanıklılık', INT: 'Zekâ', WIS: 'Bilgelik', CHA: 'Karizma' };
+  const DMG = { bludgeoning:'ezme', piercing:'delme', slashing:'kesme', poison:'zehir', cold:'soğuk', fire:'ateş', lightning:'şimşek', acid:'asit', thunder:'gök gürültüsü', necrotic:'nekrotik', psychic:'psişik', radiant:'ışıltı', force:'kuvvet' };
+  const COND = { blinded:'kör', charmed:'büyülenmiş', deafened:'sağır', exhaustion:'bitkinlik', frightened:'korkmuş', grappled:'kavranmış', paralyzed:'felçli', petrified:'taşlaşmış', poisoned:'zehirli', prone:'yere serili', restrained:'kısıtlı', stunned:'sersem', unconscious:'baygın', incapacitated:'etkisiz' };
+  const MOVES = [['fly', 'uçma'], ['swim', 'yüzme'], ['climb', 'tırmanma'], ['burrow', 'kazma']];
+  const SIZE = { 'Minik': ['Tiny', '2,5'], 'Küçük': ['Small', 5], 'Orta': ['Medium', 5], 'Büyük': ['Large', 10], 'Devasa': ['Huge', 15] };
+  const sg = n => (n >= 0 ? '+' : '−') + Math.abs(n);
+  const mod = v => Math.floor((v - 10) / 2);
+  const listTr = (arr, dict) => arr.map(x => { try { x = JSON.parse(x); } catch (e) {} return typeof x === 'string' ? (dict[x] || x) : (x.special || [].concat(x.resist || x.immune || x.conditionImmune || []).map(y => dict[y] || y).join(', ') + (x.note ? ' ' + (/nonmagical/.test(x.note) ? '(büyüsüz saldırılardan)' : x.note) : '')); }).join(', ');
+  const swarm = b => /^swarm/.test(b.id);
+  // icon + colour by how it moves (same symbols as Wild Shape)
+  const kind = b => swarm(b) ? ['swarm', 285, 'Sürü'] : b.spd.fly ? ['wing', 205, 'Uçan'] : (b.spd.swim && b.spd.swim > (b.spd.walk || 0)) ? ['fish', 195, 'Yüzen'] : ['paw', 28, 'Karada'];
+  const icon = b => { const [k, h] = kind(b); return `<span class="ic" style="--h:${h}" aria-hidden="true"><svg><use href="#i-${k}"/></svg></span>`; };
+  const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
+  const howMany = cr => { const n = NUM[cr]; return `${n} tane` + UP.map(([l, x]) => ` · ${l}. sv slotla ${n * x}`).join(''); };
+  const C = {
+    k: 'sum', BY, SPELL, filter: 'all',
+    hue: id => (id && BY[id] ? kind(BY[id])[1] : 28),
+    back: () => document.querySelector(`[data-open="${SPELL}"]:not([hidden])`) || document.querySelector('[data-sum]'),
+    list() {
+      const crs = CRS.filter(([c]) => C.filter === 'all' || C.filter === c);
+      const opts = [['all', 'Tümü'], ...CRS.map(([c]) => [c, 'CR ' + c])];
+      const rows = crs.map(([c, n, h]) => {
+        const list = items.filter(b => b.cr === c);
+        return `<section class="sum-cr" style="--l:${h}"><h3 class="lvl-h">CR ${c} <small>${howMany(c)}</small></h3><div class="sum-list">${list.map(b => `
+          <button class="sum-row" data-sum="${b.id}" style="--h:${kind(b)[1]}">${icon(b)}<span class="nm"><span class="en" lang="en">${esc(b.en)}</span>${b.tr !== b.en ? `<span class="tr">${esc(b.tr)}</span>` : ''}
+            <span class="qs">AC <b>${b.ac}</b> · Can <b>${b.hp}</b> · Hasar <b>~${b.dpr[0]}</b></span>
+            <span class="tags"><span class="tg role">${kind(b)[2]}</span><span class="tg">${esc(b.size)}</span>${MOVES.filter(([k]) => b.spd[k]).map(([k, l]) => `<span class="tg">${l} ${b.spd[k]}</span>`).join('')}</span></span></button>`).join('')}</div></section>`;
+      }).join('');
+      return `
+        <div class="sh-top"><span class="ic" style="--h:28" aria-hidden="true"><svg><use href="#i-paw"/></svg></span><div><h2 id="shName" lang="en">Conjure Animals</h2><p>Çağırabileceğin hayvanlar · CR’ye göre</p></div>
+          <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+        <button class="sum-back" data-sum="spell">‹ Büyünün açıklaması</button>
+        <div class="atks sum-rules">
+          <article class="ab" style="--ah:45"><h4>Kaç hayvan</h4><div class="chs">${CRS.slice().reverse().map(([c, n]) => `<span class="ch"><small>CR ${c}</small><b>${n}</b></span>`).join('')}${UP.map(([l, x]) => `<span class="ch add"><small>${l}. sv slot</small><b>×${x}</b></span>`).join('')}</div>
+            <p><b>Seçeneği sen seçersin</b> (ör. 8 tane CR 1/4). Resmî kurala göre (Sage Advice) <b>hangi hayvanların geleceğini DM seçer</b>; ama DM izin verirse hayvanları oyuncu da seçebilir, birçok masa böyle oynar. Hepsi aynı türden de olabilir, karışık da.</p></article>
+          <article class="ab" style="--ah:205"><h4>Savaşta</h4><div class="chs"><span class="ch"><small>Süre</small><b>Kons. · 1 saat</b></span><span class="ch"><small>Menzil</small><b>60 ft</b></span></div>
+            <p>Hayvanlar dosttur, kendi sıralarında <b>grup olarak</b> hareket eder. Sözlü komutlarına uyar (komut vermek aksiyon değildir); komut yoksa düşmana karşı kendilerini savunur. Canı 0’a inen kaybolur; konsantrasyon bozulunca hepsi kaybolur.</p></article>
+        </div>
+        <div class="sum-chips" role="group" aria-label="CR filtresi">${opts.map(([v, l]) => `<button class="chip" data-sumf="${v}" aria-pressed="${C.filter === v}">${l}</button>`).join('')}</div>
+        ${rows}`;
+    },
+    beast(b) {
+      const abil = b.abil.map((v, i) => `<div class="wa" style="--wb:${AB_HUE[ABN[i]]}"><span>${ABN[i]}</span><b>${v}</b><small>${sg(mod(v))}</small></div>`).join('');
+      const box = (ab, en, v, tr, on) => `<div class="wb${on ? ' pr' : ''}" style="--wb:${AB_HUE[ab]}"><span lang="en">${en}</span><b>${v}</b><small>${tr}</small></div>`;
+      const saves = b.sv.map((v, i) => box(ABN[i], ABN[i], sg(v), ABTR[ABN[i]], b.svp.includes(ABN[i].toLowerCase()))).join('');
+      const skills = b.sk.map(([k, v]) => { const r = SKILLS.find(x => x[0] === k); return box(r ? r[2] : 'WIS', k, sg(v), r ? `${r[1]} · ${r[2]}` : '', true); }).join('')
+        + box('WIS', 'Passive Perception', b.passive, 'Pasif Algı');
+      const def = [
+        b.res.length ? `Direnç: ${esc(listTr(b.res, DMG))}` : '',
+        b.imm.length ? `Bağışıklık: ${esc(listTr(b.imm, DMG))}` : '',
+        b.cimm.length ? `Etkilenmez: ${esc(listTr(b.cimm, COND))}` : '',
+      ].filter(Boolean).join(' · ');
+      const sz = SIZE[b.size] || ['', 5];
+      return `
+        <div class="sh-top">${icon(b)}<div><h2 id="shName" lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · ${esc(b.size)}</p></div>
+          <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+        <button class="sum-back" data-sum="">‹ Hayvan listesi</button>
+        <span class="tags"><span class="tg role" style="--h:${kind(b)[1]}">${kind(b)[2]}</span>${b.role.split(' · ').map(r => `<span class="tg">${esc(r)}</span>`).join('')}<span class="tg lv">CR ${b.cr}: ${howMany(b.cr)}</span></span>
+        <dl class="facts">
+          <div class="fact key k-dmg fq" style="--fq:8"><dt>Tur başı hasar</dt><dd>~${b.dpr[0]}<small>${esc(b.dpr[1])}</small></dd></div>
+          <div class="fact key fq" style="--fq:215"><dt>AC · Can</dt><dd>AC ${b.ac} · ${b.hp} can<small>${esc(b.hd)}</small></dd></div>
+          <div class="fact fq" style="--fq:275"><dt>Boyut · Alan</dt><dd>${esc(b.size)} (<span lang="en">${sz[0]}</span>) · ${sz[1]} ft</dd></div>
+          <div class="fact fq" style="--fq:130"><dt>Hız</dt><dd>${speedText(b)}</dd></div>
+          <div class="fact wide fq" style="--fq:175"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
+        </dl>
+        <div class="blk"><h3>Saldırılar</h3><div class="atk">
+          ${b.multi ? `<p class="mu"><span lang="en">Multiattack</span> <b>${esc(b.multi)}</b> <small>tek Saldırı aksiyonunda</small></p>` : ''}
+          ${b.atk.map(fmtAtk).join('') || '<p class="note">Saldırısı yok.</p>'}
+        </div></div>
+        ${b.acts.length ? `<div class="blk"><h3>Diğer aksiyonlar</h3><div class="trt">${b.acts.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
+        ${b.traits.length ? `<div class="blk"><h3>Özellikler</h3><div class="trt">${b.traits.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
+        <div class="blk"><h3 lang="en">Abilities</h3><div class="abil">${abil}</div></div>
+        <div class="blk"><h3 lang="en">Saves</h3><div class="wbox">${saves}</div></div>
+        <div class="blk"><h3 lang="en">Skills</h3><div class="wbox">${skills}</div></div>
+        ${def ? `<div class="blk"><h3>Savunma</h3><div class="kv"><span>${def}</span></div></div>` : ''}
+        ${b.tip ? `<div class="tip">${esc(b.tip)}</div>` : ''}
+        <div class="src">Kaynak: ${esc(noEd(b.src))}</div>`;
+    },
+    fill: id => (id && BY[id] ? C.beast(BY[id]) : C.list()),
+  };
+  return C;
+})();
+// show C/id in the open sheet (or open it); beast pages get their own history entry so back returns to the list
+function sheetSwap(C, id, push) {
+  if (!openRef) { openSheet(C, id); return; }
+  openRef = { c: C, id };
+  const inn = $('#sheetIn');
+  inn.innerHTML = C.fill(id);
+  const hue = C.hue && C.hue(id); if (hue != null) inn.style.setProperty('--h', hue); else inn.style.removeProperty('--h');
+  inn.scrollTop = 0;
+  if (push) { try { history.pushState({ sheet: 1, sum: 1 }, ''); } catch (e) {} }
+  focusQuiet(sheet.querySelector('.sum-back') || sheet.querySelector('[data-close]'));
+}
+function sumNav(v) {
+  const inBeast = openRef && openRef.c === SUM && openRef.id;
+  if (v === 'spell') return sheetSwap(SP, SUM.SPELL);
+  if (!v) {
+    // beast → list: pop the beast's history entry
+    if (inBeast) { try { if (history.state && history.state.sum) { skipPop++; history.back(); } } catch (e) {} }
+    return sheetSwap(SUM, '');
+  }
+  sheetSwap(SUM, v, !inBeast);
+}
+
 // Karakter → Saldırılar → Wild Shape: one chip per selected form (average damage per round), tap opens the form
 function renderWsQuick() {
   const box = $('#wsQuick'); if (!box) return;
@@ -7353,7 +13152,7 @@ function closeSheet(fromPop) {
   document.documentElement.classList.remove('sheet-open');
   background().forEach(el => { el.inert = false; });
   clearTimeout(hideT); hideT = setTimeout(() => { scrim.hidden = true; sheet.hidden = true; }, 220);
-  if (fromPop !== true) { try { if (history.state && history.state.sheet) { skipPop++; history.back(); } } catch (e) {} }
+  if (fromPop !== true) { try { if (history.state && history.state.sheet) { skipPop++; history.go(history.state.sum ? -2 : -1); } } catch (e) {} }
   focusQuiet(C.back ? C.back(id) : (C.sub === 'all' ? C.all : C.sub === 'act' ? C.act : C.prep).querySelector(`[data-open="${id}"]`));
 }
 // portrait: tap the small round picture → the full image in a lightbox (the file is loaded only the first time)
@@ -7378,6 +13177,7 @@ addEventListener('popstate', e => {
   if (skipPop) { skipPop--; return; }
   closeAsk(false);
   if (lbOpen) { closeLightbox(true); return; }
+  if (openRef && openRef.c === SUM && openRef.id) { sheetSwap(SUM, ''); return; }
   if (openRef) { closeSheet(true); return; }
   const st = e.state;
   go(st && st.nav ? st.tab : 'char', st && st.sub ? st.sub : undefined, 'pop');
@@ -7424,7 +13224,9 @@ document.addEventListener('click', e => {
     if (a || !e.target.closest('.ask-box')) closeAsk(!!a && a.dataset.ask === 'yes');
     return;
   }
-  const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-ac],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],[data-wsfloat],#scrim');
+  const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-ac],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],[data-wsfloat],[data-sum],[data-sumf],#scrim');
+  if (t && t.dataset.sumf) { SUM.filter = t.dataset.sumf; const y = $('#sheetIn').scrollTop; $('#sheetIn').innerHTML = SUM.fill(''); $('#sheetIn').scrollTop = y; return; }
+  if (t && t.hasAttribute('data-sum')) return sumNav(t.dataset.sum);
   if (!t) return;
   const C = t.dataset.c === 'sk' ? SK : CATS[t.dataset.c];
   if (t.hasAttribute('data-portrait')) return openLightbox();
@@ -7440,6 +13242,7 @@ document.addEventListener('click', e => {
       return ask(`Şu an <b lang="en">${esc(old.en)}</b> için konsantrasyondasın. <b lang="en">${esc(SP.BY[id].en)}</b> başlarsa <b>mevcut konsantrasyonun bozulacak</b>. Devam edilsin mi?`, () => { const x = document.createElement('button'); x.dataset.conc = id; x.setAttribute('data-sure', ''); document.body.appendChild(x); x.click(); x.remove(); }, 'Evet, değiştir');
     }
     else { setConc(id); toast(old && old.id !== id ? `${old.en} bitti · ${SP.BY[id].en}: konsantrasyon başladı` : `${SP.BY[id].en}: konsantrasyon başladı`); }
+    if (id === SUM.SPELL && CONC.id === id) return sheetSwap(SUM, '');
     if (openRef && openRef.c === SP) { $('#sheetIn').innerHTML = SP.fill(openRef.id); focusQuiet(sheet.querySelector('.conc-b')); }
     return;
   }
