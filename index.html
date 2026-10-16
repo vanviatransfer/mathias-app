@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '0d4a6d52c6'; window.__BUILT__ = '2026-10-16 02:47';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '6fa1dff58c'; window.__BUILT__ = '2026-10-16 03:16';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -6833,8 +6833,8 @@ const WS = (() => {
         <div class="act two">${btn}</div>`;
     },
   };
-  // Martial Arts in any form (user's request): bonus action after the Attack action, the better of the form's STR/DEX, proficiency +4, 1d4
-  const unarmed = b => { const m = Math.max(mod(b.abil[0]), mod(b.abil[1])); return `<b>Unarmed Strike</b> (bonus aksiyon · Monk Martial Arts) <b>${sg(4 + m)}</b>, erişim 5 ft · <b>1d4${m ? (m > 0 ? '+' : '') + m : ''}</b> ezme (${Math.max(1, Math.floor(2.5 + m))}) · aynı tur Saldırı aksiyonunu yaptıysan`; };
+  // Martial Arts in Wild Shape forms (rules: you keep class features and your proficiency; not under Polymorph): bonus action only after an Attack action made with an unarmed strike, the better of the form's STR/DEX, proficiency +4, 1d4
+  const unarmed = b => { const m = Math.max(mod(b.abil[0]), mod(b.abil[1])); return `<b>Unarmed Strike</b> (bonus aksiyon · Monk Martial Arts) <b>${sg(4 + m)}</b>, erişim 5 ft · <b>1d4${m ? (m > 0 ? '+' : '') + m : ''}</b> ezme (${Math.max(1, Math.floor(2.5 + m))}) · yalnız aynı tur Saldırı aksiyonunda silahsız vurduysan (hayvanın Isırık/Pençe gibi saldırıları ve Multiattack sayılmaz)`; };
   function detail(b) {
       const acSub = `${b.acBase} + 5` + b.acAlt.map(([v, c]) => ` · ${c === 'while prone' ? 'yere seriliyken' : esc(c)} AC ${v}`).join('');
       const poly = b.kind === 'polymorph';
@@ -6862,7 +6862,7 @@ const WS = (() => {
         <div class="blk"><h3>Saldırılar</h3><div class="atk">
           ${b.multi ? `<p class="mu"><span lang="en">Multiattack</span> <b>${esc(b.multi)}</b> <small>tek Saldırı aksiyonunda</small></p>` : ''}
           ${b.atk.map(fmtAtk).join('')}
-          ${fmtAtk(unarmed(b))}
+          ${poly ? '' : fmtAtk(unarmed(b))}
         </div></div>
         ${b.acts.length ? `<div class="blk"><h3>Diğer aksiyonlar</h3><div class="trt">${b.acts.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
         ${b.traits.length ? `<div class="blk"><h3>Özellikler</h3><div class="trt">${b.traits.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
