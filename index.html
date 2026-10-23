@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'e3fc098155'; window.__BUILT__ = '2026-10-16 18:22';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'dc3de42fe8'; window.__BUILT__ = '2026-10-23 22:42';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -598,6 +598,22 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 #wsChips .chip{ padding-inline:2px; font-size:.86rem; }
 .eqb{ display:inline-block; margin-right:6px; padding:1px 7px; border-radius:999px; font-size:.7rem; font-weight:700; letter-spacing:.04em; background:hsl(140 30% 26%); color:hsl(140 45% 82%); vertical-align:1px; }
 .entry .mini.on{ border-color:hsl(140 35% 50%); color:hsl(140 45% 78%); }
+/* short + long rest buttons, hit dice line, short rest panel (user's request) */
+.restbs{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.restb.short{ border-color:hsl(185 30% 45%); color:hsl(185 40% 78%); background:color-mix(in oklab, hsl(185 35% 40%) 14%, var(--surface)); }
+.hdline{ margin:6px 0 0; font-size:.88rem; color:var(--muted); }
+.hdline b{ color:var(--ink); font-variant-numeric:tabular-nums; }
+.shortrest{ display:grid; gap:8px; padding:10px; border:1px solid hsl(185 25% 38%); border-left:3px solid hsl(185 35% 52%); border-radius:10px; background:color-mix(in oklab, hsl(185 30% 40%) 9%, var(--surface)); font-size:.9rem; }
+.shortrest p{ margin:0; line-height:1.45; }
+.sr-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.sr-row > span:first-child{ min-width:8.5em; color:var(--muted); }
+.sr-row small{ color:var(--muted); }
+.sr-row input{ width:7em; min-height:40px; border:1px solid var(--ctl); background:var(--bg); color:var(--ink); border-radius:8px; padding:6px 10px; font:inherit; }
+.sr-act{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.sr-act button{ min-height:44px; border:1px solid var(--ctl); border-radius:10px; padding:6px 10px; }
+.sr-act .yes{ background:hsl(185 35% 45%); border-color:hsl(185 35% 45%); color:#0b1418; font-weight:700; }
+.wsuses b small{ font-size:.9rem; color:var(--muted); font-family:var(--body); font-weight:500; }
+.wsuses.none{ border-color:var(--warn); } .wsuses.none b{ color:var(--warn); }
 /* ---- Conjure Animals list (shared/summon.css; the box styles repeat the Wild Shape ones so apps without Wild Shape get them too) ---- */
 .tg.role{ background:hsl(var(--h, 30) 26% 24%); color:hsl(var(--h, 30) 40% 80%); }
 .fact.wide{ grid-column:1/-1; }
@@ -12314,12 +12330,29 @@ const concSave = (n, save) => CONC.id && SP.BY[CONC.id] ? ` · Konsantrasyon sav
 // one button for a long rest: hit points, spell slots, Fey Touched, Wild Shape uses; concentration ends
 const LONG_REST_Q = 'Uzun dinlenme: can dolsun, büyü slotları ve <span lang="en">Fey Touched</span> ile <span lang="en">Wild Shape</span> hakları yenilensin, konsantrasyon bitsin mi?';
 let restAsk = false;
+// hit dice: 10 in all; spent ones come back only on a long rest (half the total, at least 1) — short rest button (user's request)
+const HD_KEY = 'mathias-hd-v1', HD_TOTAL = 10, HD_BACK = Math.max(1, Math.floor(HD_TOTAL / 2));
+const HD = Object.assign({ used: 0 }, load(HD_KEY, {}));
+HD.used = Math.max(0, Math.min(HD_TOTAL, Math.round(+HD.used) || 0));
+const hdLeft = () => HD_TOTAL - HD.used;
+let restMode = null, shortDice = 0; // null | 'long' | 'short'
+function shortRest() {
+  const gain = Math.max(0, Math.round(+(($('#shortHp') || {}).value || 0)) || 0), n = Math.min(shortDice, hdLeft());
+  if (n) { HD.used += n; store(HD_KEY, HD); askPersist(); }
+  const before = HP.cur; if (gain && HP.cur < HP.max) changeHp(gain, 'kısa dinlenme'); const got = HP.cur - before;
+  WS.restUses();
+  if (tab === 'ws' && WS.sub === 'act') WS.renderAct();
+  restMode = null; restAsk = false; shortDice = 0; renderRest(); syncChrome();
+  toast('Kısa dinlenme' + (true ? ': Wild Shape hakları yenilendi' : '') + (got ? ` · +${got} can` : gain ? ' · can zaten tam' : '') + (n ? ` · ${n} can zarı harcandı` : ''));
+  focusQuiet($('[data-rest="short"]'));
+}
 function longRest(from) {
   if (HP.cur < HP.max) changeHp(HP.max - HP.cur, 'uzun dinlenme');
   SLOTS.reset();
   WS.restUses();
   setConc(null);
-  restAsk = false; renderRest();
+  if (HD.used) { HD.used = Math.max(0, HD.used - HD_BACK); store(HD_KEY, HD); }
+  restAsk = false; restMode = null; renderRest();
   SLOTS.refresh();
   if (tab === 'sp' && SP.sub === 'prep') SP.renderPrep();
   if (tab === 'ws' && WS.sub === 'act') WS.renderAct();
@@ -12329,9 +12362,15 @@ function longRest(from) {
 }
 function renderRest() {
   const box = $('#restAct'); if (!box) return;
-  box.innerHTML = restAsk
-    ? `<div class="confirm"><span>${LONG_REST_Q}</span><button class="yes" data-rest="yes">Evet, dinlendim</button><button data-rest="no">Vazgeç</button></div>`
-    : `<button class="mini pri restb" data-rest="ask">Uzun dinlenme yaptım</button>`;
+  if (restAsk) restMode = 'long';
+  const hd = `<p class="hdline">Can zarı: <b>${hdLeft()}/${HD_TOTAL}</b> kaldı <small>(10 × d8; + CON 4)</small></p>`;
+  if (restMode === 'long') box.innerHTML = `<div class="confirm"><span>${LONG_REST_Q}</span><button class="yes" data-rest="yes">Evet, dinlendim</button><button data-rest="no">Vazgeç</button></div>`;
+  else if (restMode === 'short') box.innerHTML = `<div class="shortrest">
+      <p><b>Kısa dinlenme</b> (en az 1 saat): Wild Shape hakların yenilenir. Can zarı harcadıysan sayısını ve attığın toplamı yaz (her zar: d8 + 4).</p>
+      <div class="sr-row"><span>Harcanan zar</span><span class="qty"><button class="mini" data-rest="hd-" aria-label="Azalt">−</button><output>${shortDice}</output><button class="mini" data-rest="hd+" aria-label="Artır"${shortDice >= hdLeft() ? ' disabled' : ''}>+</button></span><small>${hdLeft()} kaldı</small></div>
+      <label class="sr-row"><span>Kazanılan can</span><input id="shortHp" type="number" inputmode="numeric" min="0" placeholder="0"></label>
+      <div class="sr-act"><button class="yes" data-rest="short-yes">Uygula</button><button data-rest="no">Vazgeç</button></div></div>`;
+  else box.innerHTML = `<div class="restbs"><button class="mini restb short" data-rest="short">Kısa dinlenme yaptım</button><button class="mini pri restb" data-rest="ask">Uzun dinlenme yaptım</button></div>${hd}`;
 }
 
 /* ---------- AC: 18 by default (Unarmored Defense), editable by hand (user's request) ---------- */
@@ -12652,7 +12691,7 @@ const WS = (() => {
   if (!Array.isArray(ACT.uses) || ACT.uses.length !== 2) ACT.uses = [0, 0];
   if (ACT.id) ACT.cur = Math.max(0, Math.min(BY[ACT.id].hp, Math.round(+ACT.cur) || 0));
   ACT.confirmEnd = false;
-  const saveAct = () => { store(ACT_KEY, { id: ACT.id, cur: ACT.cur, uses: ACT.uses }); askPersist(); if (typeof syncFloat === 'function') try { syncFloat(); } catch (e) {} };
+  const saveAct = () => { store(ACT_KEY, { id: ACT.id, cur: ACT.cur, uses: ACT.uses }); askPersist(); if (typeof syncFloat === 'function') try { syncFloat(); } catch (e) {} if (typeof tab !== 'undefined' && tab === 'ws') { const st = $('#stats'); if (st) st.innerHTML = C.stats; } };
   // 2026-10: Murat asked for the four elementals (Elemental Wild Shape); add them once to the selected forms too.
   // 2026-10: Giant Ape for Polymorph; added once to the selected forms
   if (!load('mathias-wildshape-migr-3', false)) { if (BY['giant-ape'] && !state.sel.includes('giant-ape')) state.sel.push('giant-ape'); save(); store('mathias-wildshape-migr-3', true); }
@@ -12719,7 +12758,8 @@ const WS = (() => {
   const C = {
     k: 'ws', hue: id => ROLE_HUE[role(BY[id])], all: $('#wsAll'), prep: $('#wsPrep'), act: $('#wsAct'), tools: $('#wsTools'), q: $('#wsQ'),
     sub: 'prep', filter: 'all', move: '', query: '', qKey: '', confirming: false, BY,
-    stats: '<div class="st"><span>Maks CR</span><b>3</b></div><div class="st"><span>Hak</span><b>2</b></div>',
+    // remaining Wild Shape uses on every Wild Shape page (user's request); tap → Aktif
+    get stats() { const n = ACT.uses.filter(u => !u).length; return `<div class="st"><span>Maks CR</span><b>3</b></div><button class="st wsuses${n ? '' : ' none'}" data-sub="act" aria-label="Wild Shape hakkı ${n}/2 kaldı. Aktif sayfasını aç"><span>Hak</span><b>${n}<small>/2</small></b></button>`; },
     segs: () => [['act', 'Aktif', ACT.id ? `${ACT.cur}/${BY[ACT.id].hp}` : 'yok'], ['prep', 'Seçili', `${count()} form`], ['all', 'Tümü', `${items.length}`]],
     // entering Wild Shape: the active form first when there is one (user's request), else the selected forms
     start: () => ACT.id ? 'act' : 'prep',
@@ -13383,7 +13423,7 @@ document.addEventListener('keydown', e => {
 });
 
 // Backup: every key this app writes, as one JSON file.
-const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1', CONC_KEY, AC_KEY];
+const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1', CONC_KEY, AC_KEY, HD_KEY];
 function exportData() {
   const data = { app: 'mathias', v: 1, at: new Date().toISOString(), keys: {} };
   for (const k of BACKUP_KEYS) { try { const r = localStorage.getItem(k); if (r) data.keys[k] = JSON.parse(r); } catch (e) {} }
@@ -13692,7 +13732,14 @@ document.addEventListener('click', e => {
   if (t.hasAttribute('data-hpopen')) return openSheet(HPS, 'hp');
   if (t.hasAttribute('data-acopen')) return openSheet(ACS, 'ac');
   if (t.dataset.ac) return acAction(t.dataset.ac);
-  if (t.dataset.rest) { if (t.dataset.rest === 'yes') return longRest(); restAsk = t.dataset.rest === 'ask'; renderRest(); return focusQuiet($(restAsk ? '[data-rest="no"]' : '[data-rest="ask"]')); }
+  if (t.dataset.rest) {
+    const r = t.dataset.rest;
+    if (r === 'yes') return longRest();
+    if (r === 'short-yes') return shortRest();
+    if (r === 'hd-' || r === 'hd+') { const keep = ($('#shortHp') || {}).value || ''; shortDice = Math.max(0, Math.min(hdLeft(), shortDice + (r === 'hd+' ? 1 : -1))); renderRest(); $('#shortHp').value = keep; return focusQuiet($(`[data-rest="${r}"]`)); }
+    restAsk = r === 'ask'; restMode = r === 'ask' ? 'long' : r === 'short' ? 'short' : null; shortDice = 0; renderRest();
+    return focusQuiet($(restMode === 'long' ? '[data-rest="no"]' : restMode === 'short' ? '#shortHp' : '[data-rest="ask"]'));
+  }
   if (t.dataset.conc) {
     const id = t.dataset.conc, old = CONC.id && SP.BY[CONC.id];
     if (id === 'end') { setConc(null); toast(old ? `${old.en}: konsantrasyon bitti` : 'Konsantrasyon bitti'); }
