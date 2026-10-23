@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'edaa38bd49'; window.__BUILT__ = '2026-10-23 23:17';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '9d83003d18'; window.__BUILT__ = '2026-10-23 23:22';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -616,6 +616,15 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 .sr-act .yes{ background:hsl(185 35% 45%); border-color:hsl(185 35% 45%); color:#0b1418; font-weight:700; }
 .wsuses b small{ font-size:.9rem; color:var(--muted); font-family:var(--body); font-weight:500; }
 .wsuses.none{ border-color:var(--warn); } .wsuses.none b{ color:var(--warn); }
+/* Aktif Wild Shape: big stat boxes */
+.act-quick{ margin:6px 0 2px; }
+.act-quick div{ padding:8px 10px; }
+.act-quick dd{ font-size:1.45rem; font-family:var(--display); }
+.act-quick .big dd{ font-size:2rem; line-height:1; }
+.act-quick .big{ border-width:2px; border-left-width:4px; }
+.act-quick .atkq dt{ text-transform:none; letter-spacing:0; font-size:.78rem; }
+.act-quick .en-name b{ color:var(--ink); }
+.act-quick dd small{ font-family:var(--body); font-size:.9rem; font-weight:600; }
 /* ---- Conjure Animals list (shared/summon.css; the box styles repeat the Wild Shape ones so apps without Wild Shape get them too) ---- */
 .tg.role{ background:hsl(var(--h, 30) 26% 24%); color:hsl(var(--h, 30) 40% 80%); }
 .fact.wide{ grid-column:1/-1; }
@@ -12894,6 +12903,7 @@ const WS = (() => {
       C.act.innerHTML = `<div data-concbar>${concBar()}</div><div class="card act-card" style="--h:${ROLE_HUE[role(b)]}">
           <div class="sh-top">${icon(b)}<div><h2 lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · ${esc(b.size)} · AC <b>${b.ac}</b></p></div>
             <button class="mini" data-c="ws" data-open="${b.id}">Ayrıntı</button></div>
+          ${actQuick(b)}
           ${hpWidget('ws', ACT.cur, b.hp)}
           <p class="note">Formun canı 0'a düşünce dönersin; <b>artan hasar</b> Mathias'ın canına geçer (şu an <b>${HP.cur}/${HP.max}</b>).</p>
           ${ACT.confirmEnd
@@ -12985,6 +12995,22 @@ const WS = (() => {
   };
   // Martial Arts in Wild Shape forms (rules: you keep class features and your proficiency; not under Polymorph): bonus action only after an Attack action made with an unarmed strike, the better of the form's STR/DEX, proficiency +4, 1d4
   const unarmed = b => { const m = Math.max(mod(b.abil[0]), mod(b.abil[1])); return `<b>Unarmed Strike</b> (bonus aksiyon · Monk Martial Arts) <b>${sg(4 + m)}</b>, erişim 5 ft · <b>1d4${m ? (m > 0 ? '+' : '') + m : ''}</b> ezme (${Math.max(1, Math.floor(2.5 + m))}) · yalnız aynı tur Saldırı aksiyonunda silahsız vurduysan (hayvanın Isırık/Pençe gibi saldırıları ve Multiattack sayılmaz)`; };
+  // Aktif page: the numbers you need every turn, in big coloured boxes (user's request)
+  function actQuick(b) {
+    const poly = b.kind === 'polymorph', keen = b.traits.some(([n]) => /^Keen /.test(n));
+    const pp = poly ? 10 + ((b.sk.find(x => x[0] === 'Perception') || [0, mod(b.abil[4])])[1]) : 19;
+    const m = (b.atk[0] || '').match(/^<b>([^<]+)<\/b>.*?<b>([+−-]\d+)<\/b>.*?· <b>([^<]+)<\/b>/);
+    const sp = b.spd, more = MOVES.filter(([k]) => sp[k]).map(([k, , l]) => `${l} ${sp[k]}`).join(' · ');
+    const box = (h, dt, dd, sm, cls) => `<div class="${cls || ''}" style="--qh:${h}"><dt>${dt}</dt><dd>${dd}</dd>${sm ? `<span class="en-name">${sm}</span>` : ''}</div>`;
+    return `<dl class="quick act-quick">
+      ${box(215, 'AC', b.ac, b.kind === 'polymorph' ? 'masa kuralı +5' : `${b.acBase} + 5 (WIS)`, 'big')}
+      ${box(130, 'Hız', `${sp.walk || 0}<small> ft</small>`, more || 'yalnız yürüme')}
+      ${box(45, 'İnisiyatif', sg(mod(b.abil[1])), 'formun DEX’i')}
+      ${box(8, 'Tur başı hasar', '~' + b.dpr[0], b.multi ? 'Multiattack' : 'tek saldırı')}
+      ${box(275, m ? esc(m[1]) : 'Saldırı', m ? m[2] : '—', m ? m[3] : '', 'atkq')}
+      ${box(270, 'Pasif Algı', pp, keen ? 'Keen ile <b>' + (pp + 5) + '</b>' : 'Passive Perception')}
+    </dl>`;
+  }
   function detail(b) {
       const acSub = `${b.acBase} + 5` + b.acAlt.map(([v, c]) => ` · ${c === 'while prone' ? 'yere seriliyken' : esc(c)} AC ${v}`).join('');
       const poly = b.kind === 'polymorph';
