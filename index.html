@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '7b88e108fa'; window.__BUILT__ = '2026-10-23 22:46';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'fe02a7f994'; window.__BUILT__ = '2026-10-23 23:07';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -12888,7 +12888,7 @@ const WS = (() => {
           ${ACT.cwsAsk ? `<div class="cws-ask"><label for="cwsIn">${ACT.cwsAsk}. sv slot · <b>${2 * ACT.cwsAsk}d8</b> at, sonucu yaz</label><div class="row"><input id="cwsIn" type="number" inputmode="numeric" min="1" max="${16 * ACT.cwsAsk}" placeholder="${2 * ACT.cwsAsk}–${16 * ACT.cwsAsk}" enterkeyhint="done"><button class="mini" data-cws="no">Vazgeç</button><button class="mini pri" data-cws="ok">Uygula</button></div></div>` : ''}
           ${ACT.lastCws ? `<p class="note">Son: ${esc(ACT.lastCws)}</p>` : ''}</div>`;
       C.act.innerHTML = `<div data-concbar>${concBar()}</div><div class="card act-card" style="--h:${ROLE_HUE[role(b)]}">
-          <div class="sh-top">${icon(b)}<div><h2 lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · AC <b>${b.ac}</b></p></div>
+          <div class="sh-top">${icon(b)}<div><h2 lang="en">${esc(b.en)}</h2><p>${b.tr !== b.en ? esc(b.tr) + ' · ' : ''}CR ${b.cr} · ${esc(b.size)} · AC <b>${b.ac}</b></p></div>
             <button class="mini" data-c="ws" data-open="${b.id}">Ayrıntı</button></div>
           ${hpWidget('ws', ACT.cur, b.hp)}
           <p class="note">Formun canı 0'a düşünce dönersin; <b>artan hasar</b> Mathias'ın canına geçer (şu an <b>${HP.cur}/${HP.max}</b>).</p>
@@ -12898,6 +12898,7 @@ const WS = (() => {
           ${cws}
         </div>
         ${uses}
+        <h2 class="lvl-h act-dh">Formun bütün bilgileri <small>penceredekiyle aynı</small></h2>
         <div class="act-detail" style="--h:${ROLE_HUE[role(b)]}">${detail(b)}</div>`;
     },
     rmAsk(id) { const b = BY[id]; return b && isSel(id) ? `<b lang="en">${esc(b.en)}</b> seçili formlardan çıkarılsın mı?` : null; },
