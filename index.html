@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'fe02a7f994'; window.__BUILT__ = '2026-10-23 23:07';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'eb1a529ccb'; window.__BUILT__ = '2026-10-23 23:11';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -651,6 +651,10 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 .sum-open{ margin:12px 0 8px; }
 .sum-q{ margin:12px 0 0; }
 .sum-none{ margin:14px 0; color:var(--muted); text-align:center; }
+/* glossary terms (shared/glossary.js): tap → explanation */
+.gl{ display:inline; padding:0; margin:0; border:0; background:none; font:inherit; color:inherit; text-decoration:underline dotted color-mix(in oklab, var(--acc) 70%, transparent); text-underline-offset:3px; text-decoration-thickness:1.5px; cursor:help; }
+.gl:focus-visible{ outline:2px solid var(--acc); outline-offset:1px; border-radius:3px; }
+.gl-desc{ font-size:1rem; }
 
 </style>
 
@@ -12780,7 +12784,7 @@ const WS = (() => {
   const spaceText = b => { const [, ft, m, sq, gap] = space(b); return `${ft} × ${ft} ft (${m} × ${m} m) · ${sq}×${sq} kare${gap ? ` · en dar geçiş ${gap} ft (sıkışarak)` : ''}`; };
   const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, , l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
   const C = {
-    k: 'ws', hue: id => ROLE_HUE[role(BY[id])], all: $('#wsAll'), prep: $('#wsPrep'), act: $('#wsAct'), tools: $('#wsTools'), q: $('#wsQ'),
+    k: 'ws', gloss: true, hue: id => ROLE_HUE[role(BY[id])], all: $('#wsAll'), prep: $('#wsPrep'), act: $('#wsAct'), tools: $('#wsTools'), q: $('#wsQ'),
     sub: 'prep', filter: 'all', move: '', query: '', qKey: '', confirming: false, BY,
     // remaining Wild Shape uses on every Wild Shape page (user's request); tap → Aktif
     get stats() { const n = ACT.uses.filter(u => !u).length; return `<div class="st"><span>Maks CR</span><b>3</b></div><button class="st wsuses${n ? '' : ' none'}" data-sub="act" aria-label="Wild Shape hakkı ${n}/2 kaldı. Aktif sayfasını aç"><span>Hak</span><b>${n}<small>/2</small></b></button>`; },
@@ -13078,7 +13082,7 @@ const SUM = (() => {
   const icon = b => { const [k, h] = kind(b); return `<span class="ic" style="--h:${h}" aria-hidden="true"><svg><use href="#i-${k}"/></svg></span>`; };
   const speedText = b => { const s = b.spd, p = [s.walk ? `${s.walk} ft` : 'karada 0 ft']; for (const [k, l] of MOVES) if (s[k]) p.push(`${l} ${s[k]} ft`); return p.join(' · '); };
   const C = {
-    k: 'sum', BY, SPELLS, cur: 'conjure-animals', filter: 'all', query: '',
+    k: 'sum', gloss: true, BY, SPELLS, cur: 'conjure-animals', filter: 'all', query: '',
     has: id => !!SPELLS[id],
     hue: id => (BY[id] ? kind(BY[id])[1] : (SPELLS[String(id).slice(1)] || SPELLS[C.cur]).ic[1]),
     back: () => document.querySelector(`[data-open="${C.cur}"]:not([hidden])`) || document.querySelector('[data-sum]'),
@@ -13171,6 +13175,87 @@ function sumNav(v) {
   if (top && top.c === C && top.id === id) return sheetBack();
   sheetSwap(C, id);
 }
+
+/* =====================================================================
+   Glossary: tap a rules term in a creature's details (senses, conditions, advantage, resistance…) → short explanation
+   (user's request). Shared by every character app; build.mjs embeds it after summon.js.
+   Terms are found in the rendered text (glossDom) and wrapped in <button class="gl" data-c="gl" data-open="<id>">;
+   the explanation opens as a card on top of the open sheet (sheet stack: X goes back).
+   Needs: $, esc, openRef, sheet; catalogs that want it set `gloss: true`.
+   ===================================================================== */
+const GL = (() => {
+  // [id, English name, Turkish name, explanation (2014 rules), pattern in the app's text]
+  const T = [
+    ['blindsight', 'Blindsight', 'Kör görüş', 'Belirtilen mesafe içinde <b>gözsüz algılar</b>: karanlık, görünmezlik ya da kör olmak onu etkilemez; o mesafedeki görünmez ya da gizlenen yaratıkları da fark eder. Tam siperin arkasını algılamaz.', 'Blindsight|kör görüş'],
+    ['darkvision', 'Darkvision', 'Karanlık görüş', 'Belirtilen mesafede <b>loş ışığı parlak</b>, <b>karanlığı loş ışık</b> gibi görür. Karanlıkta renk ayırt edemez, yalnız gri tonları görür. Büyülü karanlığın içini göremez.', 'Darkvision'],
+    ['tremorsense', 'Tremorsense', 'Titreşim algısı', 'Belirtilen mesafede, kendisiyle <b>aynı zemine</b> (toprak, taş, su) değen yaratık ve nesnelerin yerini titreşimden algılar. Uçanları ve zemine değmeyenleri algılamaz.', 'Tremorsense'],
+    ['truesight', 'Truesight', 'Gerçek görüş', 'Belirtilen mesafede normal ve büyülü karanlıkta görür, görünmezleri görür, illüzyonları kendiliğinden fark eder, şekil değiştirenlerin gerçek halini ve Ethereal düzlemi görür.', 'Truesight'],
+    ['grappled', 'Grappled', 'Kavranmış', 'Hızı <b>0</b> olur, hız artışlarından yararlanamaz. Kavrayan etkisiz kalırsa ya da biri onu kavrayanın erişiminden çıkarırsa biter. Kurtulmak için kendi aksiyonuyla <b>Athletics ya da Acrobatics check</b> yapar (DC kavrayanın).', 'kavran(?:ır|mış|dıkça|an|amaz|abilir)|kavrar|kavrama|kavrandı'],
+    ['restrained', 'Restrained', 'Kısıtlı', 'Hızı <b>0</b>. Ona yapılan saldırılar <b>avantajlı</b>, onun saldırıları <b>dezavantajlı</b>; DEX save’lerinde dezavantaj.', 'kısıtlı|kısıtlan(?:ır|mış|dıkça)|kısıtlar'],
+    ['prone', 'Prone', 'Yere serili', 'Yalnız <b>sürünerek</b> hareket eder (her 1 ft için 2 ft); ayağa kalkmak hızının yarısını harcar. Onun saldırıları dezavantajlı. <b>5 ft içinden</b> ona yapılan saldırılar <b>avantajlı</b>, daha uzaktan yapılanlar dezavantajlı.', 'yere seril(?:ir|i|emez|miş|irse)|yere serer|yere serme|yere serilmiş'],
+    ['poisoned', 'Poisoned', 'Zehirlenmiş', 'Saldırı zarlarında ve <b>ability check</b>’lerde dezavantaj.', 'zehirlen(?:ir|miş|irse)'],
+    ['blinded', 'Blinded', 'Kör', 'Göremez; görmeye dayalı check’lerde kendiliğinden başarısız. Onun saldırıları <b>dezavantajlı</b>, ona yapılan saldırılar <b>avantajlı</b>.', 'kör (?:olur|kalır)|körleşir'],
+    ['frightened', 'Frightened', 'Korkmuş', 'Korkunun kaynağını görebildiği sürece saldırılarında ve ability check’lerinde <b>dezavantaj</b>; kaynağa isteyerek yaklaşamaz.', 'korkmuş|korkar'],
+    ['stunned', 'Stunned', 'Sersem', 'Etkisiz (aksiyon ve reaksiyon yok), hareket edemez, zar zor konuşur. STR ve DEX save’lerinde kendiliğinden başarısız; ona yapılan saldırılar avantajlı.', 'sersem(?:ler|lemiş)?'],
+    ['paralyzed', 'Paralyzed', 'Felçli', 'Etkisiz, hareket edemez, konuşamaz. STR ve DEX save’lerinde kendiliğinden başarısız; ona yapılan saldırılar avantajlı; <b>5 ft içinden</b> isabet eden saldırı <b>kritik vuruş</b> olur.', 'felç(?:li| olur)'],
+    ['charmed', 'Charmed', 'Büyülenmiş', 'Onu büyüleyene saldıramaz, ona zarar veren bir etkiyle hedef alamaz. Büyüleyenin onunla sosyal ability check’lerinde avantajı olur.', 'büyülen(?:ir|miş)'],
+    ['incapacitated', 'Incapacitated', 'Etkisiz', '<b>Aksiyon ve reaksiyon yapamaz.</b>', 'etkisiz'],
+    ['advantage', 'Advantage', 'Avantaj', 'İki d20 at, <b>yükseğini</b> al. Aynı zarda hem avantaj hem dezavantaj varsa birbirini götürür (tek zar).', 'avantaj(?:lı|la)?'],
+    ['disadvantage', 'Disadvantage', 'Dezavantaj', 'İki d20 at, <b>düşüğünü</b> al. Aynı zarda avantaj da varsa birbirini götürür.', 'dezavantaj(?:lı|la)?'],
+    ['resistance', 'Resistance', 'Direnç', 'O türden hasarın <b>yarısını</b> alır (aşağı yuvarlanır). Aynı tür için birden çok direnç birikmez.', 'Direnç|dirençli'],
+    ['immunity', 'Immunity', 'Bağışıklık', 'O türden hasar ya da o durum ona <b>hiç işlemez</b>.', 'Bağışıklık|bağışık'],
+    ['escape', 'Escaping a grapple', 'Kavramadan kaçış', 'Kavranan yaratık <b>kendi aksiyonunu</b> harcayıp Athletics ya da Acrobatics check yapar; yazılı DC’yi tutturursa kurtulur.', 'kaçış'],
+    ['multiattack', 'Multiattack', 'Çoklu saldırı', 'Tek <b>Saldırı aksiyonunda</b> listelenen saldırıların hepsini yapar (ör. bir Isırık + bir Pençe).', 'Multiattack'],
+  ];
+  const BY = Object.fromEntries(T.map(t => [t[0], t]));
+  const RE = new RegExp(T.map(t => `(${t[4]})`).map(s => `(?<![\\p{L}])${s}(?![\\p{L}])`).join('|'), 'gu');
+  const C = {
+    k: 'gl', BY,
+    hue: () => 205,
+    back: () => null,
+    fill(id) {
+      const t = BY[id]; if (!t) return '';
+      return `
+        <div class="sh-top"><span class="ic" style="--h:205" aria-hidden="true"><svg><use href="#i-book"/></svg></span><div><h2 id="shName" lang="en">${t[1]}</h2><p>${t[2]}</p></div>
+          <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+        <div class="desc gl-desc">${t[3]}</div>
+        <p class="note">Kapatınca bir önceki karta dönersin.</p>`;
+    },
+  };
+  // wrap the terms inside a rendered block (text nodes only; never inside buttons or inputs)
+  C.dom = root => {
+    if (!root) return;
+    const scope = root.querySelectorAll('.facts dd, .trt p, .watk p, .kv span, .tip, .mu');
+    for (const el of scope) {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.parentElement.closest('button, input, textarea, .gl') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) });
+      const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+      for (const n of nodes) {
+        const s = n.nodeValue; RE.lastIndex = 0; let m, last = 0, frag = null;
+        while ((m = RE.exec(s))) {
+          const gi = m.slice(1).findIndex(Boolean); if (gi < 0) continue;
+          frag = frag || document.createDocumentFragment();
+          if (m.index > last) frag.appendChild(document.createTextNode(s.slice(last, m.index)));
+          const b = document.createElement('button');
+          b.className = 'gl'; b.dataset.c = 'gl'; b.dataset.open = T[gi][0]; b.textContent = m[0];
+          b.setAttribute('aria-label', `${m[0]}: açıklama`);
+          frag.appendChild(b); last = m.index + m[0].length;
+        }
+        if (frag) { if (last < s.length) frag.appendChild(document.createTextNode(s.slice(last))); n.parentNode.replaceChild(frag, n); }
+      }
+    }
+  };
+  return C;
+})();
+// run whenever the sheet or the Wild Shape Aktif page is redrawn (catalogs with gloss: true)
+(() => {
+  const watch = (el, ok) => {
+    if (!el) return;
+    const mo = new MutationObserver(() => { if (!ok()) return; mo.disconnect(); GL.dom(el); mo.observe(el, { childList: true, subtree: true }); });
+    mo.observe(el, { childList: true, subtree: true });
+  };
+  watch(document.getElementById('sheetIn'), () => openRef && openRef.c && openRef.c.gloss);
+  watch(document.getElementById('wsAct'), () => true);
+})();
 
 // Karakter → Saldırılar → Wild Shape: one chip per selected form (average damage per round), tap opens the form
 function renderWsQuick() {
@@ -13752,7 +13837,7 @@ document.addEventListener('click', e => {
   if (t && t.dataset.sumf) { SUM.filter = t.dataset.sumf; SUM.apply(); return; }
   if (t && t.hasAttribute('data-sum')) return sumNav(t.dataset.sum);
   if (!t) return;
-  const C = t.dataset.c === 'sk' ? SK : CATS[t.dataset.c];
+  const C = t.dataset.c === 'sk' ? SK : t.dataset.c === 'gl' ? GL : CATS[t.dataset.c];
   if (t.hasAttribute('data-portrait')) return openLightbox();
   if (t.hasAttribute('data-hpopen')) return openSheet(HPS, 'hp');
   if (t.hasAttribute('data-acopen')) return openSheet(ACS, 'ac');
