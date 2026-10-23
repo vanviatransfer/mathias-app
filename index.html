@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'eb1a529ccb'; window.__BUILT__ = '2026-10-23 23:11';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'edaa38bd49'; window.__BUILT__ = '2026-10-23 23:17';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -13007,7 +13007,8 @@ const WS = (() => {
           <div class="fact key fq" style="--fq:215"><dt>AC · Can</dt><dd>AC ${b.ac} · ${b.hp} can<small>${acSub} · ${esc(b.hd)}</small></dd></div>
           <div class="fact wide fq" style="--fq:275"><dt>Boyut · Kapladığı alan</dt><dd>${esc(b.size)} (<span lang="en">${space(b)[0]}</span>) · ${space(b)[1]} ft<small>${spaceText(b)}</small></dd></div>
           <div class="fact fq" style="--fq:130"><dt>Hız</dt><dd>${speedText(b)}</dd></div>
-          <div class="fact fq" style="--fq:175"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
+          <div class="fact fq" style="--fq:45"><dt>İnisiyatif</dt><dd>${sg(mod(b.abil[1]))}<small>formun DEX’i · savaş formdayken başlarsa; dönüşmek sıranı değiştirmez</small></dd></div>
+          <div class="fact wide fq" style="--fq:175"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
         </dl>
         <div class="blk"><h3>Saldırılar</h3><div class="atk">
           ${b.multi ? `<p class="mu"><span lang="en">Multiattack</span> <b>${esc(b.multi)}</b> <small>tek Saldırı aksiyonunda</small></p>` : ''}
@@ -13148,7 +13149,8 @@ ${S.rules()}
           <div class="fact key fq" style="--fq:215"><dt>AC · Can</dt><dd>AC ${b.ac} · ${b.hp} can<small>${esc(b.hd)}</small></dd></div>
           <div class="fact fq" style="--fq:275"><dt>Boyut · Alan</dt><dd>${esc(b.size)} (<span lang="en">${sz[0]}</span>) · ${sz[1]} ft</dd></div>
           <div class="fact fq" style="--fq:130"><dt>Hız</dt><dd>${speedText(b)}</dd></div>
-          <div class="fact wide fq" style="--fq:175"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
+          <div class="fact fq" style="--fq:45"><dt>İnisiyatif</dt><dd>${sg(mod(b.abil[1]))}<small>${b.spell === 'conjure-animals' ? 'DEX · hepsi tek grup olarak atar' : 'DEX · kendi inisiyatifini atar'}</small></dd></div>
+          <div class="fact fq" style="--fq:175"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
         </dl>
         <div class="blk"><h3>Saldırılar</h3><div class="atk">
           ${b.multi ? `<p class="mu"><span lang="en">Multiattack</span> <b>${esc(b.multi)}</b> <small>tek Saldırı aksiyonunda</small></p>` : ''}
@@ -13208,12 +13210,49 @@ const GL = (() => {
     ['multiattack', 'Multiattack', 'Çoklu saldırı', 'Tek <b>Saldırı aksiyonunda</b> listelenen saldırıların hepsini yapar (ör. bir Isırık + bir Pençe).', 'Multiattack'],
   ];
   const BY = Object.fromEntries(T.map(t => [t[0], t]));
+  // creature traits / actions (names in "Özellikler" / "Diğer aksiyonlar"): tap the name → its own text + a rule note
+  // for the common ones (2014 rules)
+  const KEEN = 'Belirtilen duyuya dayalı Wisdom (Perception) check’lerinde <b>avantaj</b>. Avantajlı check pasif değere <b>+5</b> ekler (ör. Passive Perception 19 → 24).';
+  const LEAP = 'Zıplanan mesafe hareketten düşer. Koşarak zıplamada önce <b>10 ft</b> koşmak gerekir; durduğu yerden zıplamada gerekmez.';
+  const NOTES = {
+    'Swarm': 'Sürü <b>tek yaratık</b> sayılır. Bir yaratığın alanına girebilir, o da sürünün alanına. Minik bir yaratığın geçebileceği her aralıktan geçer. <b>Can kazanamaz</b>, geçici can alamaz.',
+    'Pack Tactics': 'Hedefin <b>5 ft içinde</b> etkisiz olmayan bir müttefiki (sen de olabilirsin) varsa saldırısı <b>avantajlı</b>. Koşul sürdükçe her saldırıda geçerli.',
+    'Spider Climb': 'Duvarda ve <b>tavanda baş aşağı</b> check atmadan yürür; tırmanırken elleri serbest kalır.',
+    'Keen Smell': KEEN, 'Keen Sight': KEEN, 'Keen Hearing': KEEN, 'Keen Hearing and Smell': KEEN, 'Keen Sight and Smell': KEEN, 'Keen Hearing and Sight': KEEN,
+    'Hold Breath': 'Belirtilen süre boyunca nefesini tutar; bu sürede su altında <b>boğulmaz</b>. Süre bitince boğulma kuralları başlar.',
+    'Water Breathing': '<b>Yalnız su altında</b> nefes alabilir; karada uzun kalırsa boğulma kuralları işler.',
+    'Amphibious': 'Hem havada hem <b>su altında</b> nefes alabilir.',
+    'Charge': 'Hedefe en az belirtilen mesafe <b>düz çizgide koşup</b> aynı turda vurursa ek hasar, çoğu zaman da yere serme save’i gelir.',
+    'Trampling Charge': 'Hedefe en az belirtilen mesafe <b>düz çizgide koşup</b> vurursa hedef save atar; yere serilirse aynı tur bonus aksiyonla bir saldırı daha yapılır.',
+    'Pounce': 'Belirtilen mesafe düz koşup pençeyle vurursa hedef STR save atar; başarısızsa <b>yere serilir</b> ve aynı tur <b>bonus aksiyonla</b> bir saldırı daha yapılır.',
+    'Standing Leap': LEAP, 'Running Leap': LEAP, 'Leap': LEAP,
+    'Flyby': 'Düşmanın erişiminden uçarak çıkınca <b>fırsat saldırısı almaz</b>.',
+    'Nimble Escape': 'Her turunda <b>bonus aksiyonla</b> Disengage ya da Hide yapabilir.',
+    'Web Walker': 'Ağların içinde rahat hareket eder, <b>ağa takılmaz</b>.',
+    'Web Sense': 'Ağına değen her yaratığın <b>yerini bilir</b>.',
+    'Echolocation': 'Sağırken <b>blindsight’ı çalışmaz</b>.',
+    'Siege Monster': 'Nesnelere ve yapılara <b>iki kat</b> hasar verir.',
+    'Sure-Footed': 'Yere serilmeye karşı STR ve DEX save’lerinde <b>avantaj</b>.',
+    'Rampage': 'Yakın saldırıyla bir yaratığı 0 cana düşürdüğü turda <b>bonus aksiyonla</b> hızının yarısı kadar ilerleyip bir ısırık daha yapabilir.',
+    'Blood Frenzy': 'Canı tam olmayan yaratıklara yakın saldırıları <b>avantajlı</b>.',
+    'Uncanny Dodge': 'Gördüğü bir saldırganın isabetinde <b>reaksiyonla</b> hasarı yarıya indirir.',
+  };
+  const ctx = {}; // "t:<name>" → the creature's own text, taken when the name is tapped
   const RE = new RegExp(T.map(t => `(${t[4]})`).map(s => `(?<![\\p{L}])${s}(?![\\p{L}])`).join('|'), 'gu');
   const C = {
     k: 'gl', BY,
     hue: () => 205,
     back: () => null,
     fill(id) {
+      if (String(id).startsWith('t:')) {
+        const n = id.slice(2), own = ctx[id] || '', note = NOTES[n];
+        return `
+        <div class="sh-top"><span class="ic" style="--h:150" aria-hidden="true"><svg><use href="#i-paw"/></svg></span><div><h2 id="shName" lang="en">${esc(n)}</h2><p>Hayvan özelliği</p></div>
+          <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+        ${own ? `<div class="desc gl-desc">${own}</div>` : ''}
+        ${note ? `<div class="tip gl-note"><b>Kural notu:</b> ${note}</div>` : ''}
+        <p class="note">Kapatınca bir önceki karta dönersin.</p>`;
+      }
       const t = BY[id]; if (!t) return '';
       return `
         <div class="sh-top"><span class="ic" style="--h:205" aria-hidden="true"><svg><use href="#i-book"/></svg></span><div><h2 id="shName" lang="en">${t[1]}</h2><p>${t[2]}</p></div>
@@ -13225,6 +13264,15 @@ const GL = (() => {
   // wrap the terms inside a rendered block (text nodes only; never inside buttons or inputs)
   C.dom = root => {
     if (!root) return;
+    // trait / action names first
+    for (const b of root.querySelectorAll('.trt p > b:first-child')) {
+      if (b.querySelector('.gl')) continue;
+      const n = b.textContent.replace(/\.\s*$/, '').trim(); if (!n) continue;
+      const btn = document.createElement('button');
+      btn.className = 'gl gl-t'; btn.dataset.c = 'gl'; btn.dataset.open = 't:' + n; btn.textContent = n; btn.lang = 'en';
+      btn.setAttribute('aria-label', `${n}: açıklama`);
+      b.textContent = ''; b.appendChild(btn); b.appendChild(document.createTextNode('.'));
+    }
     const scope = root.querySelectorAll('.facts dd, .trt p, .watk p, .kv span, .tip, .mu');
     for (const el of scope) {
       const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.parentElement.closest('button, input, textarea, .gl') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) });
@@ -13244,6 +13292,13 @@ const GL = (() => {
       }
     }
   };
+  // keep the creature's own text for the card (capture phase: before the app's click handler opens it)
+  document.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('.gl-t'); if (!b) return;
+    const p = b.closest('p'); const html = p ? p.innerHTML : '';
+    ctx[b.dataset.open] = html.replace(/^\s*<b[^>]*>[\s\S]*?<\/b>\s*/, '');
+  }, true);
+  C.ctx = ctx;
   return C;
 })();
 // run whenever the sheet or the Wild Shape Aktif page is redrawn (catalogs with gloss: true)
