@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '9d83003d18'; window.__BUILT__ = '2026-10-23 23:22';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '62ecf248d5'; window.__BUILT__ = '2026-10-24 20:01';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -664,6 +664,14 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 .gl{ display:inline; padding:0; margin:0; border:0; background:none; font:inherit; color:inherit; text-decoration:underline dotted color-mix(in oklab, var(--acc) 70%, transparent); text-underline-offset:3px; text-decoration-thickness:1.5px; cursor:help; }
 .gl:focus-visible{ outline:2px solid var(--acc); outline-offset:1px; border-radius:3px; }
 .gl-desc{ font-size:1rem; }
+/* ability cards: tap → explanation (shared/glossary.js) */
+.ab-tap{ cursor:pointer; }
+.ab-tap span{ text-decoration:underline dotted color-mix(in oklab, currentColor 60%, transparent); text-underline-offset:3px; }
+.ab-tap:focus-visible{ outline:2px solid var(--acc); outline-offset:2px; }
+.ab-ic{ font-size:.85rem; letter-spacing:.04em; color:hsl(var(--h) 45% 78%); }
+.ab-list{ margin:0; padding-left:18px; display:grid; gap:6px; }
+.ab-list b:first-child{ color:var(--ink); }
+.tapnote{ display:block; color:var(--muted); }
 
 </style>
 
@@ -13035,6 +13043,7 @@ const WS = (() => {
           <div class="fact fq" style="--fq:130"><dt>Hız</dt><dd>${speedText(b)}</dd></div>
           <div class="fact fq" style="--fq:45"><dt>İnisiyatif</dt><dd>${sg(mod(b.abil[1]))}<small>formun DEX’i · savaş formdayken başlarsa; dönüşmek sıranı değiştirmez</small></dd></div>
           <div class="fact wide fq" style="--fq:175"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
+          ${glCarry(b.abil[0], b.size, b.traits.some(([n]) => n === 'Beast of Burden'))}
         </dl>
         <div class="blk"><h3>Saldırılar</h3><div class="atk">
           ${b.multi ? `<p class="mu"><span lang="en">Multiattack</span> <b>${esc(b.multi)}</b> <small>tek Saldırı aksiyonunda</small></p>` : ''}
@@ -13043,7 +13052,7 @@ const WS = (() => {
         </div></div>
         ${b.acts.length ? `<div class="blk"><h3>Diğer aksiyonlar</h3><div class="trt">${b.acts.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
         ${b.traits.length ? `<div class="blk"><h3>Özellikler</h3><div class="trt">${b.traits.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
-        <div class="blk"><h3 lang="en">Abilities</h3><div class="abil">${abil}</div><p class="note">${poly ? '<span lang="en">Polymorph</span>: bütün değerler (INT/WIS/CHA dahil) formun; AC\'ye +5 masa kuralı eklendi.' : 'STR/DEX/CON hayvandan, <span style="color:var(--me)">INT/WIS/CHA</span> Mathias\'tan.'}</p></div>
+        <div class="blk"><h3 lang="en">Abilities</h3><div class="abil" data-ctx="${poly ? 'poly' : 'ws'}" data-size="${esc(b.size)}" data-bob="${b.traits.some(([n]) => n === 'Beast of Burden') ? 1 : 0}" data-sv="${b.sv.join(',')}">${abil}</div><p class="note"><small class="tapnote">Değere dokun: ne işe yaradığı.</small> ${poly ? '<span lang="en">Polymorph</span>: bütün değerler (INT/WIS/CHA dahil) formun; AC\'ye +5 masa kuralı eklendi.' : 'STR/DEX/CON hayvandan, <span style="color:var(--me)">INT/WIS/CHA</span> Mathias\'tan.'}</p></div>
         <div class="blk"><h3 lang="en">Saves</h3><div class="wbox">${saves}</div></div>
         <div class="blk"><h3 lang="en">Skills</h3><div class="wbox">${skills}</div></div>
         ${def ? `<div class="blk"><h3>Savunma</h3><div class="kv"><span>${def}</span></div></div>` : ''}
@@ -13055,6 +13064,8 @@ const WS = (() => {
 const CATS = { sp: SP, ws: WS };
 // Conjure Animals summon list (shared/summon.js); 5: highest spell slot
 const SUM_MAX_SLOT = 5;
+// ability cards (shared/glossary.js): spellcasting ability and initiative of the character
+const GL_CHAR = { cast: 'WIS', dc: 17, atk: 9, init: '+3 (DEX)' };
 /* =====================================================================
    Summon lists inside a spell's sheet (shared by every character app; build.mjs embeds it):
    Conjure Animals → beasts by CR, Conjure Elemental → the four elementals. Plain creature stats: printed AC,
@@ -13177,6 +13188,7 @@ ${S.rules()}
           <div class="fact fq" style="--fq:130"><dt>Hız</dt><dd>${speedText(b)}</dd></div>
           <div class="fact fq" style="--fq:45"><dt>İnisiyatif</dt><dd>${sg(mod(b.abil[1]))}<small>${b.spell === 'conjure-animals' ? 'DEX · hepsi tek grup olarak atar' : 'DEX · kendi inisiyatifini atar'}</small></dd></div>
           <div class="fact fq" style="--fq:175"><dt>Duyular</dt><dd lang="en">${b.senses.length ? esc(b.senses.join(', ')) : '—'}</dd></div>
+          ${glCarry(b.abil[0], b.size, b.traits.some(([n]) => n === 'Beast of Burden'))}
         </dl>
         <div class="blk"><h3>Saldırılar</h3><div class="atk">
           ${b.multi ? `<p class="mu"><span lang="en">Multiattack</span> <b>${esc(b.multi)}</b> <small>tek Saldırı aksiyonunda</small></p>` : ''}
@@ -13184,7 +13196,7 @@ ${S.rules()}
         </div></div>
         ${b.acts.length ? `<div class="blk"><h3>Diğer aksiyonlar</h3><div class="trt">${b.acts.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
         ${b.traits.length ? `<div class="blk"><h3>Özellikler</h3><div class="trt">${b.traits.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
-        <div class="blk"><h3 lang="en">Abilities</h3><div class="abil">${abil}</div></div>
+        <div class="blk"><h3 lang="en">Abilities</h3><div class="abil" data-ctx="sum" data-size="${esc(b.size)}" data-bob="${b.traits.some(([n]) => n === 'Beast of Burden') ? 1 : 0}" data-sv="${b.sv.join(',')}">${abil}</div><p class="note"><small class="tapnote">Değere dokun: ne işe yaradığı.</small></p></div>
         <div class="blk"><h3 lang="en">Saves</h3><div class="wbox">${saves}</div></div>
         <div class="blk"><h3 lang="en">Skills</h3><div class="wbox">${skills}</div></div>
         ${def ? `<div class="blk"><h3>Savunma</h3><div class="kv"><span>${def}</span></div></div>` : ''}
@@ -13336,6 +13348,102 @@ const GL = (() => {
   };
   watch(document.getElementById('sheetIn'), () => openRef && openRef.c && openRef.c.gloss);
   watch(document.getElementById('wsAct'), () => true);
+})();
+
+/* ---------- ability scores: tap STR … CHA → what this score means in play (user's request) ----------
+   Karakter cards (.abl .ih) and creature boxes (.abil[data-ctx] .wa). 2014 rules: carrying capacity STR × 15 lb,
+   push/drag/lift × 2, size Tiny ×½ · Large ×2 · Huge ×4 · Gargantuan ×8 (Beast of Burden: one size larger). */
+const GL_SIZE = { 'Minik': 0.5, 'Küçük': 1, 'Orta': 1, 'Büyük': 2, 'Devasa': 4, 'Dev': 8 };
+const glKg = lb => Math.round(lb * 0.4536).toLocaleString('tr');
+const glLb = lb => Math.round(lb).toLocaleString('tr');
+function glCarryLb(str, size, bob) { return str * 15 * (GL_SIZE[size] || 1) * (bob ? 2 : 1); }
+// the "Taşıma" box in a creature's facts (hoisted: Wild Shape renders before this file's consts exist)
+function glCarry(str, size, bob) {
+  const c = glCarryLb(str, size, bob);
+  return `<div class="fact wide fq" style="--fq:28"><dt>Taşıma kapasitesi</dt><dd>${glLb(c)} lb <small style="display:inline">(${glKg(c)} kg)</small><small>itme · sürükleme · kaldırma: ${glLb(c * 2)} lb (${glKg(c * 2)} kg) · STR ${str} × 15${(GL_SIZE[size] || 1) !== 1 ? ` × ${GL_SIZE[size]} (${size})` : ''}${bob ? ' × 2 (Beast of Burden)' : ''}</small></dd></div>`;
+}
+(() => {
+  const NAME = { STR: ['Strength', 'Güç'], DEX: ['Dexterity', 'Çeviklik'], CON: ['Constitution', 'Dayanıklılık'], INT: ['Intelligence', 'Zekâ'], WIS: ['Wisdom', 'Bilgelik'], CHA: ['Charisma', 'Karizma'] };
+  const sgn = n => (n >= 0 ? '+' : '−') + Math.abs(n);
+  const ft = n => `${Math.max(0, Math.floor(n * 10) / 10).toLocaleString('tr')} ft`;
+  const row = (k, v) => `<li><b>${k}</b> ${v}</li>`;
+  function body(ab, s, size, ctx, bob, save) {
+    const m = Math.floor((s - 10) / 2), ch = typeof GL_CHAR !== 'undefined' ? GL_CHAR : null;
+    const isChar = ctx === 'char', ws = ctx === 'ws', mine = ws && ['INT', 'WIS', 'CHA'].includes(ab);
+    const L = [];
+    if (ab === 'STR') {
+      const c = glCarryLb(s, size, bob);
+      L.push(row('Taşıma kapasitesi', `${glLb(c)} lb (${glKg(c)} kg)`));
+      L.push(row('İtme · sürükleme · kaldırma', `${glLb(c * 2)} lb (${glKg(c * 2)} kg); taşıma kapasitesini aşan yükle hız <b>5 ft</b>’e düşer`));
+      if ((GL_SIZE[size] || 1) !== 1 || bob) L.push(row('Boyut', `${size}${bob ? ', Beast of Burden (bir boy büyük sayılır)' : ''} → kapasite × ${(GL_SIZE[size] || 1) * (bob ? 2 : 1)}`));
+      L.push(row('Uzun atlama', `10 ft koşarak <b>${ft(s)}</b>, durduğu yerden ${ft(s / 2)}`));
+      L.push(row('Yüksek atlama', `10 ft koşarak <b>${ft(3 + m)}</b>, durduğu yerden ${ft((3 + m) / 2)}`));
+      L.push(row('Athletics', 'tırmanma, yüzme, zıplama; kavrama (grapple) ve itme (shove) check’leri STR’ye dayanır'));
+      L.push(row('Yakın saldırı', `silahla yakın saldırı isabet ve hasarına ${sgn(m)}`));
+      L.push(row('STR save', 'itilme, kavranma, ezilme, yere serilme gibi etkilere karşı'));
+    } else if (ab === 'DEX') {
+      L.push(row('İnisiyatif', isChar && ch ? ch.init : `${sgn(m)} (DEX)`));
+      L.push(row('AC', `zırhsızken ve hafif zırhta AC’ye ${sgn(m)}; orta zırhta en fazla +2`));
+      L.push(row('Menzilli ve finesse saldırılar', `isabet ve hasara ${sgn(m)}`));
+      L.push(row('DEX save', 'alan hasarı (Fireball, nefes), tuzaklar, düşen nesneler'));
+      L.push(row('Skill’ler', 'Acrobatics, Sleight of Hand, Stealth'));
+    } else if (ab === 'CON') {
+      L.push(row('Can', isChar ? `her seviyede can zarına ${sgn(m)}; kısa dinlenmede harcanan her can zarına ${sgn(m)}` : `canına dahil (her can zarına ${sgn(m)})`));
+      L.push(row('Konsantrasyon', `hasar alınca CON save: DC 10 ya da hasarın yarısı${save != null ? ` · CON save ${sgn(save)}` : ''}`));
+      L.push(row('Nefes tutma', `<b>${Math.max(1, 1 + m)} dakika</b>${1 + m < 1 ? ' (en az 30 saniye)' : ''}; sonra ${Math.max(1, m)} tur dayanır, ardından 0 cana düşer`));
+      L.push(row('Açlık', `yemeksiz <b>${Math.max(1, 3 + m)} gün</b> bitkinlik almadan dayanır`));
+      L.push(row('CON save', 'zehir, hastalık, zorlu yürüyüş, aşırı sıcak/soğuk'));
+    } else if (ab === 'INT') {
+      if (!isChar && !mine && s <= 3) L.push(row('Hayvan zekâsı', 'konuşamaz, plan yapamaz; içgüdüyle davranır, basit komutları anlar'));
+      L.push(row('Skill’ler', 'Arcana, History, Investigation, Nature, Religion'));
+      L.push(row('INT save', 'zihne saldıran büyüler (ör. Feeblemind, Phantasmal Force)'));
+    } else if (ab === 'WIS') {
+      L.push(row('Skill’ler', 'Perception, Insight, Survival, Medicine, Animal Handling'));
+      L.push(row('Passive Perception', '10 + Perception (gizlenenleri fark etmek); Keen duyuyla +5'));
+      L.push(row('WIS save', 'büyülenme, korku, zihin kontrolü (Hold Person, Command, Fear)'));
+      if ((isChar || mine) && ch && ch.cast === 'WIS') L.push(row('Büyü', `büyü yeteneğin: save DC <b>${ch.dc}</b> (8 + yeterlilik + ${sgn(m)}), büyü saldırısı <b>+${ch.atk}</b>`));
+    } else if (ab === 'CHA') {
+      L.push(row('Skill’ler', 'Deception, Intimidation, Performance, Persuasion'));
+      L.push(row('CHA save', 'sürgün ve ele geçirilme (Banishment, Dispel Evil, possession)'));
+    }
+    const note = mine ? 'Wild Shape’te <b>INT, WIS ve CHA senin</b>; bu değerler formdan bağımsız.' : ws ? 'Wild Shape’te <b>STR, DEX ve CON formun</b>.' : ctx === 'poly' ? 'Polymorph: bütün değerler formun.' : '';
+    return { m, html: `<ul class="ab-list">${L.join('')}</ul>${note ? `<p class="note">${note}</p>` : ''}` };
+  }
+  // card: id "ab:STR:15:Orta:char:<save>:<bob>"
+  const fill0 = GL.fill;
+  GL.fill = id => {
+    if (!String(id).startsWith('ab:')) return fill0(id);
+    const [, ab, sc, size, ctx, sv, bob] = id.split(':'), s = +sc, save = sv === '' || sv == null ? null : +sv;
+    const { m, html } = body(ab, s, size || 'Orta', ctx, bob === '1', save);
+    return `
+        <div class="sh-top"><span class="ic" style="--h:${AB_HUE[ab]}" aria-hidden="true"><b class="ab-ic">${ab}</b></span><div><h2 id="shName" lang="en">${NAME[ab][0]}</h2><p>${NAME[ab][1]} · <b>${s}</b> (${sgn(m)})${save != null ? ` · save ${sgn(save)}` : ''}</p></div>
+          <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+        <div class="desc gl-desc">${html}</div>
+        <p class="note">Modifiyer = (değer − 10) ÷ 2, aşağı yuvarlanır; bu yeteneğe dayalı her check, save ve saldırıya eklenir.</p>`;
+  };
+  const tag = (el, id) => { el.dataset.c = 'gl'; el.dataset.open = id; el.setAttribute('role', 'button'); el.tabIndex = 0; el.classList.add('ab-tap'); };
+  // Karakter ability cards
+  for (const el of document.querySelectorAll('.abl .ih')) {
+    const ab = (el.querySelector('span') || {}).textContent, s = +((el.querySelector('b') || {}).textContent);
+    const sv = ((el.querySelector('em') || {}).textContent || '').match(/[+−-]\d+/);
+    if (NAME[ab] && s) tag(el, `ab:${ab}:${s}:Orta:char:${sv ? sv[0].replace('−', '-') : ''}:0`);
+  }
+  // creature boxes, whenever a sheet / the Aktif page is drawn
+  const dom0 = GL.dom;
+  GL.dom = root => {
+    dom0(root);
+    if (!root) return;
+    for (const box of root.querySelectorAll('.abil[data-ctx]')) {
+      const sv = (box.dataset.sv || '').split(',');
+      box.querySelectorAll('.wa').forEach((el, i) => {
+        const ab = (el.querySelector('span') || {}).textContent, s = +((el.querySelector('b') || {}).textContent);
+        if (NAME[ab] && s) tag(el, `ab:${ab}:${s}:${box.dataset.size}:${box.dataset.ctx}:${sv[i] || ''}:${box.dataset.bob || 0}`);
+      });
+    }
+  };
+  // Enter / Space on a focused card
+  document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('ab-tap')) { e.preventDefault(); e.target.click(); } });
+  GL.dom(document.getElementById('wsAct'));
 })();
 
 // Karakter → Saldırılar → Wild Shape: one chip per selected form (average damage per round), tap opens the form
