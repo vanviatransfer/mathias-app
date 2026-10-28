@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '948fd2d6b2'; window.__BUILT__ = '2026-10-29 02:16';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '0199a0fcb0'; window.__BUILT__ = '2026-10-29 02:28';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -753,6 +753,27 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
   <p class="sub">Zırh: <span lang="en">Unarmored Defense (Monk)</span> → AC <b id="acLine">18</b> (10 + DEX 3 + WIS 5; üstteki AC kutusuna dokunup elle değiştirebilirsin). Uçma, tırmanma, yüzme hızı yok.</p>
   <p class="sub" id="eqLine"></p>
 
+  <section class="sec" style="--sh:205">
+  <h2 class="lvl-h">Dinlenmeler</h2>
+  <div class="card rest">
+   <div id="restAct"></div>
+   <h3>Kısa dinlenme <small>en az 1 saat</small></h3>
+   <ul>
+    <li><span lang="en">Wild Shape</span>'in <b>2 hakkı</b> geri gelir.</li>
+    <li>İstersen <b>can zarı</b> harca: her zar için <b>1d8 at, +4 ekle</b>, o kadar can kazan. 10 zarın var.</li>
+    <li>Harcanan zarlar kısa dinlenmede <b>geri gelmez</b>. Uzun dinlenmenin sonunda en fazla <b>toplam zarının yarısı</b> geri gelir (10 zar → en fazla 5, en az 1).</li>
+   </ul>
+   <h3>Uzun dinlenme <small>8 saat</small></h3>
+   <ul>
+    <li>Canın tamamen dolar; büyü slotları (4/3/3/3/1), <span lang="en">Fey Touched</span> büyüleri ve <span lang="en">Wild Shape</span> hakları geri gelir.</li>
+    <li>Harcadığın can zarlarından <b>en fazla 5'i</b> geri gelir (toplamın yarısı).</li>
+    <li>Hazırladığın büyüleri <b>yalnız uzun dinlenmenin sonunda</b> değiştirebilirsin; kısa dinlenmede değişmez.</li>
+   </ul>
+   <h3>Konsantrasyon</h3>
+   <ul><li>Hasar alınca CON save: DC 10 ya da hasarın yarısı (hangisi yüksekse). <span lang="en">War Caster</span> ile <b>avantajlı</b>.</li></ul>
+  </div>
+
+  </section>
   <section class="sec" style="--sh:38">
   <h2 class="lvl-h"><span lang="en">Abilities</span> <small>● = save’de yeterli</small></h2>
   <div class="abl">
@@ -809,27 +830,6 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
     <h3>Büyü<small>Wisdom · konsantrasyonda <span lang="en">War Caster</span> avantajı</small></h3>
     <div class="chs"><span class="ch hit"><small>Büyü saldırısı</small><b>+9</b></span><span class="ch save"><small>Save</small><b>DC 17</b></span></div>
    </article>
-  </div>
-
-  </section>
-  <section class="sec" style="--sh:205">
-  <h2 class="lvl-h">Dinlenmeler</h2>
-  <div class="card rest">
-   <div id="restAct"></div>
-   <h3>Kısa dinlenme <small>en az 1 saat</small></h3>
-   <ul>
-    <li><span lang="en">Wild Shape</span>'in <b>2 hakkı</b> geri gelir.</li>
-    <li>İstersen <b>can zarı</b> harca: her zar için <b>1d8 at, +4 ekle</b>, o kadar can kazan. 10 zarın var.</li>
-    <li>Harcanan zarlar kısa dinlenmede <b>geri gelmez</b>. Uzun dinlenmenin sonunda en fazla <b>toplam zarının yarısı</b> geri gelir (10 zar → en fazla 5, en az 1).</li>
-   </ul>
-   <h3>Uzun dinlenme <small>8 saat</small></h3>
-   <ul>
-    <li>Canın tamamen dolar; büyü slotları (4/3/3/3/1), <span lang="en">Fey Touched</span> büyüleri ve <span lang="en">Wild Shape</span> hakları geri gelir.</li>
-    <li>Harcadığın can zarlarından <b>en fazla 5'i</b> geri gelir (toplamın yarısı).</li>
-    <li>Hazırladığın büyüleri <b>yalnız uzun dinlenmenin sonunda</b> değiştirebilirsin; kısa dinlenmede değişmez.</li>
-   </ul>
-   <h3>Konsantrasyon</h3>
-   <ul><li>Hasar alınca CON save: DC 10 ya da hasarın yarısı (hangisi yüksekse). <span lang="en">War Caster</span> ile <b>avantajlı</b>.</li></ul>
   </div>
 
   </section>
@@ -12468,12 +12468,17 @@ const SLOTS = (() => {
       return `<section class="card slots"><h3>Büyü slotları <small>${rest}/${total} kaldı · büyü yapınca boş kutuya dokun</small></h3>${rows}${free}
         ${st.confirm
           ? `<div class="confirm"><span>${LONG_REST_Q}</span><button class="yes" data-slot="rest-yes">Evet, dinlendim</button><button data-slot="rest-no">Vazgeç</button></div>`
-          : `<button class="mini srest" data-slot="rest">Uzun dinlenme yaptım</button>`}</section>`;
+          : `<div class="restbs"><button class="mini srest" data-slot="srest">Kısa dinlenme yaptım</button><button class="mini srest" data-slot="rest">Uzun dinlenme yaptım</button></div>`}</section>`;
     },
     tap(key) {
       const [k, a, b] = key.split(':');
       if (k === 's') { st.u[+a][+b] ^= 1; save(); }
       else if (k === 'f') { st.f[+a] ^= 1; save(); }
+      else if (k === 'srest') { // short rest from the spell tab: the Karakter tab's short-rest flow (hit dice, Wild Shape use)
+        restAsk = false; restMode = 'short'; SR.pend = []; SR.ask = null; renderRest();
+        const ct = document.querySelector('[data-tab="char"]'); if (ct) ct.click();
+        setTimeout(() => { const r = $('#restAct'); if (r) r.scrollIntoView({ block: 'center' }); }, 250); return;
+      }
       else if (k === 'rest') st.confirm = true;
       else if (k === 'rest-no') st.confirm = false;
       else if (k === 'rest-yes') { st.confirm = false; return longRest('slots'); }
