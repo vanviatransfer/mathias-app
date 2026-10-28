@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '9965712ef0'; window.__BUILT__ = '2026-10-29 01:59';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '948fd2d6b2'; window.__BUILT__ = '2026-10-29 02:16';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -135,7 +135,7 @@ nav button[aria-current="page"]{ color:var(--acc); font-weight:700; }
 .atk{ background:var(--bg); border:1px solid var(--acc); border-radius:10px; padding:8px 10px; display:grid; gap:6px; }
 .atk p, .trt p{ margin:0; line-height:1.45; }
 .atk .mu{ font-weight:700; }
-.chs.ps{ margin:2px 0 4px; } .ch.fm{ display:none; } html.fm-on .ch.fm{ display:block; }
+.chs.ps{ margin:2px 0 4px; } button.ch{ font:inherit; color:inherit; text-align:left; cursor:pointer; } button.ch small{ display:block; } .ch.crit{ border-color:hsl(350 55% 52% / .55); } .ch.crit b{ color:hsl(350 70% 76%); } .ch.fm{ display:none; } html.fm-on .ch.fm{ display:block; }
 .trt{ display:grid; gap:6px; }
 .trt b:first-child{ color:var(--ink); }
 .abil{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:4px; text-align:center; font-variant-numeric:tabular-nums; }
@@ -12696,8 +12696,10 @@ const NOTE_RE = /^<b>([^<]+)<\/b>( \([^)]*\))? · (.*)$/;
 const noEd = t => String(t || '').replace(/ \((?:2014|2024|2025)\)/g, '');
 const tidy = t => (t || '').replace(/^[\s·,;:]+/, '').trim();
 const chip = (cls, label, val, extra) => `<span class="ch${cls ? ' ' + cls : ''}"><small>${label}</small><b>${val}</b>${extra ? ` <em>${extra}</em>` : ''}</span>`;
+function critDice(d) { return String(d).replace(/([0-9]+)d([0-9]+)/g, (m, n, k) => `${2 * n}d${k}`); } // critical hit: every damage die twice, flat bonus once
 function dprPS(b) { return Math.round(b.dpr[0] + 4.5); } // + Primal Strike 1d8 (avg 4.5), once per turn
-function psLine(a) { return `<div class="chs ps"><span class="ch add"><small lang="en">Primal Strike</small><b>+1d8</b> <em>turda 1 kez · soğuk, ateş, şimşek ya da gök gürültüsü</em></span>${/erişim/.test(a) ? '<span class="ch add fm"><small lang="en">Fount of Moonlight</small><b>+2d6</b> <em>ışıltı · yakın dövüş saldırısı</em></span>' : ''}</div>`; }
+function psLine(a) { return `<div class="chs ps"><button class="ch add" data-c="gl" data-open="primal-strike"><small lang="en">Primal Strike</small><b>+1d8</b> <em>turda 1 kez · kritikte +2d8</em></button>${/erişim/.test(a) ? '<button class="ch add fm" data-c="sp" data-open="fount-of-moonlight"><small lang="en">Fount of Moonlight</small><b>+2d6</b> <em>ışıltı · kritikte +4d6</em></button>' : ''}</div>`; }
+function psLineOld(a) { return `<div class="chs ps"><span class="ch add"><small lang="en">Primal Strike</small><b>+1d8</b> <em>turda 1 kez · soğuk, ateş, şimşek ya da gök gürültüsü</em></span>${/erişim/.test(a) ? '<span class="ch add fm"><small lang="en">Fount of Moonlight</small><b>+2d6</b> <em>ışıltı · yakın dövüş saldırısı</em></span>' : ''}</div>`; }
 function fmtAtk(a) {
   let m = a.match(ATK_RE);
   if (m) {
@@ -12711,7 +12713,7 @@ function fmtAtk(a) {
     const fs2 = after.match(/^(.*?)sonra <b>(DC \d+ [A-Z]{3})<\/b> save: başarısızsa <b>([^<]+)<\/b> ([^(<]+?) \((\d+)\)(.*)$/);
     if (fs2) { add += chip('save', 'Sonra save', fs2[2]) + chip('add', 'Başarısızsa', fs2[3], `${fs2[4].trim()} · ort. ${fs2[5]}`); after = [tidy(fs2[1]), tidy(fs2[6])].filter(Boolean).join(' · '); }
     const text = [tidy(tgt), dice ? '' : 'hasar yok', after].filter(Boolean).join(' · ');
-    return `<div class="watk"><h4><span lang="en">${n}</span>${note ? `<small>${note}</small>` : ''}</h4><div class="chs">${chip('hit', 'Saldırı', hit)}${dice ? chip('dmg', 'Hasar', dice, `${type.trim()} · ort. ${avg}`) : ''}${add}${chip('', 'Erişim', reach)}</div>${text ? `<p>${text}</p>` : ''}</div>`;
+    return `<div class="watk"><h4><span lang="en">${n}</span>${note ? `<small>${note}</small>` : ''}</h4><div class="chs">${chip('hit', 'Saldırı', hit)}${dice ? chip('dmg', 'Hasar', dice, `${type.trim()} · ort. ${avg}`) + `<button class="ch crit" data-c="gl" data-open="critical-hit"><small>Kritik</small><b>${critDice(dice)}</b> <em>zarlar ×2</em></button>` : ''}${add}${chip('', 'Erişim', reach)}</div>${text ? `<p>${text}</p>` : ''}</div>`;
   }
   m = a.match(SAVE_RE);
   if (m) {
@@ -13259,6 +13261,9 @@ const GL = (() => {
     ['resistance', 'Resistance', 'Direnç', 'O türden hasarın <b>yarısını</b> alır (aşağı yuvarlanır). Aynı tür için birden çok direnç birikmez.', 'Direnç|dirençli'],
     ['immunity', 'Immunity', 'Bağışıklık', 'O türden hasar ya da o durum ona <b>hiç işlemez</b>.', 'Bağışıklık|bağışık'],
     ['escape', 'Escaping a grapple', 'Kavramadan kaçış', 'Kavranan yaratık <b>kendi aksiyonunu</b> harcayıp Athletics ya da Acrobatics check yapar; yazılı DC’yi tutturursa kurtulur.', 'kaçış'],
+    ['critical-hit', 'Critical Hit', 'Kritik vuruş', 'Doğal 20: otomatik isabet. Saldırının <b>bütün hasar zarlarını iki kez</b> atarsın; <b>ekstra hasar zarları da dahil</b> (Sneak Attack, Hunter’s Mark, Primal Strike, Fount of Moonlight). Sabit bonuslar (ability modifier) <b>bir kez</b> eklenir.', 'kritik vuruş'],
+    ['primal-strike', 'Primal Strike', 'Primal Strike', '<b>Druid 7 · Elemental Fury.</b> Turunda <b>bir kez</b>, silahla ya da <b>Wild Shape hayvan formunun saldırısıyla</b> isabet edince hedef fazladan <b>1d8 soğuk, ateş, şimşek ya da gök gürültüsü</b> hasarı alır (vururken seçersin). Kritikte <b>2d8</b>. Druid 15’te 2d8 (kritikte 4d8).', 'Primal Strike'],
+    ['sneak-attack', 'Sneak Attack', 'Sneak Attack', '<b>Rogue.</b> Turda <b>bir kez</b>: saldırı zarında avantajın varsa ya da hedefin 5 ft yanında etkisiz kalmamış bir müttefikin varsa (ve dezavantajın yoksa), finesse ya da menzili silahla isabet edince fazladan hasar zarları. <b>Kritikte zarlar iki kez atılır.</b>', 'Sneak Attack'],
     ['multiattack', 'Multiattack', 'Çoklu saldırı', 'Tek <b>Saldırı aksiyonunda</b> listelenen saldırıların hepsini yapar (ör. bir Isırık + bir Pençe).', 'Multiattack'],
   ];
   const BY = Object.fromEntries(T.map(t => [t[0], t]));
