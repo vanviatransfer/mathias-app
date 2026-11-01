@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '4755cf2a75'; window.__BUILT__ = '2026-11-01 10:31';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = '2844b2d900'; window.__BUILT__ = '2026-11-01 13:09';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -143,7 +143,6 @@ nav button[aria-current="page"]{ color:var(--acc); font-weight:700; }
 .abil span{ display:block; font-size:.7rem; letter-spacing:.06em; color:var(--muted); }
 .abil b{ font-size:.95rem; }
 .abil small{ display:block; font-size:.74rem; color:var(--muted); }
-.abil .me b, .abil .me span{ color:var(--me); }
 .kv{ display:flex; flex-wrap:wrap; gap:4px 12px; font-size:.9rem; font-variant-numeric:tabular-nums; }
 .kv b{ font-weight:700; }
 .note{ font-size:.85rem; color:var(--muted); margin:6px 0 0; }
@@ -604,7 +603,11 @@ html.has-conc main{ padding-top:calc(var(--floatH, 48px) + 8px); }
 .abil .wa span{ color:hsl(var(--wb) 34% 74%); font-weight:700; font-size:.72rem; }
 .abil .wa b{ font-size:1.25rem; color:hsl(var(--wb) 38% 80%); }
 .abil .wa small{ color:hsl(var(--wb) 20% 70%); font-size:.78rem; }
-.abil .wa.me b, .abil .wa.me span{ color:hsl(var(--wb) 38% 80%); }
+/* H5f: Wild Shape form cards reuse the Karakter .abl .ih cards; a small basis line under the Save line */
+.abl[data-ctx] > div{ align-content:start; }
+.abl .svx{ order:4; font-size:.72rem; line-height:1.2; color:var(--muted); text-align:center; margin-top:2px; overflow-wrap:anywhere; }
+.abl .ih .svx span{ font-size:inherit; font-weight:inherit; letter-spacing:inherit; color:inherit; }
+.abl .svx.me{ color:var(--me); }
 #wsChips{ grid-template-columns:auto repeat(6,minmax(0,1fr)); gap:5px; }
 #wsChips .chip{ padding-inline:2px; font-size:.86rem; }
 .eqb{ display:inline-block; margin-right:6px; padding:1px 7px; border-radius:999px; font-size:.7rem; font-weight:700; letter-spacing:.04em; background:hsl(140 30% 26%); color:hsl(140 45% 82%); vertical-align:1px; }
@@ -884,7 +887,7 @@ html:not(.gn-beast) .gnb, html:not(.gn-tree) .gnt{ display:none !important; }
    <article class="ab" style="--ah:200">
     <h3><span lang="en">Martial Arts</span><small>bonus aksiyon · ek vuruş</small></h3>
     <div class="chs"><span class="ch hit"><small>Saldırı</small><b><span data-rv="attacks.#Unarmed Strike.attackBonus" data-rf="s">+7</span></b></span><span class="ch dmg"><small>Hasar</small><b><span data-rv="attacks.#Unarmed Strike.damage" data-rf="v">1d6+3</span></b> <em>Bludgeoning</em></span></div>
-    <ul><li>Aynı tur Saldırı aksiyonunda silahsız ya da monk silahıyla saldırdıysan <b>bonus aksiyonla 1 silahsız vuruş daha</b>.</li><li>O tur bonus aksiyonunu başka işe (ör. <span lang="en">Healing Word</span>, <span lang="en">Wild Shape</span>) harcadıysan olmaz.</li></ul>
+    <ul><li>Zırh ve kalkan yokken her tur <b>bonus aksiyonla 1 silahsız vuruş</b>; önce Saldırı aksiyonu yapman gerekmez.</li><li>O tur bonus aksiyonunu başka işe (ör. <span lang="en">Healing Word</span>, <span lang="en">Wild Shape</span>) harcadıysan olmaz.</li></ul>
    </article>
    <article class="ab" style="--ah:48">
     <h3><span lang="en">Produce Flame</span><small>cantrip · menzilli büyü saldırısı · sınırsız</small></h3>
@@ -896,14 +899,9 @@ html:not(.gn-beast) .gnb, html:not(.gn-tree) .gnt{ display:none !important; }
     <div class="chs"><button class="ch hit" data-c="sp" data-open="starry-wisp"><small lang="en">Örn. Starry Wisp</small><b><span data-rv="spellcasting.attackBonus" data-rf="s">+9</span></b> <em>büyü saldırısı</em></button><span class="ch dmg"><small>Hasar</small><b>2d8</b> <em>Radiant · ort. 9</em></span><span class="ch"><small>Menzil</small><b>60 ft</b></span></div>
     <p>Bir düşman erişiminden çıkıp fırsat saldırısı hakkı doğurunca, vuruş yerine <b>yalnız onu hedefleyen</b>, 1 aksiyonluk bir büyü yapabilirsin (<span lang="en">Produce Flame</span> bonus aksiyonla yapıldığı için olmaz). Ellerin doluyken de somatik bileşen yapabilirsin.</p>
    </article>
-   <article class="ab" style="--ah:22">
-    <h3>Büyülü Yelpaze<small>takılı eşya · 3 kez</small></h3>
-    <div class="chs"><span class="ch dmg"><small>Hasar</small><b>3d6</b> <em>Fire</em></span><span class="ch"><small>Alan</small><b>15 ft</b></span><span class="ch"><small>Kullanım</small><b>3 kez</b></span></div>
-    <p>Sayfada yazan: 15 ft, 3d6 Fire, 3 kez. Save ve yenilenme DM’e göre.</p>
-   </article>
    <article class="ab" style="--ah:100">
     <h3><span lang="en">Wild Shape</span><small>bonus aksiyonla dönüş (<span lang="en">Combat Wild Shape</span>) · 2 hak</small></h3>
-    <div class="chs"><button class="ch" data-basis="Wild Shape|wildShape"><small>En fazla</small><b>CR <span data-rv="wildShape.maxChallenge" data-rf="v">4</span></b> <em>masa kuralı · elementaller de</em></button><span class="ch"><small>AC</small><b>formun + <span data-rv="abilities.WIS.modifier" data-rf="v">5</span></b></span><span class="ch hit"><small>Saldırılar</small><b>+1d8</b> <em>Primal Strike · turda 1 kez</em></span><button class="ch" data-basis="Improved Circle Forms|features.#Improved Circle Forms"><small lang="en">Improved Circle Forms</small><b>Radiant</b> <em>istersen · CON save + WIS</em></button></div>
+    <div class="chs"><button class="ch" data-basis="Wild Shape|wildShape"><small>En fazla</small><b>CR <span data-rv="wildShape.maxChallenge" data-rf="v">4</span></b> <em>masa kuralı · elementaller de</em></button><span class="ch"><small>AC</small><b>formun + <span data-rv="abilities.WIS.modifier" data-rf="v">5</span></b></span><span class="ch hit"><small>Saldırılar</small><b>+1d8</b> <em>Primal Strike · turda 1 kez · hayvan formları</em></span><button class="ch" data-basis="Improved Circle Forms|features.#Improved Circle Forms"><small lang="en">Improved Circle Forms</small><b>Radiant</b> <em>istersen · CON save + WIS</em></button></div>
     <p>Formdayken saldırı ve hasar <b>formun kartından</b> gelir. Seçili formların tur başı ortalama hasarı (dokun: ayrıntı):</p>
     <div class="chs" id="wsQuick"></div>
    </article>
@@ -947,7 +945,7 @@ html:not(.gn-beast) .gnb, html:not(.gn-tree) .gnt{ display:none !important; }
    <p><b>Zırh:</b> <span lang="en"><span data-rv="proficiencies.armor" data-rf="l">Light Armor, Medium Armor, Shields</span></span></p>
    <p><b>Silah:</b> <span lang="en"><span data-rv="proficiencies.weapons" data-rf="l">Simple Weapons, Martial Weapons</span></span></p>
    <p><b>Araç:</b> <span lang="en"><span data-rv="proficiencies.tools" data-rf="l">Calligrapher's supplies</span></span></p>
-   <p><b>Diller:</b> <span lang="en"><span data-rv="proficiencies.languages" data-rf="l">Common, Draconic, Druidic</span></span></p>
+   <p><b>Diller:</b> <span lang="en"><span data-rv="proficiencies.languages" data-rf="l">Common, Draconic, Druidic, Sylvan</span></span></p>
   </div>
 
   </section>
@@ -12290,7 +12288,7 @@ html:not(.gn-beast) .gnb, html:not(.gn-tree) .gnt{ display:none !important; }
   "tip": "Polymorph ile (4. seviye büyü, konsantrasyon 1 saat): bütün değerler Giant Ape’in, INT/WIS/CHA dahil; büyü yapamazsın, konuşamazsın. 168 can ve iki 22’lik yumrukla en güçlü form; 40 ft tırmanır, Leap ile 30 ft sıçrar. Canı 0’a inince Mathias’a dönersin, artan hasar sana geçer."
  }
 ]</script>
-<script id="rbData" type="application/json">{"build":{"species":"Human","background":"Sage","classes":[{"name":"Druid","level":9,"subclass":"Circle of the Moon"},{"name":"Monk","level":1,"subclass":null}],"characterLevel":10},"proficiencyBonus":{"value":4,"basis":"karakter seviyesi 10 (Druid 9 + Monk 1) → +4"},"abilities":{"STR":{"score":15,"modifier":2,"basis":"sayfa 15 = 15 → (15 − 10) ÷ 2, aşağı yuvarla = +2 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"DEX":{"score":16,"modifier":3,"basis":"sayfa 16 = 16 → (16 − 10) ÷ 2, aşağı yuvarla = +3 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"CON":{"score":19,"modifier":4,"basis":"sayfa 18 + Resilient +1 = 19 → (19 − 10) ÷ 2, aşağı yuvarla = +4 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"INT":{"score":14,"modifier":2,"basis":"sayfa 14 = 14 → (14 − 10) ÷ 2, aşağı yuvarla = +2 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"WIS":{"score":20,"modifier":5,"basis":"sayfa 20 = 20 → (20 − 10) ÷ 2, aşağı yuvarla = +5 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"CHA":{"score":12,"modifier":1,"basis":"sayfa 12 = 12 → (12 − 10) ÷ 2, aşağı yuvarla = +1 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"}},"saves":{"STR":{"bonus":2,"proficient":false,"basis":"STR +2 = +2"},"DEX":{"bonus":3,"proficient":false,"basis":"DEX +3 = +3"},"CON":{"bonus":8,"proficient":true,"basis":"CON +4 + yeterlilik 4 = +8"},"INT":{"bonus":6,"proficient":true,"basis":"INT +2 + yeterlilik 4 = +6"},"WIS":{"bonus":9,"proficient":true,"basis":"WIS +5 + yeterlilik 4 = +9"},"CHA":{"bonus":1,"proficient":false,"basis":"CHA +1 = +1"}},"skills":{"Acrobatics":{"ability":"DEX","bonus":7,"proficiency":1,"passive":17,"basis":"DEX +3 + yeterlilik 4 = +7"},"Animal Handling":{"ability":"WIS","bonus":5,"proficiency":0,"passive":15,"basis":"WIS +5 = +5"},"Arcana":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2 (ev kuralı: Sage’in Arcana ve History’si yerine Outlander’dan kalan Athletics ve Survival: Arcana yeterliliği yok)"},"Athletics":{"ability":"STR","bonus":6,"proficiency":1,"passive":16,"basis":"STR +2 + yeterlilik 4 = +6 (ev kuralı: Sage’in Arcana ve History’si yerine Outlander’dan kalan Athletics ve Survival: Arcana yerine)"},"Deception":{"ability":"CHA","bonus":1,"proficiency":0,"passive":11,"basis":"CHA +1 = +1"},"History":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2 (ev kuralı: Sage’in Arcana ve History’si yerine Outlander’dan kalan Athletics ve Survival: History yeterliliği yok)"},"Insight":{"ability":"WIS","bonus":9,"proficiency":1,"passive":19,"basis":"WIS +5 + yeterlilik 4 = +9"},"Intimidation":{"ability":"CHA","bonus":1,"proficiency":0,"passive":11,"basis":"CHA +1 = +1"},"Investigation":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2"},"Medicine":{"ability":"WIS","bonus":5,"proficiency":0,"passive":15,"basis":"WIS +5 = +5"},"Nature":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2"},"Perception":{"ability":"WIS","bonus":9,"proficiency":1,"passive":19,"basis":"WIS +5 + yeterlilik 4 = +9"},"Performance":{"ability":"CHA","bonus":1,"proficiency":0,"passive":11,"basis":"CHA +1 = +1"},"Persuasion":{"ability":"CHA","bonus":1,"proficiency":0,"passive":11,"basis":"CHA +1 = +1"},"Religion":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2"},"Sleight of Hand":{"ability":"DEX","bonus":3,"proficiency":0,"passive":13,"basis":"DEX +3 = +3"},"Stealth":{"ability":"DEX","bonus":3,"proficiency":0,"passive":13,"basis":"DEX +3 = +3"},"Survival":{"ability":"WIS","bonus":9,"proficiency":1,"passive":19,"basis":"WIS +5 + yeterlilik 4 = +9 (ev kuralı: Sage’in Arcana ve History’si yerine Outlander’dan kalan Athletics ve Survival: History yerine)"}},"passives":{"Perception":{"value":19,"basis":"10 + Perception +9 = 19"},"Insight":{"value":19,"basis":"10 + Insight +9 = 19"},"Investigation":{"value":12,"basis":"10 + Investigation +2 = 12"}},"initiative":{"value":3,"basis":"DEX +3 = +3"},"speed":{"walk":30,"basis":"yürüme 30 ft"},"armorClass":{"value":18,"computed":18,"override":null,"basis":"10 + DEX 3 + WIS 5 (Unarmored Defense, Monk) = 18"},"hitPoints":{"max":88,"basis":"Druid 1: d8 en yüksek 8 + CON 4; sonraki 9 seviye atılan zar + CON 4 (toplam 48 + 10 × 4) = 88"},"hitDice":{"pools":[{"die":"d8","count":10,"classes":["Druid","Monk"]}],"conModifier":4,"longRestRecovery":"all","basis":"her sınıf seviyesi için o sınıfın zarı (Druid 9 × d8, Monk 1 × d8); kısa dinlenmede harcanan her zar + CON 4; uzun dinlenmede harcanan zarların hepsi geri gelir (dinlenme kuralı)"},"spellcasting":{"ability":"WIS","saveDc":17,"attackBonus":9,"basis":"save DC 8 + yeterlilik 4 + WIS 5 = 17; büyü saldırısı yeterlilik 4 + WIS 5 = +9"},"spellSlots":{"slots":[4,3,3,3,1],"basis":"Druid 9 büyü slotu tablosu (tam büyücü): 4/3/3/3/1 (1.–5. seviye)"},"spells":{"class":"Druid","preparation":"prepared","limit":14,"cantrips":4,"maxSpellLevel":5,"always":["Cure Wounds","Speak with Animals","Moonbeam","Conjure Animals","Fount of Moonlight","Mass Cure Wounds"],"freeCasts":[{"spell":"Identify","uses":1,"recovery":"long","from":"Fey-Touched"},{"spell":"Misty Step","uses":1,"recovery":"long","from":"Fey-Touched"},{"spell":"Find Familiar","uses":1,"recovery":"long","from":"Magic Initiate (Wizard)"}],"basis":"Druid 9 tablosu: 14 hazır büyü, 3 cantrip (+ alt sınıf / özelliklerden 1); en yüksek slot 5. seviye; hazırlıklar uzun dinlenmede değişir (istediğin kadar); her zaman hazır olanlar (Cure Wounds, Speak with Animals, Moonbeam, Conjure Animals, Fount of Moonlight, Mass Cure Wounds) sayıya girmez"},"attacks":[{"name":"Unarmed Strike","attackBonus":7,"damage":"1d6+3","damageType":"Bludgeoning","basis":"saldırı DEX 3 + yeterlilik 4 = +7; hasar 1d6 + 3 (Martial Arts zarı)"}],"features":[{"name":"Circle Forms","from":"Circle of the Moon","level":3,"uses":2,"recharge":"short","basis":"Circle of the Moon 3. seviye alt sınıf özelliği · 2 kullanım / kısa dinlenme"},{"name":"Circle of the Moon Spells","from":"Circle of the Moon","level":3,"basis":"Circle of the Moon 3. seviye alt sınıf özelliği · bu büyüler her zaman hazır, hazır büyü sayısına girmez; Wild Shape formundayken de yapılabilir"},{"name":"Improved Circle Forms","from":"Circle of the Moon","level":6,"basis":"Circle of the Moon 6. seviye alt sınıf özelliği · Wild Shape formundayken her saldırı normal hasar türünü ya da Radiant verebilir (yalnız tür seçimi, ek hasar yok) ve CON save’e WIS eklenir; Wild Shape formlarının satırlarında yazar"},{"name":"Druidic","from":"Druid","level":1,"basis":"Druid 1. seviye sınıf özelliği"},{"name":"Elemental Fury","from":"Druid","level":7,"basis":"Druid 7. seviye sınıf özelliği"},{"name":"Primal Strike","from":"Druid","basis":"Druid sınıf özelliği"},{"name":"Primal Order","from":"Druid","level":1,"basis":"Druid 1. seviye sınıf özelliği"},{"name":"Warden","from":"Druid","basis":"Druid sınıf özelliği · Martial silah yeterliliği ve Medium armor eğitimi"},{"name":"Spellcasting","from":"Druid","level":1,"basis":"Druid 1. seviye sınıf özelliği"},{"name":"Wild Companion","from":"Druid","level":2,"basis":"Druid 2. seviye sınıf özelliği"},{"name":"Wild Resurgence","from":"Druid","level":5,"uses":1,"recharge":"long","basis":"Druid 5. seviye sınıf özelliği · 1 kullanım / uzun dinlenme"},{"name":"Martial Arts","from":"Monk","level":1,"basis":"Monk 1. seviye sınıf özelliği"},{"name":"Unarmored Defense","from":"Monk","level":1,"basis":"Monk 1. seviye sınıf özelliği"},{"name":"Fey-Touched","from":"Feat","freeCasts":[{"spell":"Identify","uses":1,"recharge":"long"},{"spell":"Misty Step","uses":1,"recharge":"long"}],"basis":"feat · Identify 1 kez slotsuz / uzun dinlenme · Misty Step 1 kez slotsuz / uzun dinlenme"},{"name":"Magic Initiate","from":"Feat","freeCasts":[{"spell":"Find Familiar","uses":1,"recharge":"long"}],"basis":"feat · Find Familiar 1 kez slotsuz / uzun dinlenme · Sage’in feat’i, Wizard listesi, büyü ability’si WIS: cantrip Mage Hand ve Minor Illusion; 1. seviye Find Familiar (Owl) her zaman hazır, uzun dinlenmede bir kez slotsuz, slotla ve ritüel olarak da"},{"name":"Resilient","from":"Feat","basis":"feat · Constitution: CON +1 ve CON save yeterliliği; Versatile’in yerinde ev kuralıyla; Wild Shape formlarında da save yeterliliği kalır (masanın Wild Shape kuralı)"},{"name":"War Caster","from":"Feat","basis":"feat"},{"name":"Resourceful","from":"Human","uses":1,"recharge":"long","basis":"Human species özelliği · 1 kullanım / uzun dinlenme · uzun dinlenmeyi bitirince Heroic Inspiration kazanırsın"},{"name":"Skillful","from":"Human","basis":"Human species özelliği"},{"name":"Versatile","from":"Human","basis":"Human species özelliği · ev kuralı: Origin feat yerine General feat Resilient (Constitution)"}],"featuresNotNamed":0,"proficiencies":{"armor":["Light Armor","Medium Armor","Shields"],"weapons":["Simple Weapons","Martial Weapons"],"tools":["Calligrapher's supplies"],"languages":["Common","Draconic","Druidic"],"basis":"Druid, Monk, alt sınıf ve özellikler, species ve background yeterlilikleri (silah ve zırhta kategori olarak)"},"wildShape":{"edition":"2014","uses":2,"recharge":"short","action":"bonus-action","hours":4,"maxChallenge":"4","armorClass":"form AC + WIS 5","combatHealing":"2d8 / slot seviyesi","elementalForms":{"level":9,"cost":2,"forms":["Air Elemental","Earth Elemental","Fire Elemental","Water Elemental"]},"canCastSpells":false,"formSpells":{"feature":"Circle of the Moon Spells","spells":["Starry Wisp","Cure Wounds","Moonbeam","Conjure Animals","Fount of Moonlight","Mass Cure Wounds"],"basis":"Circle of the Moon Spells (Circle of the Moon 3): bu büyüleri Wild Shape formundayken de yapabilirsin (Starry Wisp, Cure Wounds, Moonbeam, Conjure Animals, Fount of Moonlight, Mass Cure Wounds); druid’in öteki büyüleri formda yapılamaz"},"overrides":["Wild Shape up to CR 4","Wild Shape AC + WIS","Combat Wild Shape: 2d8 per slot level","Elemental Wild Shape from druid 9"],"basis":"Wild Shape masanın kuralıyla: 2 kullanım, kısa ya da uzun dinlenmede yenilenir; bonus aksiyon (Combat Wild Shape); en fazla 4 saat; kitapta en fazla CR 3 (druid 9 ÷ 3); karakterin ev kuralları: en fazla CR 4; form AC’sine WIS eklenir; Combat Wild Shape: slot seviyesi başına 2d8; druid 9’dan Elemental Wild Shape (2 kullanım)"}}</script>
+<script id="rbData" type="application/json">{"build":{"species":"Human","background":"Sage","classes":[{"name":"Druid","level":9,"subclass":"Circle of the Moon"},{"name":"Monk","level":1,"subclass":null}],"characterLevel":10},"proficiencyBonus":{"value":4,"basis":"karakter seviyesi 10 (Druid 9 + Monk 1) → +4"},"abilities":{"STR":{"score":15,"modifier":2,"basis":"sayfa 15 = 15 → (15 − 10) ÷ 2, aşağı yuvarla = +2 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"DEX":{"score":16,"modifier":3,"basis":"sayfa 16 = 16 → (16 − 10) ÷ 2, aşağı yuvarla = +3 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"CON":{"score":19,"modifier":4,"basis":"sayfa 18 + Resilient +1 = 19 → (19 − 10) ÷ 2, aşağı yuvarla = +4 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"INT":{"score":14,"modifier":2,"basis":"sayfa 14 = 14 → (14 − 10) ÷ 2, aşağı yuvarla = +2 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"WIS":{"score":20,"modifier":5,"basis":"sayfa 20 = 20 → (20 − 10) ÷ 2, aşağı yuvarla = +5 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"},"CHA":{"score":12,"modifier":1,"basis":"sayfa 12 = 12 → (12 − 10) ÷ 2, aşağı yuvarla = +1 · sayfanın puanları Sage’in üç puanını (+1 CON, +1 INT, +1 WIS) zaten taşıyor sayılır; Versatile’in yerinde ev kuralıyla General feat Resilient (Constitution)"}},"saves":{"STR":{"bonus":2,"proficient":false,"basis":"STR +2 = +2"},"DEX":{"bonus":3,"proficient":false,"basis":"DEX +3 = +3"},"CON":{"bonus":8,"proficient":true,"basis":"CON +4 + yeterlilik 4 = +8"},"INT":{"bonus":6,"proficient":true,"basis":"INT +2 + yeterlilik 4 = +6"},"WIS":{"bonus":9,"proficient":true,"basis":"WIS +5 + yeterlilik 4 = +9"},"CHA":{"bonus":1,"proficient":false,"basis":"CHA +1 = +1"}},"skills":{"Acrobatics":{"ability":"DEX","bonus":7,"proficiency":1,"passive":17,"basis":"DEX +3 + yeterlilik 4 = +7"},"Animal Handling":{"ability":"WIS","bonus":5,"proficiency":0,"passive":15,"basis":"WIS +5 = +5"},"Arcana":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2 (ev kuralı: Sage’in Arcana ve History’si yerine Outlander’dan kalan Athletics ve Survival: Arcana yeterliliği yok)"},"Athletics":{"ability":"STR","bonus":6,"proficiency":1,"passive":16,"basis":"STR +2 + yeterlilik 4 = +6 (ev kuralı: Sage’in Arcana ve History’si yerine Outlander’dan kalan Athletics ve Survival: Arcana yerine)"},"Deception":{"ability":"CHA","bonus":1,"proficiency":0,"passive":11,"basis":"CHA +1 = +1"},"History":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2 (ev kuralı: Sage’in Arcana ve History’si yerine Outlander’dan kalan Athletics ve Survival: History yeterliliği yok)"},"Insight":{"ability":"WIS","bonus":9,"proficiency":1,"passive":19,"basis":"WIS +5 + yeterlilik 4 = +9"},"Intimidation":{"ability":"CHA","bonus":1,"proficiency":0,"passive":11,"basis":"CHA +1 = +1"},"Investigation":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2"},"Medicine":{"ability":"WIS","bonus":5,"proficiency":0,"passive":15,"basis":"WIS +5 = +5"},"Nature":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2"},"Perception":{"ability":"WIS","bonus":9,"proficiency":1,"passive":19,"basis":"WIS +5 + yeterlilik 4 = +9"},"Performance":{"ability":"CHA","bonus":1,"proficiency":0,"passive":11,"basis":"CHA +1 = +1"},"Persuasion":{"ability":"CHA","bonus":1,"proficiency":0,"passive":11,"basis":"CHA +1 = +1"},"Religion":{"ability":"INT","bonus":2,"proficiency":0,"passive":12,"basis":"INT +2 = +2"},"Sleight of Hand":{"ability":"DEX","bonus":3,"proficiency":0,"passive":13,"basis":"DEX +3 = +3"},"Stealth":{"ability":"DEX","bonus":3,"proficiency":0,"passive":13,"basis":"DEX +3 = +3"},"Survival":{"ability":"WIS","bonus":9,"proficiency":1,"passive":19,"basis":"WIS +5 + yeterlilik 4 = +9 (ev kuralı: Sage’in Arcana ve History’si yerine Outlander’dan kalan Athletics ve Survival: History yerine)"}},"passives":{"Perception":{"value":19,"basis":"10 + Perception +9 = 19"},"Insight":{"value":19,"basis":"10 + Insight +9 = 19"},"Investigation":{"value":12,"basis":"10 + Investigation +2 = 12"}},"initiative":{"value":3,"basis":"DEX +3 = +3"},"speed":{"walk":30,"basis":"yürüme 30 ft"},"armorClass":{"value":18,"computed":18,"override":null,"basis":"10 + DEX 3 + WIS 5 (Unarmored Defense, Monk) = 18"},"hitPoints":{"max":88,"basis":"Druid 1: d8 en yüksek 8 + CON 4; sonraki 9 seviye atılan zar + CON 4 (toplam 48 + 10 × 4) = 88"},"hitDice":{"pools":[{"die":"d8","count":10,"classes":["Druid","Monk"]}],"conModifier":4,"longRestRecovery":"all","basis":"her sınıf seviyesi için o sınıfın zarı (Druid 9 × d8, Monk 1 × d8); kısa dinlenmede harcanan her zar + CON 4; uzun dinlenmede harcanan zarların hepsi geri gelir (dinlenme kuralı)"},"spellcasting":{"ability":"WIS","saveDc":17,"attackBonus":9,"basis":"save DC 8 + yeterlilik 4 + WIS 5 = 17; büyü saldırısı yeterlilik 4 + WIS 5 = +9"},"spellSlots":{"slots":[4,3,3,3,1],"basis":"Druid 9 büyü slotu tablosu (tam büyücü): 4/3/3/3/1 (1.–5. seviye)"},"spells":{"class":"Druid","preparation":"prepared","limit":14,"cantrips":4,"maxSpellLevel":5,"always":["Cure Wounds","Speak with Animals","Moonbeam","Conjure Animals","Fount of Moonlight","Mass Cure Wounds"],"freeCasts":[{"spell":"Identify","uses":1,"recovery":"long","from":"Fey-Touched"},{"spell":"Misty Step","uses":1,"recovery":"long","from":"Fey-Touched"},{"spell":"Find Familiar","uses":1,"recovery":"long","from":"Magic Initiate (Wizard)"}],"basis":"Druid 9 tablosu: 14 hazır büyü, 3 cantrip (+ alt sınıf / özelliklerden 1); en yüksek slot 5. seviye; hazırlıklar uzun dinlenmede değişir (istediğin kadar); her zaman hazır olanlar (Cure Wounds, Speak with Animals, Moonbeam, Conjure Animals, Fount of Moonlight, Mass Cure Wounds) sayıya girmez"},"attacks":[{"name":"Unarmed Strike","attackBonus":7,"damage":"1d6+3","damageType":"Bludgeoning","basis":"saldırı DEX 3 + yeterlilik 4 = +7; hasar 1d6 + 3 (Martial Arts zarı)"}],"features":[{"name":"Circle Forms","from":"Circle of the Moon","level":3,"uses":2,"recharge":"short","basis":"Circle of the Moon 3. seviye alt sınıf özelliği · 2 kullanım / kısa dinlenme"},{"name":"Circle of the Moon Spells","from":"Circle of the Moon","level":3,"basis":"Circle of the Moon 3. seviye alt sınıf özelliği · bu büyüler her zaman hazır, hazır büyü sayısına girmez; Wild Shape formundayken de yapılabilir"},{"name":"Improved Circle Forms","from":"Circle of the Moon","level":6,"basis":"Circle of the Moon 6. seviye alt sınıf özelliği · Wild Shape formundayken her saldırı normal hasar türünü ya da Radiant verebilir (yalnız tür seçimi, ek hasar yok) ve CON save’e WIS eklenir; Wild Shape formlarının satırlarında yazar"},{"name":"Druidic","from":"Druid","level":1,"basis":"Druid 1. seviye sınıf özelliği"},{"name":"Elemental Fury","from":"Druid","level":7,"basis":"Druid 7. seviye sınıf özelliği"},{"name":"Primal Strike","from":"Druid","basis":"Druid sınıf özelliği"},{"name":"Primal Order","from":"Druid","level":1,"basis":"Druid 1. seviye sınıf özelliği"},{"name":"Warden","from":"Druid","basis":"Druid sınıf özelliği · Martial silah yeterliliği ve Medium armor eğitimi"},{"name":"Spellcasting","from":"Druid","level":1,"basis":"Druid 1. seviye sınıf özelliği"},{"name":"Wild Companion","from":"Druid","level":2,"basis":"Druid 2. seviye sınıf özelliği"},{"name":"Wild Resurgence","from":"Druid","level":5,"uses":1,"recharge":"long","basis":"Druid 5. seviye sınıf özelliği · 1 kullanım / uzun dinlenme"},{"name":"Martial Arts","from":"Monk","level":1,"basis":"Monk 1. seviye sınıf özelliği"},{"name":"Unarmored Defense","from":"Monk","level":1,"basis":"Monk 1. seviye sınıf özelliği"},{"name":"Fey-Touched","from":"Feat","freeCasts":[{"spell":"Identify","uses":1,"recharge":"long"},{"spell":"Misty Step","uses":1,"recharge":"long"}],"basis":"feat · Identify 1 kez slotsuz / uzun dinlenme · Misty Step 1 kez slotsuz / uzun dinlenme"},{"name":"Magic Initiate","from":"Feat","freeCasts":[{"spell":"Find Familiar","uses":1,"recharge":"long"}],"basis":"feat · Find Familiar 1 kez slotsuz / uzun dinlenme · Sage’in feat’i, Wizard listesi, büyü ability’si WIS: cantrip Mage Hand ve Minor Illusion; 1. seviye Find Familiar (Owl) her zaman hazır, uzun dinlenmede bir kez slotsuz, slotla ve ritüel olarak da"},{"name":"Resilient","from":"Feat","basis":"feat · Constitution: CON +1 ve CON save yeterliliği; Versatile’in yerinde ev kuralıyla; Wild Shape formlarında da save yeterliliği kalır (masanın Wild Shape kuralı)"},{"name":"War Caster","from":"Feat","basis":"feat"},{"name":"Resourceful","from":"Human","uses":1,"recharge":"long","basis":"Human species özelliği · 1 kullanım / uzun dinlenme · uzun dinlenmeyi bitirince Heroic Inspiration kazanırsın"},{"name":"Skillful","from":"Human","basis":"Human species özelliği"},{"name":"Versatile","from":"Human","basis":"Human species özelliği · ev kuralı: Origin feat yerine General feat Resilient (Constitution)"}],"featuresNotNamed":0,"proficiencies":{"armor":["Light Armor","Medium Armor","Shields"],"weapons":["Simple Weapons","Martial Weapons"],"tools":["Calligrapher's supplies"],"languages":["Common","Draconic","Druidic","Sylvan"],"basis":"Druid, Monk, alt sınıf ve özellikler, species ve background yeterlilikleri (silah ve zırhta kategori olarak); masa kuralıyla ek dil: Sylvan"},"wildShape":{"edition":"2014","uses":2,"recharge":"short","action":"bonus-action","hours":4,"maxChallenge":"4","armorClass":"form AC + WIS 5","combatHealing":"2d8 / slot seviyesi","elementalForms":{"level":9,"cost":2,"forms":["Air Elemental","Earth Elemental","Fire Elemental","Water Elemental"]},"canCastSpells":false,"formSpells":{"feature":"Circle of the Moon Spells","spells":["Starry Wisp","Cure Wounds","Moonbeam","Conjure Animals","Fount of Moonlight","Mass Cure Wounds"],"basis":"Circle of the Moon Spells (Circle of the Moon 3): bu büyüleri Wild Shape formundayken de yapabilirsin (Starry Wisp, Cure Wounds, Moonbeam, Conjure Animals, Fount of Moonlight, Mass Cure Wounds); druid’in öteki büyüleri formda yapılamaz"},"overrides":["Wild Shape up to CR 4","Wild Shape AC + WIS","Combat Wild Shape: 2d8 per slot level","Elemental Wild Shape from druid 9"],"basis":"Wild Shape masanın kuralıyla: 2 kullanım, kısa ya da uzun dinlenmede yenilenir; bonus aksiyon (Combat Wild Shape); en fazla 4 saat; kitapta en fazla CR 3 (druid 9 ÷ 3); karakterin ev kuralları: en fazla CR 4; form AC’sine WIS eklenir; Combat Wild Shape: slot seviyesi başına 2d8; druid 9’dan Elemental Wild Shape (2 kullanım)"}}</script>
 <script>
 (function(){
 document.documentElement.lang = 'tr';
@@ -12421,10 +12419,11 @@ function changeHp(d, note) {
   HP.log = HP.log.slice(0, 8);
   saveHp();
 }
-function hpWidget(w, cur, max) {
+// tmp: a Polymorph form's pool is Temporary Hit Points on top of Mathias's own (2024 Polymorph, H5f)
+function hpWidget(w, cur, max, tmp) {
   return `<div class="hpw ${hpTone(cur, max)}">
-    <div class="hp-big"><b>${cur}</b><small>/ ${max}</small><span>${cur >= max ? 'can tam' : cur <= 0 ? 'baygın · 0 can' : `${max - cur} hasar almış`}</span></div>
-    <div class="hp-bar" role="progressbar" aria-label="Can" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${cur}"><i style="width:${Math.max(0, Math.min(100, cur / max * 100))}%"></i></div>
+    <div class="hp-big"><b>${cur}</b><small>/ ${max}</small><span>${tmp ? `geçici can${cur < max ? ` · ${max - cur} hasar almış` : ''}` : cur >= max ? 'can tam' : cur <= 0 ? 'baygın · 0 can' : `${max - cur} hasar almış`}</span></div>
+    <div class="hp-bar" role="progressbar" aria-label="${tmp ? 'Geçici can' : 'Can'}" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${cur}"><i style="width:${Math.max(0, Math.min(100, cur / max * 100))}%"></i></div>
     <div class="hp-in"><input id="hpIn-${w}" type="number" inputmode="numeric" min="1" max="999" placeholder="Miktar" aria-label="Hasar ya da iyileşme miktarı" enterkeyhint="done">
       <button class="hb dmgb" data-hp="dmg" data-w="${w}">− Hasar</button><button class="hb healb" data-hp="heal" data-w="${w}">+ İyileş</button></div>
   </div>`;
@@ -12452,7 +12451,7 @@ function hpAction(kind, w) {
     const n = Math.floor(+(inp && inp.value));
     if (!(n > 0)) { toast('Önce miktarı yaz.'); focusQuiet(inp); return; }
     if (w === 'char') { changeHp(kind === 'dmg' ? -n : n); if (kind === 'dmg' && CONC.id) toast(`−${n} hasar${concSave(n, conSaveText())}`); }
-    else { const cs = kind === 'dmg' ? concSave(n, WS.formConSave()) : ''; const msg = WS.formHp(kind, n); if (msg || cs) toast((msg || `−${n} hasar`) + cs); }
+    else { let cs = kind === 'dmg' ? concSave(n, WS.formConSave()) : ''; const msg = WS.formHp(kind, n); if (!CONC.id) cs = ''; if (msg || cs) toast((msg || `−${n} hasar`) + cs); } // H5f: no save once Polymorph (the concentration) ended
   }
   syncChrome();
   if (w === 'char' && openRef && openRef.c === HPS) { $('#sheetIn').innerHTML = HPS.fill(); focusQuiet(sheet.querySelector(`[data-hp="${kind}"]`) || $('#hpIn-char')); }
@@ -12490,7 +12489,7 @@ function syncConc() {
 // the floating bars (concentration, active Wild Shape) stack under the header; the page keeps room for them
 function syncFloat() {
   const wf = $('#wsFloat'), b = WS.ACT.id && WS.BY[WS.ACT.id];
-  wf.innerHTML = b ? `<div class="card wsbar"><span class="cdot" aria-hidden="true"></span><button class="ct" data-wsfloat aria-label="Aktif form: ${esc(b.en)}, Aktif sayfasını aç"><small lang="en">Wild Shape</small><b lang="en">${esc(b.en)}</b><em>${WS.ACT.cur}/${b.hp} can · AC ${WS.fac(b)}</em></button><span class="wshp" aria-hidden="true"><i style="width:${Math.round(WS.ACT.cur / b.hp * 100)}%"></i></span></div>` : '';
+  wf.innerHTML = b ? `<div class="card wsbar"><span class="cdot" aria-hidden="true"></span><button class="ct" data-wsfloat aria-label="Aktif form: ${esc(b.en)}, Aktif sayfasını aç"><small lang="en">${b.kind === 'polymorph' ? 'Polymorph' : 'Wild Shape'}</small><b lang="en">${esc(b.en)}</b><em>${WS.ACT.cur}/${b.hp} ${b.kind === 'polymorph' ? 'geçici can' : 'can'} · AC ${WS.fac(b)}</em></button><span class="wshp" aria-hidden="true"><i style="width:${Math.round(WS.ACT.cur / b.hp * 100)}%"></i></span></div>` : '';
   wf.hidden = !b;
   const any = [...$('#floatBar').children].some(c => !c.hidden);
   document.documentElement.classList.toggle('has-conc', any);
@@ -12868,8 +12867,10 @@ const noEd = t => String(t || '').replace(/ \((?:2014|2024|2025)\)/g, '');
 const tidy = t => (t || '').replace(/^[\s·,;:]+/, '').trim();
 const chip = (cls, label, val, extra) => `<span class="ch${cls ? ' ' + cls : ''}"><small>${label}</small><b>${val}</b>${extra ? ` <em>${extra}</em>` : ''}</span>`;
 function critDice(d) { return String(d).replace(/([0-9]+)d([0-9]+)/g, (m, n, k) => `${2 * n}d${k}`); } // critical hit: every damage die twice, flat bonus once
-// + Primal Strike 1d8 (avg 4.5), once per turn; not in a Polymorph form (Polymorph keeps no class features)
-function dprPS(b) { return Math.round(b.dpr[0] + (b.kind === 'polymorph' ? 0 : 4.5)); }
+// + Primal Strike 1d8 (avg 4.5), once per turn; only in Beast forms (2024 Elemental Fury; owner 2026-11-01: not the
+// elementals, H5f); not in a Polymorph form (Polymorph keeps no class features)
+const hasPS = b => !!b && b.kind !== 'polymorph' && b.kind !== 'elemental';
+function dprPS(b) { return Math.round(b.dpr[0] + (hasPS(b) ? 4.5 : 0)); }
 // which ability a form's attack line uses: the beast's attack bonus is its proficiency (CR 0–4: +2, CR 5–8: +3) + STR or DEX
 const formPB = b => b.cr >= 5 ? 3 : 2;
 const abMod = v => Math.floor((v - 10) / 2);
@@ -12887,7 +12888,7 @@ function gnChips(melee, base) {
 }
 // Improved Circle Forms (Circle of the Moon 6, owner 2026-10-31): each attack may deal its normal type or Radiant (no extra damage)
 const ICF_CHIP = '<button class="ch icf" data-basis="Improved Circle Forms|features.#Improved Circle Forms"><small lang="en">Improved Circle Forms</small><b>ya da Radiant</b> <em>hasar türü · isabette seç</em></button>';
-function psLine(a, b) { const poly = b && b.kind === 'polymorph'; return `<div class="chs ps">${poly ? '' : '<button class="ch add" data-c="gl" data-open="primal-strike"><small lang="en">Primal Strike</small><b>+1d8</b> <em>turda 1 kez · kritikte +2d8</em></button>'}${/erişim/.test(a) ? '<button class="ch add fm" data-c="sp" data-open="fount-of-moonlight"><small lang="en">Fount of Moonlight</small><b>+2d6</b> <em>Radiant · kritikte +4d6</em></button>' : ''}${poly ? '' : ICF_CHIP + gnChips(/erişim/.test(a), atkBase(a, b))}</div>`; }
+function psLine(a, b) { const poly = b && b.kind === 'polymorph'; return `<div class="chs ps">${!hasPS(b) ? '' : '<button class="ch add" data-c="gl" data-open="primal-strike"><small lang="en">Primal Strike</small><b>+1d8</b> <em>turda 1 kez · kritikte +2d8</em></button>'}${/erişim/.test(a) ? '<button class="ch add fm" data-c="sp" data-open="fount-of-moonlight"><small lang="en">Fount of Moonlight</small><b>+2d6</b> <em>Radiant · kritikte +4d6</em></button>' : ''}${poly ? '' : ICF_CHIP + gnChips(/erişim/.test(a), atkBase(a, b))}</div>`; }
 function psLineOld(a) { return `<div class="chs ps"><span class="ch add"><small lang="en">Primal Strike</small><b>+1d8</b> <em>turda 1 kez · Cold, Fire, Lightning ya da Thunder</em></span>${/erişim/.test(a) ? '<span class="ch add fm"><small lang="en">Fount of Moonlight</small><b>+2d6</b> <em>Radiant · yakın dövüş saldırısı</em></span>' : ''}</div>`; }
 function fmtAtk(a) {
   let m = a.match(ATK_RE);
@@ -13076,7 +13077,7 @@ const WS = (() => {
         </article>
         <article class="ab" style="--ah:205">
           <h3>Formun değerleri<small>neyi hayvandan, neyi kendinden alırsın</small></h3>
-          <div class="chs"><button class="ch" data-basis="Wild Shape|wildShape"><small>En fazla</small><b>CR 4</b> <em>masa kuralı · elementaller CR 5</em></button><span class="ch"><small>AC</small><b>hayvan + 5</b> <em>WIS</em></span><span class="ch hit"><small>Saldırılar</small><b>büyülü</b> <em>Primal Strike</em></span></div>
+          <div class="chs"><button class="ch" data-basis="Wild Shape|wildShape"><small>En fazla</small><b>CR 4</b> <em>masa kuralı · elementaller CR 5</em></button><span class="ch"><small>AC</small><b>hayvan + 5</b> <em>WIS</em></span><span class="ch hit"><small>Saldırılar</small><b>+1d8</b> <em>Primal Strike · turda 1 kez · hayvan formları</em></span></div>
           <div class="chs"><button class="ch add" data-basis="Improved Circle Forms|features.#Improved Circle Forms"><small lang="en">Improved Circle Forms</small><b>Radiant</b> <em>her isabette istersen hasar türü</em></button><span class="ch save"><small>CON save</small><b>+ WIS 5</b> <em>formdayken</em></span></div>
           <ul><li><b>STR / DEX / CON</b> hayvandan; <b>INT / WIS / CHA</b> senden.</li><li>Save ve skill’lerde <b>yüksek olan</b> (seninki ya da hayvanınki) yazılı; Perception her formda <b>+9</b>. CON save’e <span lang="en">Improved Circle Forms</span> ile WIS eklenmiş hâli yazılı.</li><li>Sınıf, ırk ve feat özelliklerin sürer (hayvanın yapabildiği kadarıyla).</li></ul>
         </article>
@@ -13130,13 +13131,15 @@ const WS = (() => {
             <button class="mini" data-c="ws" data-open="${b.id}">Ayrıntı</button></div>
           ${actQuick(b)}
           ${b.kind === 'polymorph' ? '' : `<p class="note gnb gn-note"><b lang="en">Guardian of Nature · Primal Beast</b>: yürüme <b>+10 ft</b>, <span lang="en">Darkvision</span> <b>120 ft</b>, STR saldırılarında <b>avantaj</b>, yakın dövüş isabetinde <b>+1d6 Force</b>.</p><p class="note gnt gn-note"><b lang="en">Guardian of Nature · Great Tree</b>: <b>10 geçici can</b>, CON save’lerinde <b>avantaj</b>, DEX ve WIS saldırılarında <b>avantaj</b>, yerdeyken 15 ft çevren düşmanlar için <b>zorlu arazi</b>.</p>`}
-          ${hpWidget('ws', ACT.cur, b.hp)}
-          <p class="note">Formun canı 0’a düşünce dönersin; <b>artan hasar</b> Mathias’ın canına geçer (şu an <b>${HP.cur}/${HP.max}</b>).</p>
+          ${hpWidget('ws', ACT.cur, b.hp, b.kind === 'polymorph')}
+          ${b.kind === 'polymorph'
+            ? `<p class="note"><span lang="en">Polymorph</span>: canın Mathias’ın canı (<b>${HP.cur}/${HP.max}</b>); formun canı kadar <b>geçici can</b> alırsın. Hasar önce geçici candan düşer; geçici can bitince büyü biter, <b>artan hasar</b> kendi canına geçer. <b>İyileşme</b> geçici canı artırmaz, Mathias’ın canına gider.</p>`
+            : `<p class="note">Formun canı 0’a düşünce dönersin; <b>artan hasar</b> Mathias’ın canına geçer (şu an <b>${HP.cur}/${HP.max}</b>).</p>`}
           ${ACT.confirmEnd
             ? `<div class="confirm"><span>Formdan çıkılsın mı?</span><button class="yes" data-act="end-yes">Evet, dön</button><button data-act="end-no">Vazgeç</button></div>`
             : `<button class="mini danger end" data-act="end">Formdan çık</button>`}
           ${atkBlock(b)}
-          ${cws}
+          ${b.kind === 'polymorph' ? '' : cws}
         </div>
         ${uses}
         ${itemUseCard(true)}
@@ -13173,28 +13176,34 @@ const WS = (() => {
     // damage to the form: at 0 Mathias reverts and the excess carries over to his own hit points
     formHp(kind, n) {
       const b = BY[ACT.id]; if (!b) return '';
-      if (kind === 'heal') { ACT.cur = Math.min(b.hp, ACT.cur + n); saveAct(); return ''; }
+      const poly = b.kind === 'polymorph';
+      // 2024 Polymorph (H5f): the form's pool is Temporary Hit Points; healing goes to Mathias's own hit points
+      if (kind === 'heal') {
+        if (poly) { changeHp(n, `${b.en} (Polymorph) iyileşme`); return `+${n} iyileşme Mathias’ın canına (${HP.cur}/${HP.max}); geçici can artmaz`; }
+        ACT.cur = Math.min(b.hp, ACT.cur + n); saveAct(); return '';
+      }
       if (n < ACT.cur) { ACT.cur -= n; saveAct(); return ''; }
       const extra = n - ACT.cur;
       ACT.id = null; ACT.cur = 0; saveAct();
-      if (extra) changeHp(-extra, `${b.en} düştü, artan hasar`);
-      return `${b.en} formu düştü, Mathias’a döndün${extra ? `; artan ${extra} hasar sana geçti (${HP.cur}/${HP.max})` : ''}`;
+      if (poly && CONC.id === 'polymorph') setConc(null);
+      if (extra) changeHp(-extra, `${b.en} ${poly ? 'geçici can bitti' : 'düştü'}, artan hasar`);
+      return `${poly ? `${b.en}: geçici can bitti, Polymorph sona erdi` : `${b.en} formu düştü`}, Mathias’a döndün${extra ? `; artan ${extra} hasar sana geçti (${HP.cur}/${HP.max})` : ''}`;
     },
     actAction(a) {
       if (a === 'end') ACT.confirmEnd = true;
       else if (a === 'end-no') ACT.confirmEnd = false;
-      else if (a === 'end-yes') { const b = BY[ACT.id]; ACT.id = null; ACT.cur = 0; ACT.confirmEnd = false; saveAct(); if (b) toast(`${b.en} formundan çıktın`); }
+      else if (a === 'end-yes') { const b = BY[ACT.id]; ACT.id = null; ACT.cur = 0; ACT.confirmEnd = false; saveAct(); if (b && b.kind === 'polymorph' && CONC.id === 'polymorph') setConc(null); if (b) toast(`${b.en} formundan çıktın${b.kind === 'polymorph' ? ' · Polymorph bitti' : ''}`); }
       else if (a === 'rest') { ACT.uses = freshUses(); saveAct(); toast('Wild Shape hakları yenilendi'); }
       C.renderAct(); syncChrome();
       focusQuiet(C.act.querySelector(a === 'end' ? '[data-act="end-no"]' : a === 'rest' ? '[data-act="rest"]' : '[data-act="end"]') || C.act.querySelector('button'));
     },
     restUses() { ACT.uses = freshUses(); saveAct(); },
     // concentration save in beast form uses the form's CON save
-    formConSave: () => { const b = BY[ACT.id]; return b ? `formun CON ${sg(conSave(b))}${b.kind === 'polymorph' ? '' : ' (WIS dahil)'}, War Caster ile avantajlı` : conSaveText(); },
+    formConSave: () => { const b = BY[ACT.id]; return b ? `formun CON ${sg(conSave(b))}${b.kind === 'polymorph' ? '' : ' (WIS dahil), War Caster ile avantajlı'}` : conSaveText(); },
     // Combat Wild Shape: bonus action, spend a slot → 2d8 per slot level to the form (DM's rule; the book says 1d8).
     // Tapping a level asks for the rolled total (the player rolls real dice); the slot is spent only when it is applied.
     combatHeal(a) {
-      const b = BY[ACT.id]; if (!b) return;
+      const b = BY[ACT.id]; if (!b || b.kind === 'polymorph') return; // H5f: a Wild Shape feature, not for Polymorph
       if (a === 'no') { const l = ACT.cwsAsk; ACT.cwsAsk = 0; C.renderAct(); return focusQuiet(C.act.querySelector(`[data-cws="${l}"]`)); }
       if (a !== 'ok') {
         if (!SLOTS.left(+a)) { toast(`${a}. seviye slotun kalmadı`); return; }
@@ -13223,8 +13232,9 @@ const WS = (() => {
         <div class="act two">${btn}</div>`;
     },
   };
-  // Martial Arts in Wild Shape forms (rules: you keep class features and your proficiency; not under Polymorph): bonus action only after an Attack action made with an unarmed strike, the better of the form's STR/DEX, proficiency +4, 1d4
-  const unarmed = b => { const m = Math.max(mod(b.abil[0]), mod(b.abil[1])); return `<b>Unarmed Strike</b> (bonus aksiyon · Monk Martial Arts) <b>${sg(4 + m)}</b>, erişim 5 ft · <b>1d6${m ? (m > 0 ? '+' : '') + m : ''}</b> Bludgeoning (${Math.max(1, Math.floor(3.5 + m))}) · yalnız aynı tur Saldırı aksiyonunda silahsız vurduysan (hayvanın Isırık/Pençe gibi saldırıları ve Multiattack sayılmaz)`; };
+  // Martial Arts in Wild Shape forms (rules: you keep class features and your proficiency; not under Polymorph): 2024 Monk,
+  // a bonus-action unarmed strike every turn, no Attack action needed first (H5f), the better of the form's STR/DEX, proficiency +4, 1d6
+  const unarmed = b => { const m = Math.max(mod(b.abil[0]), mod(b.abil[1])); return `<b>Unarmed Strike</b> (bonus aksiyon · Monk Martial Arts) <b>${sg(4 + m)}</b>, erişim 5 ft · <b>1d6${m ? (m > 0 ? '+' : '') + m : ''}</b> Bludgeoning (${Math.max(1, Math.floor(3.5 + m))}) · her tur, önce Saldırı aksiyonu gerekmez; formun Multiattack’ından sonra da olur`; };
   // Aktif page: the numbers you need every turn, in big coloured boxes (user's request)
   function actQuick(b) {
     const poly = b.kind === 'polymorph', keen = b.traits.some(([n]) => /^Keen /.test(n));
@@ -13255,11 +13265,18 @@ const WS = (() => {
   function detail(b, noAtk) {
       const poly = b.kind === 'polymorph';
       const acSub = `${b.acBase} + 5${facSub(b)}` + b.acAlt.map(([v, c]) => ` · ${c === 'while prone' ? 'yere seriliyken' : esc(c)} AC ${v + (poly ? 0 : WSB.ac)}`).join('');
-      const abil = b.abil.map((v, i) => `<div class="wa${i > 2 && !poly ? ' me' : ''}" style="--wb:${AB_HUE[ABN[i]]}"><span>${ABN[i]}</span><b>${v}</b><small>${sg(mod(v))}</small></div>`).join('');
-      // saves and skills as small boxes, coloured by ability, with the Turkish name underneath (user's request)
-      const ABTR = { STR: 'Güç', DEX: 'Çeviklik', CON: 'Dayanıklılık', INT: 'Zekâ', WIS: 'Bilgelik', CHA: 'Karizma' };
+      // H5f (owner 2026-11-01): the form's abilities as the Karakter sheet's cards (.abl .ih: name, modifier, score, Save line,
+      // ● when save-proficient), STR DEX CON / INT WIS CHA, with the form's full save on each card
+      const svOf = (v, i) => i === 2 && !poly ? conSave(b) : b.sv[i] + (poly ? 0 : WSB.saves[ABN[i]] || 0);
+      const svAll = b.abil.map(svOf);
+      const abil = b.abil.map((v, i) => {
+        const pr = (i === 2 && !poly ? conBase(b) : b.sv[i]) > mod(v), me = i > 2 && !poly, it = !poly && i !== 2 && WSB.saves[ABN[i]];
+        const con = i === 2 && !poly ? `${CON_PROF && conBase(b) > b.sv[2] ? 'Resilient · ' : ''}WIS ${sg(wism())} dahil${WSB.saves.CON ? ` · eşya ${sg(WSB.saves.CON)}` : ''}<span class="gnt"> · avantaj</span>` : '';
+        const sm = con ? `<small class="svx">${con}</small>` : me ? `<small class="svx me">Mathias’tan${it ? ` · eşya ${sg(it)}` : ''}</small>` : it ? `<small class="svx">eşya ${sg(it)}</small>` : '';
+        return `<div class="ih${pr ? ' pr' : ''}${me ? ' me' : ''}" style="--ih:${AB_HUE[ABN[i]]}"><span>${ABN[i]}</span><b>${v}</b><i>${sg(mod(v))}</i><em>${pr ? '● ' : ''}Save ${sg(svAll[i])}</em>${sm}</div>`;
+      }).join('');
+      // skills as small boxes, coloured by ability, with the Turkish name underneath (user's request)
       const box = (ab, en, v, tr, extra) => `<div class="wb" style="--wb:${AB_HUE[ab]}"><span lang="en">${en}</span><b>${v}</b><small>${tr}${extra || ''}</small></div>`;
-      const saves = b.sv.map((v, i) => i === 2 && !poly ? box('CON', 'CON', sg(conSave(b)), ABTR.CON, `${CON_PROF && conBase(b) > b.sv[2] ? ` · yeterlilik +${CON_PROF} (Resilient)` : ''} · WIS ${sg(wism())} dahil<span class="gnt"> · avantaj</span>`) : box(ABN[i], ABN[i], sg(v + (poly ? 0 : WSB.saves[ABN[i]] || 0)), ABTR[ABN[i]])).join('');
       const skills = b.sk.map(([k, v]) => { const r = SKILLS.find(x => x[0] === k); return box(r ? r[2] : 'WIS', k, sg(v + (poly ? 0 : WSB.skills[k] || 0)), r ? `${r[1]} · ${r[2]}` : ''); }).join('')
         + box('WIS', 'Passive Perception', poly ? 10 + ((b.sk.find(s => s[0] === 'Perception') || [0, mod(b.abil[4])])[1]) : 19 + (WSB.skills.Perception || 0), '10 + Perception', b.traits.some(([n]) => /^Keen /.test(n)) ? ` · Keen ile <b>${24 + (poly ? 0 : WSB.skills.Perception || 0)}</b>` : '');
       const def = [
@@ -13279,10 +13296,9 @@ const WS = (() => {
           ${glCarry(b.abil[0], b.size, b.traits.some(([n]) => n === 'Beast of Burden'))}
         </dl>
         ${noAtk ? '' : atkBlock(b)}
+        <div class="blk wsab"><h3 lang="en">Abilities</h3><div class="abl" data-ctx="${poly ? 'poly' : 'ws'}" data-size="${esc(b.size)}" data-bob="${b.traits.some(([n]) => n === 'Beast of Burden') ? 1 : 0}" data-sv="${svAll.join(',')}">${abil}</div>${poly ? '' : '<p class="sub"><span lang="en">War Caster</span>: konsantrasyon için CON save’inde <b>avantaj</b>.</p>'}<p class="note"><small class="tapnote">● = save’de yeterli · değere dokun: ne işe yaradığı.</small> ${poly ? '<span lang="en">Polymorph</span>: bütün değerler ve save’ler (INT/WIS/CHA dahil) formun; AC’ye +5 masa kuralı eklendi.' : 'STR/DEX/CON hayvandan, <span style="color:var(--me)">INT/WIS/CHA</span> Mathias’tan; CON save’ine WIS modifier’ı eklenir (<span lang="en">Improved Circle Forms</span>).'}</p></div>
         ${b.acts.length ? `<div class="blk"><h3>Diğer aksiyonlar</h3><div class="trt">${b.acts.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
         ${b.traits.length ? `<div class="blk"><h3>Özellikler</h3><div class="trt">${b.traits.map(([n, d]) => `<p><b lang="en">${esc(n)}.</b> ${d}</p>`).join('')}</div></div>` : ''}
-        <div class="blk"><h3 lang="en">Abilities</h3><div class="abil" data-ctx="${poly ? 'poly' : 'ws'}" data-size="${esc(b.size)}" data-bob="${b.traits.some(([n]) => n === 'Beast of Burden') ? 1 : 0}" data-sv="${b.sv.join(',')}">${abil}</div><p class="note"><small class="tapnote">Değere dokun: ne işe yaradığı.</small> ${poly ? '<span lang="en">Polymorph</span>: bütün değerler (INT/WIS/CHA dahil) formun; AC’ye +5 masa kuralı eklendi.' : 'STR/DEX/CON hayvandan, <span style="color:var(--me)">INT/WIS/CHA</span> Mathias’tan.'}</p></div>
-        <div class="blk"><h3 lang="en">Saves</h3><div class="wbox">${saves}</div></div>
         <div class="blk"><h3 lang="en">Skills</h3><div class="wbox">${skills}</div></div>
         ${def ? `<div class="blk"><h3>Savunma</h3><div class="kv"><span>${def}</span></div></div>` : ''}
         ${b.tip ? `<div class="tip">${esc(b.tip)}</div>` : ''}
@@ -13454,22 +13470,22 @@ function sumNav(v) {
    Needs: $, esc, openRef, sheet; catalogs that want it set `gloss: true`.
    ===================================================================== */
 const GL = (() => {
-  // [id, English name, Turkish name, explanation (2014 rules), pattern in the app's text]
+  // [id, English name, Turkish name, explanation (conditions: 2024 rules, H5f), pattern in the app's text]
   const T = [
     ['blindsight', 'Blindsight', 'Kör görüş', 'Belirtilen mesafe içinde <b>gözsüz algılar</b>: karanlık, görünmezlik ya da kör olmak onu etkilemez; o mesafedeki görünmez ya da gizlenen yaratıkları da fark eder. Tam siperin arkasını algılamaz.', 'Blindsight|kör görüş'],
     ['darkvision', 'Darkvision', 'Karanlık görüş', 'Belirtilen mesafede <b>loş ışığı parlak</b>, <b>karanlığı loş ışık</b> gibi görür. Karanlıkta renk ayırt edemez, yalnız gri tonları görür. Büyülü karanlığın içini göremez.', 'Darkvision'],
     ['tremorsense', 'Tremorsense', 'Titreşim algısı', 'Belirtilen mesafede, kendisiyle <b>aynı zemine</b> (toprak, taş, su) değen yaratık ve nesnelerin yerini titreşimden algılar. Uçanları ve zemine değmeyenleri algılamaz.', 'Tremorsense'],
     ['truesight', 'Truesight', 'Gerçek görüş', 'Belirtilen mesafede normal ve büyülü karanlıkta görür, görünmezleri görür, illüzyonları kendiliğinden fark eder, şekil değiştirenlerin gerçek halini ve Ethereal düzlemi görür.', 'Truesight'],
-    ['grappled', 'Grappled', 'Kavranmış', 'Hızı <b>0</b> olur, hız artışlarından yararlanamaz. Kavrayan etkisiz kalırsa ya da biri onu kavrayanın erişiminden çıkarırsa biter. Kurtulmak için kendi aksiyonuyla <b>Athletics ya da Acrobatics check</b> yapar (DC kavrayanın).', 'kavran(?:ır|mış|dıkça|an|amaz|abilir)|kavrar|kavrama|kavrandı'],
+    ['grappled', 'Grappled', 'Kavranmış', 'Hızı <b>0</b> olur, hız artışlarından yararlanamaz. Kavrayan dışındaki hedeflere saldırıları <b>dezavantajlı</b>. Kavrayan onu yanında sürükleyebilir. Kavrayan Incapacitated olursa ya da aradaki mesafe kavramanın erişimini aşarsa biter. Kurtulmak için aksiyonuyla <b>STR (Athletics) ya da DEX (Acrobatics) check</b> yapar (DC kavrayanın).', 'kavran(?:ır|mış|dıkça|an|amaz|abilir)|kavrar|kavrama|kavrandı'],
     ['restrained', 'Restrained', 'Kısıtlı', 'Hızı <b>0</b>. Ona yapılan saldırılar <b>avantajlı</b>, onun saldırıları <b>dezavantajlı</b>; DEX save’lerinde dezavantaj.', 'kısıtlı|kısıtlan(?:ır|mış|dıkça)|kısıtlar'],
     ['prone', 'Prone', 'Yere serili', 'Yalnız <b>sürünerek</b> hareket eder (her 1 ft için 2 ft); ayağa kalkmak hızının yarısını harcar. Onun saldırıları dezavantajlı. <b>5 ft içinden</b> ona yapılan saldırılar <b>avantajlı</b>, daha uzaktan yapılanlar dezavantajlı.', 'yere seril(?:ir|i|emez|miş|irse)|yere serer|yere serme|yere serilmiş'],
     ['poisoned', 'Poisoned', 'Zehirlenmiş', 'Saldırı zarlarında ve <b>ability check</b>’lerde dezavantaj.', 'zehirlen(?:ir|miş|irse)'],
     ['blinded', 'Blinded', 'Kör', 'Göremez; görmeye dayalı check’lerde kendiliğinden başarısız. Onun saldırıları <b>dezavantajlı</b>, ona yapılan saldırılar <b>avantajlı</b>.', 'kör (?:olur|kalır)|körleşir'],
     ['frightened', 'Frightened', 'Korkmuş', 'Korkunun kaynağını görebildiği sürece saldırılarında ve ability check’lerinde <b>dezavantaj</b>; kaynağa isteyerek yaklaşamaz.', 'korkmuş|korkar'],
-    ['stunned', 'Stunned', 'Sersem', 'Etkisiz (aksiyon ve reaksiyon yok), hareket edemez, zar zor konuşur. STR ve DEX save’lerinde kendiliğinden başarısız; ona yapılan saldırılar avantajlı.', 'sersem(?:ler|lemiş)?'],
-    ['paralyzed', 'Paralyzed', 'Felçli', 'Etkisiz, hareket edemez, konuşamaz. STR ve DEX save’lerinde kendiliğinden başarısız; ona yapılan saldırılar avantajlı; <b>5 ft içinden</b> isabet eden saldırı <b>kritik vuruş</b> olur.', 'felç(?:li| olur)'],
+    ['stunned', 'Stunned', 'Sersem', 'Incapacitated (aksiyon, bonus aksiyon ve reaksiyon yok; konuşamaz; konsantrasyonu bozulur). STR ve DEX save’lerinde kendiliğinden başarısız; ona yapılan saldırılar avantajlı.', 'sersem(?:ler|lemiş)?'],
+    ['paralyzed', 'Paralyzed', 'Felçli', 'Incapacitated (aksiyon, bonus aksiyon ve reaksiyon yok; konuşamaz; konsantrasyonu bozulur), hızı <b>0</b>. STR ve DEX save’lerinde kendiliğinden başarısız; ona yapılan saldırılar avantajlı; <b>5 ft içinden</b> isabet eden saldırı <b>kritik vuruş</b> olur.', 'felç(?:li| olur)'],
     ['charmed', 'Charmed', 'Büyülenmiş', 'Onu büyüleyene saldıramaz, ona zarar veren bir etkiyle hedef alamaz. Büyüleyenin onunla sosyal ability check’lerinde avantajı olur.', 'büyülen(?:ir|miş)'],
-    ['incapacitated', 'Incapacitated', 'Etkisiz', '<b>Aksiyon ve reaksiyon yapamaz.</b>', 'etkisiz'],
+    ['incapacitated', 'Incapacitated', 'Etkisiz', '<b>Aksiyon, bonus aksiyon ve reaksiyon yapamaz</b>; konsantrasyonu bozulur, konuşamaz. Bu hâldeyken inisiyatif atarsa <b>dezavantajlı</b>.', 'etkisiz'],
     ['advantage', 'Advantage', 'Avantaj', 'İki d20 at, <b>yükseğini</b> al. Aynı zarda hem avantaj hem dezavantaj varsa birbirini götürür (tek zar).', 'avantaj(?:lı|la)?'],
     ['disadvantage', 'Disadvantage', 'Dezavantaj', 'İki d20 at, <b>düşüğünü</b> al. Aynı zarda avantaj da varsa birbirini götürür.', 'dezavantaj(?:lı|la)?'],
     ['resistance', 'Resistance', 'Direnç', 'O türden hasarın <b>yarısını</b> alır (aşağı yuvarlanır). Aynı tür için birden çok direnç birikmez.', 'Direnç|dirençli'],
@@ -13584,7 +13600,7 @@ const GL = (() => {
 })();
 
 /* ---------- ability scores: tap STR … CHA → what this score means in play (user’s request) ----------
-   Karakter cards (.abl .ih) and creature boxes (.abil[data-ctx] .wa). 2014 rules: carrying capacity STR × 15 lb,
+   Karakter cards (.abl .ih), Wild Shape form cards (.abl[data-ctx] .ih, H5f) and creature boxes (.abil[data-ctx] .wa). Rules (the same in 2014 and 2024): carrying capacity STR × 15 lb,
    push/drag/lift × 2, size Tiny ×½ · Large ×2 · Huge ×4 · Gargantuan ×8 (Beast of Burden: one size larger). */
 const GL_SIZE = { 'Minik': 0.5, 'Küçük': 1, 'Orta': 1, 'Büyük': 2, 'Devasa': 4, 'Dev': 8 };
 const glKg = lb => Math.round(lb * 0.4536).toLocaleString('tr');
@@ -13657,7 +13673,7 @@ function glCarry(str, size, bob) {
   };
   const tag = (el, id) => { el.dataset.c = 'gl'; el.dataset.open = id; el.setAttribute('role', 'button'); el.tabIndex = 0; el.classList.add('ab-tap'); };
   // Karakter ability cards
-  for (const el of document.querySelectorAll('.abl .ih')) {
+  for (const el of document.querySelectorAll('.abl:not([data-ctx]) .ih')) {
     const ab = (el.querySelector('span') || {}).textContent, s = +((el.querySelector('b') || {}).textContent);
     const sv = ((el.querySelector('em') || {}).textContent || '').match(/[+−-]\d+/);
     if (NAME[ab] && s) tag(el, `ab:${ab}:${s}:Orta:char:${sv ? sv[0].replace('−', '-') : ''}:0`);
@@ -13667,9 +13683,9 @@ function glCarry(str, size, bob) {
   GL.dom = root => {
     dom0(root);
     if (!root) return;
-    for (const box of root.querySelectorAll('.abil[data-ctx]')) {
+    for (const box of root.querySelectorAll('.abil[data-ctx], .abl[data-ctx]')) {
       const sv = (box.dataset.sv || '').split(',');
-      box.querySelectorAll('.wa').forEach((el, i) => {
+      box.querySelectorAll('.wa, .ih').forEach((el, i) => {
         const ab = (el.querySelector('span') || {}).textContent, s = +((el.querySelector('b') || {}).textContent);
         if (NAME[ab] && s) tag(el, `ab:${ab}:${s}:${box.dataset.size}:${box.dataset.ctx}:${sv[i] || ''}:${box.dataset.bob || 0}`);
       });
@@ -14133,11 +14149,11 @@ const FEATS = [
   ['Wild Companion', 'Druid', 'Magic aksiyonu', 'Bir büyü slotu ya da bir Wild Shape hakkı harcayıp malzemesiz <span lang="en">Find Familiar</span> yaparsın; familiar <span lang="en">Fey</span> olur ve uzun dinlenmeyi bitirince kaybolur.'],
   ['Spellcasting', 'Druid', 'Wisdom', 'Ritüel etiketli ve <b>hazırladığın</b> druid büyülerini slotsuz, <b>+10 dk</b>’da ritüel olarak yapabilirsin. Uzun dinlenmenin sonunda druid listesinden <b>14 büyü</b> hazırlarsın (Druid 9 tablosu); slotlar uzun dinlenmede yenilenir; odak olarak druidic focus kullanırsın. Büyü saldırısı <b>+9</b>, DC <b>17</b>.'],
   ['Primal Order: Warden', 'Druid', '', 'Savaşa eğitimlisin: <b>Martial</b> silah yeterliliği ve <span lang="en">Medium armor</span> eğitimi.'],
-  ['Druidic', 'Druid', '', 'Druidlerin gizli dili. Gizli mesaj bırakabilirsin; dili bilmeyenler <b>DC 15 Perception</b> ile mesajın varlığını fark eder ama büyü olmadan çözemez. <span lang="en">Speak with Animals</span> her zaman hazır.'],
+  ['Druidic', 'Druid', '', 'Druidlerin gizli dili. Gizli mesaj bırakabilirsin; dili bilmeyenler <b>DC 15 INT (Investigation) check</b> ile mesajın varlığını fark eder ama büyü olmadan çözemez. <span lang="en">Speak with Animals</span> her zaman hazır.'],
   ['Resourceful', 'Human', '', 'Her uzun dinlenmeyi bitirince <b>Heroic Inspiration</b> kazanırsın.'],
   ['Skillful', 'Human', '', 'Bir skill yeterliliği: <b>Acrobatics</b>.'],
   ['Unarmored Defense', 'Monk', '', 'Zırh giymez ve kalkan taşımazken <b>AC 18</b> (10 + DEX + WIS).'],
-  ['Martial Arts', 'Monk', '', 'Zırh ve kalkan yokken, silahsız ya da monk silahıyla: silahsız vuruş <b>1d6+3</b>, saldırı <b>+7</b>; STR ya da DEX kullanabilirsin. Saldırı aksiyonunda silahsız ya da monk silahıyla saldırınca, <b>bonus aksiyonla</b> bir silahsız vuruş daha yaparsın (o tur bonus aksiyonunu başka işe harcamadıysan).'],
+  ['Martial Arts', 'Monk', '', 'Zırh ve kalkan yokken, silahsız ya da monk silahıyla: silahsız vuruş <b>1d6+3</b>, saldırı <b>+7</b>; STR ya da DEX kullanabilirsin. Her tur <b>bonus aksiyonla</b> bir silahsız vuruş yapabilirsin; önce Saldırı aksiyonu gerekmez (o tur bonus aksiyonunu başka işe harcamadıysan).'],
 ];
 // the feature's rule basis (rules.json features, by name): tap the source tag
 const featBasis = n => { const k = s => s.toLowerCase().replace(/-/g, ' '); const parts = n.split(': '); const f = RULES.features.find(x => parts.some(p => k(x.name) === k(p))); return f ? `${n}|features.#${f.name}` : null; };
@@ -14159,7 +14175,6 @@ const INV_MIGR = 'mathias-inv-migr-1';
 if (!load(INV_MIGR, false)) {
   const HAND = [
     'Summon Elemental Scroll',
-    'Büyülü Yelpaze (15 ft · 3d6 Fire · 3 kez)',
     'Büyülü Yüzük (lanetli): 2. seviyeden 2 slot siler, 3. ve 4. seviyeye 1’er slot verir · Red Witch’ler yüzüğü fark ediyor',
     'Canlandırma İksiri',
     'Çölde Yürüme İksiri (Potion)',
@@ -14170,9 +14185,9 @@ if (!load(INV_MIGR, false)) {
   store(INV_KEY, inv); store(INV_MIGR, true);
 }
 // misread from the photo: "Gölde" was "Çölde" (desert); fix an already added entry once
-// 2026-10: only the blue belt and the fan are worn (user); mark them once
+// 2026-10: only the blue belt is worn (user; the fan, worn too then, was sold: H5f); mark it once
 if (!load('mathias-inv-migr-4', false)) {
-  for (const e of inv.items) if (/^(Mavi Büyülü Kemer|Büyülü Yelpaze)/.test(e.t)) e.eq = true;
+  for (const e of inv.items) if (/^Mavi Büyülü Kemer/.test(e.t)) e.eq = true;
   store(INV_KEY, inv); store('mathias-inv-migr-4', true);
 }
 if (!load('mathias-inv-migr-3', false)) {
@@ -14189,6 +14204,11 @@ if (!load('mathias-inv-migr-5', false)) {
   if (!inv.items.some(e => e.c && e.c.name === 'Bracers of Warding')) inv.items.push({ id: 'bracers-of-warding', t: 'Bracers of Warding', q: 1, g: 0, eq: true, used: 0, on: false,
     c: { name: 'Bracers of Warding', type: 'worn', requiresAttunement: false, effects: [{ stat: 'ac:misc', value: 3 }], ws: true, uses: 2, dur: '5 saat' } });
   store(INV_KEY, inv); store('mathias-inv-migr-5', true);
+}
+// H5f (owner 2026-11-01, "o item i sattik"): the Büyülü Yelpaze was sold; take it out of a saved list once, nothing else
+if (!load('mathias-inv-migr-6', false)) {
+  inv.items = inv.items.filter(e => !/^Büyülü Yelpaze/.test(e.t || '') && !/^Büyülü Yelpaze/.test((e.c && e.c.name) || ''));
+  store(INV_KEY, inv); store('mathias-inv-migr-6', true);
 }
 const itemsValue = () => inv.items.reduce((a, e) => a + (e.g || 0) * e.q, 0);
 let invEdit = null, invDel = null; // { kind, id }
