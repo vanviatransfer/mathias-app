@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = '59ee03ec20'; window.__BUILT__ = '2026-11-02 01:57';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'd7988bfb06'; window.__BUILT__ = '2026-11-03 20:11';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -289,6 +289,8 @@ textarea:focus-visible, input:focus-visible{ outline:2px solid var(--acc); outli
 /* one item = one hue: abilities and skills by ability, features by source */
 .ih{ background:color-mix(in oklab, hsl(var(--ih) 36% 45%) 9%, var(--surface)) !important; border-color:color-mix(in oklab, hsl(var(--ih) 30% 58%) 28%, var(--line)) !important; }
 .abl .ih b, .abl .ih span{ color:hsl(var(--ih) 38% 74%); }
+/* U12 (owner 2026-11-03): the modifier in the accent colour, as on the Wild Shape form cards (the rule-basis span inside <i> took the hue above) */
+.abl .ih i span{ color:inherit; }
 .abl .ih.pr{ border-color:hsl(var(--ih) 30% 60%) !important; box-shadow:inset 0 0 0 1px hsl(var(--ih) 30% 60% / .3); }
 .abl .ih.pr em{ color:hsl(var(--ih) 40% 76%); }
 .skills .ih i, .skills .ih small{ color:hsl(var(--ih) 26% 66%); }
