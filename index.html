@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'cdc9733094'; window.__BUILT__ = '2026-11-06 19:08';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'f8c7c6f8be'; window.__BUILT__ = '2026-11-06 19:57';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -779,6 +779,15 @@ html:not(.gn-beast) .gnb, html:not(.gn-tree) .gnt{ display:none !important; }
 .wz-g summary::-webkit-details-marker{ display:none; }
 .wz-g summary::after{ content:''; margin-left:auto; width:8px; height:8px; border-right:2px solid var(--muted); border-bottom:2px solid var(--muted); transform:rotate(45deg); transition:transform .15s; flex:0 0 auto; }
 .wz-g[open] > summary::after{ transform:rotate(-135deg); }
+/* A13 (shared/hpmax.js): the temporary max HP change in the Can sheet, and the header's maximum while it is on */
+.hpadj-in{ display:grid; grid-template-columns:44px minmax(0,1fr) auto auto; gap:6px; align-items:center; }
+.hpadj-in .wz-sg{ min-height:44px; }
+.hpadj-in input{ min-width:0; width:100%; min-height:44px; border:1px solid var(--ctl); background:var(--bg); color:var(--ink); border-radius:10px; padding:6px 10px; font:inherit; font-size:1.1rem; font-weight:700; font-variant-numeric:tabular-nums; }
+.hpadj-in .mini{ min-height:44px; }
+.hpadj-now{ margin:0 0 6px; font-variant-numeric:tabular-nums; }
+.hpadj-now.m b:last-of-type, .hpst b small.hpadj.m{ color:hsl(2 70% 72%); }
+.hpadj-now.p b:last-of-type, .hpst b small.hpadj.p{ color:hsl(140 45% 68%); }
+.hpst b small.hpadj{ font-weight:700; }
 
 </style>
 
@@ -11516,15 +11525,17 @@ let openRef = null; // { c: catalog, id }
 const HP_KEY = 'mathias-hp-v1';
 // maximum from the rules engine (rules.json): 108 (H6c, D53: Druid 10 with Tough in Versatile, 88 + 20); a saved current
 // value above it is clamped to it below; a save that was full stays full
-const HP = { max: 108, cur: 108, log: [] };
+const HP = { max: 108, cur: 108, log: [], adj: 0 };
 (function(){
   const v = load(HP_KEY, null);
+  // A13: a temporary change to the maximum (shared/hpmax.js), kept in the save as adj; the saved current value follows below
+  if (v && Number.isInteger(v.adj) && v.adj && Math.abs(v.adj) <= 999) { HP.adj = v.adj; HP.max = Math.max(1, HP.max + v.adj); }
   if (v && Number.isFinite(v.cur)) HP.cur = Math.max(0, Math.min(HP.max, Math.round(v.cur)));
   // full stays full if the maximum changes (the save keeps the maximum it was made with; saves from before H4b: 88)
   if (v && Number.isFinite(v.cur) && v.cur >= (Number.isFinite(v.max) ? v.max : 88)) HP.cur = HP.max;
   if (v && Array.isArray(v.log)) HP.log = v.log.slice(0, 8);
 })();
-const saveHp = () => { store(HP_KEY, { cur: HP.cur, max: HP.max, log: HP.log }); askPersist(); };
+const saveHp = () => { store(HP_KEY, { cur: HP.cur, max: HP.max, log: HP.log, ...(HP.adj ? { adj: HP.adj } : {}) }); askPersist(); };
 /* ---------- rule basis (H4b, D37): the engine’s values and their basis lines, tap a value to read it ---------- */
 const RULES = JSON.parse($('#rbData').textContent);
 // H4c: the sheet with the active custom items (ITEMRT.apply, set once the inventory is loaded) and what reaches a Wild
@@ -11609,6 +11620,16 @@ function hpWidget(w, cur, max, tmp) {
 }
 const hhmm = t => { try { return new Date(t).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
 // the character's hit points open in the bottom sheet (tap "Can" in the header)
+// A13: the maximum before the temporary change (the rules' maximum with the items)
+const hpBase = () => EFF ? EFF.hitPoints.max : RULES.hitPoints.max;
+// A13: the temporary max HP change (shared/hpmax.js): ± turns the box's sign, Uygula sets it, Kaldır clears it
+function hpAdjAction(kind) {
+  const inp = $('#hpAdjIn'), r = HPMAX.act(kind, HP, hpBase(), inp);
+  if (r.flip) return;
+  if (r.err) { toast(r.err); focusQuiet(inp); return; }
+  saveHp(); toast(r.msg); syncChrome();
+  if (openRef && openRef.c === HPS) { $('#sheetIn').innerHTML = HPS.fill(); focusQuiet(sheet.querySelector('[data-hpadj="set"]') || $('#hpAdjIn')); }
+}
 const HPS = {
   k: 'hp', back: () => $('#hpBtn'),
   fill() {
@@ -11618,7 +11639,8 @@ const HPS = {
       ${hpWidget('char', HP.cur, HP.max)}
       <div class="hp-more"><button class="mini" data-hp="full" data-w="char">Tam can (uzun dinlenme)</button>${HP.log.length ? '<button class="mini" data-hp="undo" data-w="char">Son işlemi geri al</button>' : ''}</div>
       ${HP.log.length ? `<div class="blk"><h3>Son işlemler</h3><ul class="hp-log">${HP.log.map(l => `<li><b class="${l.raw < 0 ? 'm' : 'p'}">${l.raw < 0 ? '−' + (-l.raw) : '+' + l.raw}</b><span>${esc(l.note || (l.raw < 0 ? 'hasar' : 'iyileşme'))}</span><span>→ ${l.to}/${HP.max}</span><small>${hhmm(l.at)}</small></li>`).join('')}</ul></div>` : ''}
-      <p class="note rb">Azami can <b>${HP.max}</b>: ${esc(rBasis('hitPoints'))}${effNote('hitPoints') ? `; ${esc(effNote('hitPoints'))} → <b>${HP.max}</b>` : ''}.</p>
+      ${HPMAX.block(HP, hpBase())}
+      <p class="note rb">Azami can <b>${HP.max}</b>: ${esc(rBasis('hitPoints'))}${effNote('hitPoints') ? `; ${esc(effNote('hitPoints'))} → <b>${hpBase()}</b>` : ''}${HP.adj ? `; geçici değişiklik ${HPMAX.txt(HP.adj)} → <b>${HP.max}</b>` : ''}.</p>
       <p class="note">Miktarı yaz, <b>Hasar</b> ya da <b>İyileş</b>’e dokun; kayıt bu telefonda kalır. 0 cana düşünce bilincini kaybedersin ve her tur death save atarsın (DC 10). <span lang="en">Wild Shape</span> formundayken hasarı <span lang="en">Wild Shape</span> → Aktif’teki kutuya yaz: önce formun geçici canı düşer, artan hasar buraya geçer.</p>`;
   },
 };
@@ -13307,6 +13329,48 @@ const ITEMUI = (() => {
   return { TYPE_TR, ARMOR_TR, LIST_TR, chips, uses, useBtn, useCard, entry, wizard, neg, flip, wizSign, acText, acSheet, itemNote };
 })();
 
+/* A13: a temporary change to the hit point maximum (an effect that lowers or raises it), shared by the character apps
+   (the builds inline it after shared/items.js). The change is a whole number, + or −, kept in the app's hit point save
+   as `adj`; the maximum shown is the rules' maximum (with the items) plus the change, at least 1.
+   The rules for a lowered maximum: the current hit points are capped at the new maximum, and when the change ends the
+   maximum comes back but the current hit points do not rise by themselves. A raised maximum leaves them as they are too
+   (heal to use it). The ± button turns the sign, as in U13's item wizard (phone number keyboards have no minus key). */
+const HPMAX = (() => {
+  const LIMIT = 999;
+  // "−10", "-10", "+5", "5" → the number; anything else → NaN
+  const parse = (v) => { const s = String(v == null ? '' : v).replace(/\s+/g, '').replace(/^−/, '-'); return /^[+-]?\d{1,3}$/.test(s) ? parseInt(s, 10) : NaN; };
+  const txt = (n) => n >= 0 ? `+${n}` : `−${-n}`;
+  const max = (base, adj) => Math.max(1, base + (Number.isInteger(adj) ? adj : 0));
+  // the hit point record {cur, max, adj} with a new change: the maximum follows, the current hit points never rise
+  function set(hp, base, adj) { hp.adj = adj; hp.max = max(base, adj); hp.cur = Math.max(0, Math.min(hp.cur, hp.max)); }
+  // the Can sheet's part: the change now, the amount with its ± button, Uygula / Kaldır, and the rule
+  function block(hp, base) {
+    const a = hp.adj || 0, v = a ? txt(a).replace(/^\+/, '') : '';
+    return `<div class="blk hpadj"><h3>Azami can değişikliği (geçici)</h3>
+      ${a ? `<p class="hpadj-now ${a < 0 ? 'm' : 'p'}">Azami can <b>${base}</b> → <b>${hp.max}</b> <span>(${txt(a)})</span></p>` : ''}
+      <div class="hpadj-in"><button type="button" class="wz-sg${a < 0 ? ' neg' : ''}" data-hpadj="sign" aria-label="Değişikliğin işaretini değiştir (artı / eksi)">±</button><input id="hpAdjIn" type="text" inputmode="numeric" maxlength="4" value="${v}" placeholder="ör. −10" aria-label="Azami can değişikliği (artı ya da eksi)" enterkeyhint="done"><button type="button" class="mini" data-hpadj="set">Uygula</button>${a ? '<button type="button" class="mini" data-hpadj="clear">Kaldır</button>' : ''}</div>
+      <p class="note">Bir etki azami canını düşürür ya da artırırsa miktarı yaz (eksi için ±). Azami can düşünce mevcut can yeni azamiyi geçemez; değişikliği kaldırınca azami can geri gelir, mevcut can kendiliğinden artmaz (<b>İyileş</b> ile ekle). Geçici can (<span lang="en">Temporary Hit Points</span>) bundan ayrıdır.</p>
+    </div>`;
+  }
+  // an action of the block: 'sign' turns the box's sign (nothing saved); 'set' / 'clear' change the record.
+  // Returns { flip } | { err } | { msg }; the app saves and redraws.
+  function act(kind, hp, base, inp) {
+    if (kind === 'sign') {
+      if (!inp) return { flip: true };
+      inp.value = ITEMUI.flip(inp.value);
+      const b = inp.parentNode.querySelector('[data-hpadj="sign"]'); if (b) b.classList.toggle('neg', ITEMUI.neg(inp.value));
+      inp.focus(); return { flip: true };
+    }
+    const n = kind === 'clear' ? 0 : parse(inp && inp.value);
+    if (Number.isNaN(n)) return { err: 'Önce miktarı yaz: ör. −10 ya da 5.' };
+    if (Math.abs(n) > LIMIT || base + n < 1) return { err: `Azami can en az 1 kalır (şu an ${base}).` };
+    const was = hp.cur; set(hp, base, n);
+    if (!n) return { msg: `Azami can geri geldi: ${hp.max}. Mevcut can ${hp.cur}.` };
+    return { msg: `Azami can ${txt(n)}: ${hp.max}.${hp.cur < was ? ` Mevcut can ${hp.cur}.` : ''}` };
+  }
+  return { parse, txt, max, set, block, act };
+})();
+
 // Karakter → Saldırılar → Wild Shape: one chip per selected form (average damage per round), tap opens the form
 function renderWsQuick() {
   const box = $('#wsQuick'); if (!box) return;
@@ -13593,7 +13657,8 @@ function syncItems(start) {
     const v = effAt(el.dataset.rv); if (typeof v === 'number') el.textContent = f === 's' ? sgn(v) : String(v); else if (typeof v === 'string') el.textContent = v;
   }
   // hit point maximum (CON, hp): full stays full; at start from the saved value, which may be above the engine's maximum
-  const max = EFF.hitPoints.max;
+  // A13: with the temporary change (shared/hpmax.js)
+  const max = HPMAX.max(EFF.hitPoints.max, HP.adj);
   if (start) { if (max !== HP.max) { const v = load(HP_KEY, null), saved = v && Number.isFinite(v.cur); const full = !saved || v.cur >= (Number.isFinite(v.max) ? v.max : 88); HP.max = max; HP.cur = full ? max : Math.max(0, Math.min(max, Math.round(v.cur))); } }
   else if (max !== HP.max) { const full = HP.cur >= HP.max; HP.max = max; HP.cur = full ? max : Math.min(HP.cur, max); saveHp(); }
   GL_CHAR.dc = EFF.spellcasting.saveDc; GL_CHAR.atk = EFF.spellcasting.attackBonus; GL_CHAR.init = `${sgn(EFF.initiative.value)} (DEX)`;
@@ -13802,6 +13867,7 @@ function invAction(t) {
 }
 document.addEventListener('keydown', e => {
   // Enter in the hit point box = damage (the usual case)
+  if (e.key === 'Enter' && e.target.id === 'hpAdjIn') { e.preventDefault(); return hpAdjAction('set'); }
   if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('hpIn-')) { e.preventDefault(); hpAction('dmg', e.target.id.slice(5)); }
 });
 
@@ -13915,7 +13981,7 @@ let tab = 'char';
 const scrollMem = {};
 const viewKey = () => !CATS[tab] ? tab : tab + CATS[tab].sub;
 
-const charStats = () => `<button class="st acst" id="acBtn" data-acopen aria-label="AC ${acNow()}. Dokun: döküm"><span>AC</span><b>${acNow()}</b></button><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
+const charStats = () => `<button class="st acst" id="acBtn" data-acopen aria-label="AC ${acNow()}. Dokun: döküm"><span>AC</span><b>${acNow()}</b></button><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}${HP.adj ? `, azami can geçici ${HP.adj > 0 ? '+' : '−'}${Math.abs(HP.adj)}` : ''}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small${HP.adj ? ` class="hpadj ${HP.adj < 0 ? 'm' : 'p'}"` : ''}>/${HP.max}</small></b></button>`;
 function syncChrome() {
   document.documentElement.dataset.tab = tab;
   try { syncFloat(); } catch (e) {}
@@ -14115,7 +14181,7 @@ document.addEventListener('click', e => {
     if (a || !e.target.closest('.ask-box')) closeAsk(!!a && a.dataset.ask === 'yes');
     return;
   }
-  const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],[data-wsfloat],[data-sum],[data-sumf],[data-basis],[data-wz],[data-pk],[data-pk-open],#scrim');
+  const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-hpadj],[data-acopen],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],[data-wsfloat],[data-sum],[data-sumf],[data-basis],[data-wz],[data-pk],[data-pk-open],#scrim');
   if (t && t.dataset.basis) return openSheet(RBS, t.dataset.basis);
   if (t && t.dataset.wz) return wizAction(t.dataset.wz);
   // H6c: the player's picks (languages, skills)
@@ -14156,6 +14222,7 @@ document.addEventListener('click', e => {
     if (openRef && openRef.c === SP) { $('#sheetIn').innerHTML = SP.fill(openRef.id); focusQuiet(sheet.querySelector('.conc-b')); }
     return;
   }
+  if (t.dataset.hpadj) return hpAdjAction(t.dataset.hpadj);
   if (t.dataset.hp) return hpAction(t.dataset.hp, t.dataset.w);
   if (t.dataset.slot) return t.dataset.slot.startsWith('ws-use:') ? WS.useTap(+t.dataset.slot.slice(7)) : t.dataset.slot.startsWith('ms:') ? msTap(+t.dataset.slot.slice(3)) : SLOTS.tap(t.dataset.slot);
   if (t.dataset.shift) {
