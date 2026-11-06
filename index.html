@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mathias">
-<script>window.__PWA__ = true; window.__BUILD__ = 'd7988bfb06'; window.__BUILT__ = '2026-11-03 20:11';</script>
+<script>window.__PWA__ = true; window.__BUILD__ = 'cdc9733094'; window.__BUILT__ = '2026-11-06 19:08';</script>
 <style>[hidden]{display:none!important} body{margin:0} header{top:0 !important; padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
@@ -753,7 +753,19 @@ html:not(.gn-beast) .gnb, html:not(.gn-tree) .gnt{ display:none !important; }
 .wz-g summary{ min-height:44px; display:flex; align-items:center; gap:8px; padding:0 12px; font-weight:700; cursor:pointer; }
 .wz-g summary small{ color:var(--acc); font-weight:500; }
 .wz-stats{ display:grid; gap:4px; padding:0 8px 8px; }
-.wz-st{ display:grid; grid-template-columns:24px minmax(0,1fr) 76px; gap:8px; align-items:center; min-height:44px; padding:0 4px; border-radius:8px; }
+.wz-st{ display:grid; grid-template-columns:24px minmax(0,1fr) 44px 72px; gap:6px; align-items:center; min-height:44px; padding:0 4px; border-radius:8px; }
+/* U13 (D61): the ± sign button before each amount (phone number keyboards have no minus key) */
+.wz-sg{ min-height:40px; min-width:0; border:1px solid var(--ctl); background:var(--surface); color:var(--ink); border-radius:8px; font:inherit; font-weight:700; font-size:1.05rem; padding:0; }
+.wz-sg.neg{ background:hsl(2 45% 30%); border-color:hsl(2 50% 50%); color:#fff; }
+.wz-sg:disabled{ opacity:.5; }
+/* U13: the AC breakdown sheet */
+.ac-parts{ list-style:none; margin:0; padding:0; display:grid; gap:4px; }
+.ac-parts li{ display:flex; align-items:center; gap:8px; justify-content:space-between; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:6px 10px; }
+.ac-parts li > span{ display:grid; gap:1px; min-width:0; overflow-wrap:anywhere; }
+.ac-parts li small{ color:var(--muted); font-size:.8rem; }
+.ac-parts .acv{ font-variant-numeric:tabular-nums; font-size:1.05rem; flex:0 0 auto; }
+.ac-parts li.sum{ border-color:hsl(205 45% 50%); }
+.ac-parts li.sum .acv{ color:hsl(205 60% 78%); font-size:1.2rem; }
 .wz-st.on{ background:color-mix(in oklab, var(--acc) 10%, transparent); }
 .wz-st input[type="checkbox"]{ width:22px; height:22px; margin:0; accent-color:var(--acc); }
 .wz-n{ min-height:40px; min-width:0; border:1px solid var(--ctl); background:var(--surface); color:var(--ink); border-radius:8px; padding:4px 8px; font:inherit; text-align:right; }
@@ -853,7 +865,7 @@ html:not(.gn-beast) .gnb, html:not(.gn-tree) .gnt{ display:none !important; }
    <div style="--qh:0" data-basis="Can zarı|hitDice"><dt>Can zarı</dt><dd><span data-rv="hitDice.pools" data-rf="hd">10d8</span></dd><span class="en-name" lang="en">Hit Dice</span></div>
    <div style="--qh:320" data-basis="Büyü|spellcasting"><dt>Büyü</dt><dd><span data-rv="spellcasting.attackBonus" data-rf="s">+9</span> · DC <span data-rv="spellcasting.saveDc" data-rf="v">17</span></dd><span class="en-name" lang="en">Spell Attack · Save DC</span></div>
   </dl>
-  <p class="sub">Zırh: <span lang="en">Studded Leather + Shield</span> → AC <b id="acLine">17</b> <span class="rbw">(<button class="rbl" data-basis="Zırh Sınıfı|armorClass">zırh 12 + DEX 3 + kalkan 2 = 17</button></span><span id="acItems"></span>; üstteki AC kutusuna dokunup elle değiştirebilirsin). Uçma, tırmanma, yüzme hızı yok.</p>
+  <p class="sub">Zırh: AC <b id="acLine">17</b> <span id="acItems"></span> <span class="rbw">(<button class="rbl" data-acopen aria-label="AC dökümü">döküm</button>)</span>. Uçma, tırmanma, yüzme hızı yok.</p>
   <p class="sub" id="eqLine"></p>
   <div id="itemFx"></div>
 
@@ -11563,11 +11575,13 @@ const rStep = (o, k) => o == null ? o : Array.isArray(o) && k[0] === '#' ? o.fin
 // the basis of a path: the deepest object on the way that carries one
 function rBasis(path) { let o = RULES, b = null; for (const k of path.split('.')) { o = rStep(o, k); if (o && typeof o === 'object' && o.basis) b = o.basis; } return b; }
 const rbLines = paths => paths.map(rBasis).filter(Boolean);
+// U13: the active custom items behind a value ("eşyalar: … · Stealth +10"), after its rules basis
+const effNote = path => EFF ? ITEMUI.itemNote(EFF.itemsFor(path)) : '';
 // data-basis="Title|path;path"
 const RBS = {
   k: 'rb', back: id => document.querySelector(`[data-basis="${CSS.escape(id)}"]`),
   fill(id) {
-    const [title, paths] = id.split('|'), lines = rbLines((paths || '').split(';'));
+    const [title, paths] = id.split('|'), ps = (paths || '').split(';'), lines = [...new Set([...rbLines(ps), ...ps.map(effNote).filter(Boolean)])];
     return `
       <div class="sh-top"><span class="ic" style="--h:45" aria-hidden="true"><svg><use href="#i-book"/></svg></span><div><h2 id="shName">${esc(title)}</h2><p>Kural dayanağı</p></div>
         <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
@@ -11604,7 +11618,7 @@ const HPS = {
       ${hpWidget('char', HP.cur, HP.max)}
       <div class="hp-more"><button class="mini" data-hp="full" data-w="char">Tam can (uzun dinlenme)</button>${HP.log.length ? '<button class="mini" data-hp="undo" data-w="char">Son işlemi geri al</button>' : ''}</div>
       ${HP.log.length ? `<div class="blk"><h3>Son işlemler</h3><ul class="hp-log">${HP.log.map(l => `<li><b class="${l.raw < 0 ? 'm' : 'p'}">${l.raw < 0 ? '−' + (-l.raw) : '+' + l.raw}</b><span>${esc(l.note || (l.raw < 0 ? 'hasar' : 'iyileşme'))}</span><span>→ ${l.to}/${HP.max}</span><small>${hhmm(l.at)}</small></li>`).join('')}</ul></div>` : ''}
-      <p class="note rb">Azami can <b>${HP.max}</b>: ${esc(rBasis('hitPoints'))}.</p>
+      <p class="note rb">Azami can <b>${HP.max}</b>: ${esc(rBasis('hitPoints'))}${effNote('hitPoints') ? `; ${esc(effNote('hitPoints'))} → <b>${HP.max}</b>` : ''}.</p>
       <p class="note">Miktarı yaz, <b>Hasar</b> ya da <b>İyileş</b>’e dokun; kayıt bu telefonda kalır. 0 cana düşünce bilincini kaybedersin ve her tur death save atarsın (DC 10). <span lang="en">Wild Shape</span> formundayken hasarı <span lang="en">Wild Shape</span> → Aktif’teki kutuya yaz: önce formun geçici canı düşer, artan hasar buraya geçer.</p>`;
   },
 };
@@ -11738,43 +11752,18 @@ function renderRest() {
       <div class="sr-act"><button class="yes" data-rest="short-yes">Dinlenmeyi bitir</button><button data-rest="no">Vazgeç</button></div></div>`;
 }
 
-/* ---------- AC: the engine’s value by default (Studded Leather + Shield, H6c), editable by hand (user’s request) ---------- */
-const AC_KEY = 'mathias-ac-v1', AC_DEFAULT = 17;
-// H6c (mathias-inv-migr-7, once): a hand value of 18 is the old default (Monk's Unarmored Defense) and goes back to the
-// new default; any other hand value stays
-if (!load('mathias-inv-migr-7', false)) { const o = load(AC_KEY, null); if (o && o.v === 18) store(AC_KEY, { v: AC_DEFAULT }); }
-const AC = { v: (load(AC_KEY, null) || {}).v || AC_DEFAULT };
-// the AC shown: the hand value (default: the engine's) plus what the active custom items change (H4c; Bracers of Warding +3)
-const acDelta = () => EFF ? EFF.armorClass.computed - RULES.armorClass.computed : 0;
-const acNow = () => AC.v + acDelta();
+/* ---------- AC (U13, D61): always computed by the item runtime (shared/items.js) from the worn armour or the class formula,
+   DEX, the shield, the character's fixed bonuses and the active items; the AC box opens the breakdown and never changes the
+   value (the old hand value, mathias-ac-v1, is no longer read) ---------- */
+// the engine's AC with the starting gear: shown until the items are read (the page check compares it with rules.json)
+const AC_DEFAULT = 17;
+const acNow = () => EFF ? EFF.armorClass.computed : AC_DEFAULT;
 function syncAc() {
   const l = $('#acLine'); if (l) l.textContent = acNow();
-  // the basis line gives the AC without items; what the items add follows it (H4c review note 3)
-  const x = $('#acItems'); if (x) x.textContent = acDelta() ? `; eşyalarla ${acItemsText()} → ${acNow()}` : '';
+  const x = $('#acItems'); if (x && EFF) x.textContent = `= ${ITEMUI.acText(EFF.armorClass)}`;
 }
-const ACS = {
-  k: 'ac', back: () => $('#acBtn'),
-  fill() {
-    return `
-      <div class="sh-top"><span class="ic" style="--h:205" aria-hidden="true"><svg><use href="#i-shield"/></svg></span><div><h2 id="shName">Zırh Sınıfı</h2><p lang="en">Armor Class</p></div>
-        <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
-      <div class="hpw"><div class="hp-big"><b>${AC.v}</b><span>${AC.v === AC_DEFAULT ? 'varsayılan' : `varsayılan ${AC_DEFAULT}`}</span></div>
-        <div class="hp-in ac-in"><input id="acIn" type="number" inputmode="numeric" min="1" max="40" value="${AC.v}" aria-label="Yeni AC" enterkeyhint="done"><button class="hb healb" data-ac="save">Kaydet</button></div></div>
-      <div class="hp-more"><button class="mini" data-ac="-1" aria-label="AC’yi 1 azalt">− 1</button><button class="mini" data-ac="1" aria-label="AC’yi 1 artır">+ 1</button>${AC.v !== AC_DEFAULT ? `<button class="mini" data-ac="reset">Varsayılana dön (${AC_DEFAULT})</button>` : ''}</div>
-      ${acDelta() ? `<p class="note ifx-ac">Eşyalarla birlikte <b>AC ${acNow()}</b> (${esc(acItemsText())}). Buradaki değer eşyasız AC’dir; eşyanın etkisi üstüne eklenir.</p>` : ''}
-      <p class="note">Varsayılan: <span lang="en">Studded Leather</span> ve <span lang="en">Shield</span> ile <b>AC ${AC_DEFAULT}</b> (${esc(rBasis('armorClass'))}). Büyü (ör. <span lang="en">Barkskin</span>) ya da eşya değişince buradan ayarla; telefonda saklanır. <span lang="en">Wild Shape</span> formundayken formun AC’si geçerli (Aktif sayfasında).</p>`;
-  },
-};
-function acAction(a) {
-  let v = AC.v;
-  if (a === 'save') { v = Math.round(+$('#acIn').value); if (!(v >= 1 && v <= 40)) { toast('AC 1 ile 40 arasında olmalı.'); return focusQuiet($('#acIn')); } }
-  else if (a === 'reset') v = AC_DEFAULT;
-  else v = Math.max(1, Math.min(40, v + +a));
-  AC.v = v; store(AC_KEY, { v }); askPersist(); syncAc(); syncChrome(); renderItemFx();
-  $('#sheetIn').innerHTML = ACS.fill();
-  focusQuiet(sheet.querySelector(`[data-ac="${a}"]`) || sheet.querySelector('[data-ac="save"]'));
-  toast(`AC ${acNow()}`);
-}
+const AC_NOTE = '<span lang="en">Wild Shape</span> formundayken formun AC’si geçerli (<span lang="en">Wild Shape</span> → Aktif); bu döküm Mathias’ın kendi AC’sidir.';
+const ACS = { k: 'ac', back: () => $('#acBtn'), fill: () => (EFF ? ITEMUI.acSheet(EFF.armorClass, { note: AC_NOTE }, esc) : '') };
 
 /* ---------- büyü slotları: one box per slot, tap = spent (✕), saved on this phone ---------- */
 const slotBox = (used, key, label) => `<button class="box${used ? ' used' : ''}" data-slot="${key}" aria-pressed="${!!used}" aria-label="${label}: ${used ? 'harcandı' : 'boş'}"><svg aria-hidden="true"><use href="#i-x"/></svg></button>`;
@@ -12998,6 +12987,35 @@ const ITEMRT = (() => {
     return plain;
   }
 
+  // U13: what each active item adds to one statistic, by name (the stacking above: untyped add, a bonus type only its
+  // highest), for the breakdowns ("Siyah … +10")
+  function contrib(effective, stat) {
+    const out = [], best = {};
+    for (const e of effective) {
+      let v = 0;
+      for (const f of e.c.effects) {
+        if (f.stat !== stat) continue;
+        if (!f.bonus || stat === 'attunement:max') v += f.value;
+        else if (!(f.bonus in best) || f.value > best[f.bonus].value) best[f.bonus] = { name: e.c.name, value: f.value };
+      }
+      if (v) out.push({ name: e.c.name, value: v });
+    }
+    return [...out, ...Object.values(best)];
+  }
+  // U13: the item statistics behind a value path of the page ("skills.Stealth.bonus", "hitPoints", "attacks.#Longbow")
+  function statsOf(path, attacks) {
+    const [k, x] = String(path).split('.');
+    const sk = SKILL_AB.find(([s]) => s === x);
+    if ((k === 'skills' || k === 'passives') && sk) return [`${sk[0].toLowerCase()}:misc`];
+    if (k === 'saves' && ENG[x]) return [`${ENG[x]}:save:misc`];
+    if (k === 'abilities' && ENG[x]) return [ENG[x]];
+    if (k === 'hitPoints') return ['hp'];
+    if (k === 'initiative') return ['initiative'];
+    if (k === 'speed') return ['speed:misc', ...MODES.map(([mo]) => `speed:${mo}`)];
+    if (k === 'spellcasting') return ['spellcasting:dc', 'spellcasting:attack'];
+    if (k === 'attacks') { const a = (attacks || []).find((y) => `#${y.name}` === x); return a && a.kind ? [`${a.kind}:attack`, `${a.kind}:damage`] : []; }
+    return [];
+  }
   // The active entries: in a slot, attuned when the item needs it (and the attuned ones within the limit), effect on.
   // own: items the character already attunes in the engine's build (Berathast's Ring of Protection), on the same limit.
   function active(entries, own = 0) {
@@ -13042,7 +13060,7 @@ const ITEMRT = (() => {
       initFixed: v.initiative.value - m('DEX') - initAbs(cfg).reduce((n, a) => n + m(a), 0), initAbilities: initAbs(cfg), attunedOwn: cfg.attunedOwn || 0, noHeavy: cfg.speedWithoutHeavyArmor || {},
       speed: Object.fromEntries(Object.entries(v.speed).filter(([k]) => k !== 'basis')),
       hp: v.hitPoints.max,
-      ac: { computed: v.armorClass.computed, miscFixed: v.armorClass.computed - Math.max(...acCandidates) - (cfg.shield || 0), formulas: cfg.acFormulas, shield: cfg.shield || 0 },
+      ac: { computed: v.armorClass.computed, miscFixed: v.armorClass.computed - Math.max(...acCandidates) - (cfg.shield || 0), formulas: cfg.acFormulas, shield: cfg.shield || 0, shieldName: cfg.acShieldName || null, miscName: cfg.acMiscName || null },
       spell: v.spellcasting ? { ab: v.spellcasting.ability, dcFixed: v.spellcasting.saveDc - m(v.spellcasting.ability), atkFixed: v.spellcasting.attackBonus - m(v.spellcasting.ability) } : null,
       attacks: cfg.attacks.map((a) => {
         const r = v.attacks.find((x) => x.name === a.name);
@@ -13085,18 +13103,29 @@ const ITEMRT = (() => {
     const held = act.slots.hands.some((e) => act.items.includes(e));
     // speed that only counts without heavy armour (Berathast's Roving: +10 ft to walking, climbing and swimming)
     if (armor && armor.c.armorType === 'heavy') for (const [k, n] of Object.entries(base.noHeavy)) if (speed[k]) speed[k] -= n;
+    // each candidate: [formula text, value, the source named in the breakdown (U13), its sum in numbers]; with no armour entry
+    // worn the engine's own armour still counts (H5d / H6c): the breakdown says it is the sheet's armour, not a worn entry (U13 N4)
     const cand = [];
     const ownArmor = base.ac.formulas.some((f) => f.armor);
-    if (!armor) { if (!ownArmor) cand.push(['10 + DEX', 10 + m('DEX')]); }
+    if (!armor) { if (!ownArmor) cand.push(['10 + DEX', 10 + m('DEX'), 'Zırhsız', `10 + DEX ${sign(m('DEX'))}`]); }
     else {
       const t = armor.c.armorType, d = t === 'light' ? m('DEX') : t === 'medium' ? Math.min(m('DEX'), 2) : 0;
       const baseAc = (armor.c.effects.find((f) => f.stat === 'ac:armored:armor') || { value: 10 }).value;
-      cand.push([`zırh ${baseAc} + DEX ${d}${g('ac:armored:enhancement') ? ` + zırh büyüsü ${g('ac:armored:enhancement')}` : ''}`, baseAc + d + g('ac:armored:enhancement')]);
+      const enh = g('ac:armored:enhancement');
+      const dexT = t === 'heavy' ? 'DEX yok (heavy)' : `DEX ${sign(d)}${t === 'medium' ? ' (en fazla +2, medium)' : ''}`;
+      cand.push([`zırh ${baseAc} + DEX ${d}${enh ? ` + zırh büyüsü ${enh}` : ''}`, baseAc + d + enh, armor.c.name, `zırh ${baseAc} + ${dexT}${enh ? ` + zırh büyüsü ${sign(enh)}` : ''}`]);
     }
-    for (const f of base.ac.formulas) if (!((f.noArmor || f.armor) && armor) && !(f.noShield && shield)) cand.push([f.name, formulaAc(f, m)]);
+    const fSum = (f) => [String(f.base), ...f.abilities.map((a) => { const v = f.max && f.max[a] != null ? Math.min(m(a), f.max[a]) : m(a); return `${a} ${sign(v)}${f.max && f.max[a] != null ? ` (en fazla ${sign(f.max[a])})` : ''}`; })].join(' + ');
+    for (const f of base.ac.formulas) if (!((f.noArmor || f.armor) && armor) && !(f.noShield && shield)) cand.push([f.name, formulaAc(f, m), f.armor ? `${f.name} · sayfadaki zırh; Eşyalar’da zırh takılı değil` : f.name, fSum(f)]);
     cand.sort((x, y) => y[1] - x[1]);
     const shieldAc = shield ? g('ac:shield') : act.slots.hands.length < 2 ? base.ac.shield : 0, misc = base.ac.miscFixed + g('ac:misc');
-    const ac = { computed: cand[0][1] + shieldAc + misc, formula: cand[0][0], shield: shieldAc, misc: g('ac:misc') };
+    // U13 (D61): the AC is always this sum; the breakdown names every part (the base, the shield, the character's own
+    // fixed bonus, each active item's AC bonus) and the parts add up to the total
+    const parts = [{ label: cand[0][2], calc: cand[0][3], value: cand[0][1] }];
+    if (shieldAc) parts.push({ label: shield ? shield.c.name : base.ac.shieldName || 'Kalkan', calc: '', value: shieldAc });
+    if (base.ac.miscFixed) parts.push({ label: base.ac.miscName || 'Diğer', calc: '', value: base.ac.miscFixed });
+    for (const p of contrib(act.effective, 'ac:misc')) parts.push({ label: p.name, calc: '', value: p.value, item: true });
+    const ac = { computed: cand[0][1] + shieldAc + misc, formula: cand[0][0], shield: shieldAc, misc: g('ac:misc'), parts };
     const spellcasting = base.spell && { saveDc: m(base.spell.ab) + base.spell.dcFixed + g('spellcasting:dc'), attackBonus: m(base.spell.ab) + base.spell.atkFixed + g('spellcasting:attack') };
     // Martial Arts (2024): unarmed or Monk weapons only, no armor, no shield (a custom weapon is no Monk weapon).
     const ma = !armor && !shield && !held;
@@ -13106,10 +13135,12 @@ const ITEMRT = (() => {
       const atk = m(ab) + (useMa || !a.martialArts ? a.atkFixed : base.prof) + g(`${a.kind}:attack`);
       const bonus = m(ab) + (useMa || !a.martialArts ? a.dmgFixed : 0) + g(`${a.kind}:damage`);
       const dice = useMa ? a.martialArts : a.dice;
-      return { name: a.name, ability: ab, attackBonus: atk, damage: `${dice}${bonus ? sign(bonus) : ''}`, martialArts: useMa };
+      return { name: a.name, kind: a.kind, ability: ab, attackBonus: atk, damage: `${dice}${bonus ? sign(bonus) : ''}`, martialArts: useMa };
     });
+    // U13: the active items behind the values of a page path, each { name, label, value } ("Lanetli … · Azami can −10")
+    const itemsFor = (path) => statsOf(path, base.attacks).flatMap((st) => contrib(act.effective, st).map((p) => ({ ...p, stat: st, label: LABEL[st] })));
     return { abilities, saves, skills, passives, initiative: { value: m('DEX') + base.initAbilities.reduce((n, a) => n + m(a), 0) + base.initFixed + g('initiative') }, speed, hitPoints: { max: hp },
-      armorClass: ac, spellcasting, attacks, attunement: act.attunement, damageModifiers: damageModifiers(act.effective.map((e) => e.c)), active: act, stats: S };
+      armorClass: ac, spellcasting, attacks, attunement: act.attunement, damageModifiers: damageModifiers(act.effective.map((e) => e.c)), active: act, stats: S, itemsFor };
   }
 
   // In a Wild Shape form (D41): the plain bonuses of the active items marked "Wild Shape'te de", on top of the form's
@@ -13175,7 +13206,7 @@ const ITEMRT = (() => {
     const dmg = {}; for (const l of LISTS) for (const t of c[l] || []) dmg[t] = l;
     return { name: c.name, t: e.t === c.name ? '' : e.t, g, type: c.type, armorType: c.armorType, att: c.requiresAttunement, ws: !!c.ws, base: !!c.base, fx: Object.fromEntries(c.effects.map((f) => [f.stat, String(f.value)])), dmg, uses: c.uses ? String(c.uses) : '', dur: c.dur || '' };
   }
-  return { AB, ENG, SKILL_AB, STATS, LABEL, DAMAGE_TYPES, LISTS, TYPES, sign, mod, section, slots, stack, active, baseFrom, apply, formBonus, damageModifiers, engineView, fromDraft, toDraft };
+  return { AB, ENG, SKILL_AB, STATS, LABEL, DAMAGE_TYPES, LISTS, TYPES, sign, mod, section, slots, stack, contrib, statsOf, active, baseFrom, apply, formBonus, damageModifiers, engineView, fromDraft, toDraft };
 })();
 
 const ITEMUI = (() => {
@@ -13185,6 +13216,11 @@ const ITEMUI = (() => {
   const LIST_TR = { resistances: 'Direnç', vulnerabilities: 'Zayıflık', immunities: 'Bağışıklık' };
   const GROUPS = [['ab', 'Ability score'], ['ac', 'AC'], ['sv', 'Save'], ['sk', 'Skill'], ['at', 'Saldırı ve büyü'], ['mv', 'Hız, can ve diğer']];
   const cap = (s) => s[0].toUpperCase() + s.slice(1);
+  // U13 (D61): the wizard's ± button. neg: the amount as typed is negative; flip: the amount with its sign turned
+  // (an empty box gets "−", the digits follow); wizSign: the app's wizard action "sign=<stat>" (true when it was one)
+  const neg = (v) => /^\s*[−-]/.test(String(v || ''));
+  const flip = (v) => { const s = String(v == null ? '' : v).trim(); return neg(s) ? s.replace(/^[−-]\s*/, '') : `−${s.replace(/^\+\s*/, '')}`; };
+  const wizSign = (d, a) => { const m = /^sign=(.+)$/.exec(a || ''); if (!m || !(m[1] in d.fx)) return !!m; d.fx[m[1]] = flip(d.fx[m[1]]); return true; };
   // the item's effect chips: "AC +3", "STR +2", "Zırh AC 18", "Direnç: Fire" (damage types are game terms: English, capitalised)
   function chips(c, esc) {
     const fx = c.effects.map((f) => `<span class="tg fx">${f.stat === 'ac:armored:armor' ? `Zırh AC ${f.value}` : f.stat === 'ac:armored:enhancement' ? `Zırh büyüsü ${R.sign(f.value)}` : `${esc(R.LABEL[f.stat])} ${f.stat.startsWith('speed:') && f.stat !== 'speed:misc' ? `${f.value} ft` : R.sign(f.value)}`}</span>`);
@@ -13227,7 +13263,10 @@ const ITEMUI = (() => {
       const open = n || (g === 'ac' && d.type !== 'weapon') ? ' open' : '';
       return `<details class="wz-g"${open}><summary>${title}${n ? ` <small>${n} seçili</small>` : ''}</summary><div class="wz-stats">${rows.map((s) => {
         const tick = s.stat in d.fx;
-        return `<label class="wz-st${tick ? ' on' : ''}"><input type="checkbox" data-wzst="${s.stat}"${tick ? ' checked' : ''}><span lang="${g === 'sk' || g === 'ab' || g === 'sv' ? 'en' : 'tr'}">${esc(s.stat === 'ac:misc' ? 'AC bonusu' : s.label)}</span><input type="text" inputmode="numeric" class="wz-n" data-wzn="${s.stat}" value="${tick ? esc(d.fx[s.stat]) : ''}" placeholder="${s.stat === 'ac:armored:armor' ? '14' : '+1'}" aria-label="${esc(s.label)}: miktar"${tick ? '' : ' disabled'}></label>`;
+        // U13 (D61): phone number keyboards have no minus key, so every amount but the armour's own AC has a ± button
+        // that turns its sign (−10 ↔ 10); a negative amount is applied like any other
+        const sg = s.stat === 'ac:armored:armor' ? '<span></span>' : `<button type="button" class="wz-sg${neg(d.fx[s.stat]) ? ' neg' : ''}" data-wz="sign=${s.stat}" aria-label="${esc(s.label)}: işaretini değiştir (artı / eksi)"${tick ? '' : ' disabled'}>±</button>`;
+        return `<label class="wz-st${tick ? ' on' : ''}"><input type="checkbox" data-wzst="${s.stat}"${tick ? ' checked' : ''}><span lang="${g === 'sk' || g === 'ab' || g === 'sv' ? 'en' : 'tr'}">${esc(s.stat === 'ac:misc' ? 'AC bonusu' : s.label)}</span>${sg}<input type="text" inputmode="numeric" class="wz-n" data-wzn="${s.stat}" value="${tick ? esc(d.fx[s.stat]) : ''}" placeholder="${s.stat === 'ac:armored:armor' ? '14' : '+1'}" aria-label="${esc(s.label)}: miktar"${tick ? '' : ' disabled'}></label>`;
       }).join('')}</div></details>`;
     }).join('');
     const nd = R.DAMAGE_TYPES.filter((t) => d.dmg[t]).length;
@@ -13243,7 +13282,7 @@ const ITEMUI = (() => {
         ${armorB}
         <label class="wz-ck"><input type="checkbox" id="wzAtt"${d.att ? ' checked' : ''}><span><span lang="en">Attunement</span> gerekir</span></label>
         ${opts.ws ? `<label class="wz-ck"><input type="checkbox" id="wzWs"${d.ws ? ' checked' : ''}><span><span lang="en">Wild Shape</span> formlarında da geçerli <small>AC, save ve skill bonusları formun toplamına eklenir</small></span></label>` : ''}
-        <p class="wz-h">Etkiler <small>işaretle, miktarı yaz; takılıyken (gerekiyorsa <span lang="en">attunement</span> ile) sayfaya eklenir</small></p>
+        <p class="wz-h">Etkiler <small>işaretle, miktarı yaz; eksi değer için <b>±</b> düğmesine dokun (ör. −10). Takılıyken (gerekiyorsa <span lang="en">attunement</span> ile) sayfaya eklenir</small></p>
         ${d.base ? '<p class="note">Bu eşyanın bonusu sayfanın değerlerine <b>zaten dahil</b>: buraya aynı etkiyi ekleme (iki kez sayılır).</p>' : ''}
         ${groups}${dmg}
         <div class="wz-row wz-uses"><label class="wz-f">Uzun dinlenme başına kullanım<input id="wzUses" type="text" inputmode="numeric" value="${esc(d.uses)}" placeholder="0 = hep açık"></label><label class="wz-f">Bir kullanımın süresi<input id="wzDur" type="text" value="${esc(d.dur)}" maxlength="60" placeholder="ör. 5 saat"></label></div>
@@ -13251,7 +13290,21 @@ const ITEMUI = (() => {
         <div class="act two"><button data-wz="save">Kaydet</button><button class="sec2" data-close>Vazgeç</button></div>
       </div>`;
   }
-  return { TYPE_TR, ARMOR_TR, LIST_TR, chips, uses, useBtn, useCard, entry, wizard };
+  // U13 (D61): the AC is computed, never set by hand. acText: the sum in one line ("19 (Siyah …: zırh 12 + DEX +5 + zırh büyüsü +2) + 1 (Ring of Protection)");
+  // acSheet: the breakdown sheet the AC box opens (o.note: the app's own line, e.g. Wild Shape); itemNote: the active
+  // items behind a value, for its basis line ("eşyalar: Lanetli Mezarcı Bilekliği · Azami can −10")
+  const acText = (ac) => ac.parts.map((p, i) => `${i ? `${p.value < 0 ? '−' : '+'} ${Math.abs(p.value)}` : p.value} (${p.label}${p.calc ? `: ${p.calc}` : ''})`).join(' ');
+  function acSheet(ac, o, esc) {
+    const rows = ac.parts.map((p, i) => `<li><span><b>${esc(p.label)}</b>${p.calc ? `<small>${esc(p.calc)}</small>` : ''}</span><b class="acv">${i ? R.sign(p.value) : p.value}</b></li>`).join('');
+    return `
+      <div class="sh-top"><span class="ic" style="--h:205" aria-hidden="true"><svg><use href="#i-shield"/></svg></span><div><h2 id="shName">Zırh Sınıfı</h2><p lang="en">Armor Class</p></div>
+        <button class="x" data-close aria-label="Kapat"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+      <div class="hpw ac-total"><div class="hp-big"><b id="acTotal">${ac.computed}</b><span>hesaplanan AC</span></div></div>
+      <div class="blk"><h3>Döküm</h3><ul class="ac-parts">${rows}<li class="sum"><span>Toplam</span><b class="acv">${ac.computed}</b></li></ul></div>
+      <p class="note">AC her zaman hesaplanır: giyili zırh (yoksa zırhsız formül) ve DEX, kalkan, yüzük gibi sabit bonuslar ve takılı eşyaların AC bonusları. Değiştirmek için Eşyalar’da zırhı ya da eşyayı tak / çıkar; buraya dokunmak AC’yi değiştirmez.</p>${o && o.note ? `<p class="note">${o.note}</p>` : ''}`;
+  }
+  const itemNote = (list) => (list.length ? `eşyalar: ${list.map((p) => `${p.name} · ${p.label} ${R.sign(p.value)}`).join(', ')}` : '');
+  return { TYPE_TR, ARMOR_TR, LIST_TR, chips, uses, useBtn, useCard, entry, wizard, neg, flip, wizSign, acText, acSheet, itemNote };
 })();
 
 // Karakter → Saldırılar → Wild Shape: one chip per selected form (average damage per round), tap opens the form
@@ -13369,7 +13422,7 @@ const SK = (() => {
         </dl>
         <div class="desc">${s.d}</div>
         <div class="blk"><h3>Kullanım alanları</h3><ul class="uses">${s.use.map(u => `<li>${u}</li>`).join('')}</ul></div>
-        <p class="note rb">Dayanak: ${esc(rBasis('skills.' + s.en) || '')}.</p>
+        <p class="note rb">Dayanak: ${esc(rBasis('skills.' + s.en) || '')}${effNote('skills.' + s.en) ? ` · ${esc(effNote('skills.' + s.en))}` : ''}.</p>
         ${SKILL_NOTES[id] ? `<div class="tip">${skillNote(id)}</div>` : ''}
         <div class="src">Check zor olduğunda DM bir DC söyler (kolay 10 · orta 15 · zor 20 · çok zor 25); d20 + bonus ≥ DC başarılıdır.</div>`;
     },
@@ -13451,7 +13504,7 @@ function togglePick(k, n) {
 // he wears in the engine's build (Studded Leather 12 + DEX; a custom armour takes its place), the engine's shield (+2; a
 // held custom shield takes its place), Magician's WIS on Arcana and Nature (skillAbilities) and the attack the page shows (Unarmed Strike, 1 + STR).
 // One line of JSON: the parity test (character-builder/test/html-items.integration.test.js) reads it from the built page.
-const ITEM_CFG = {"acFormulas":[{"name":"Studded Leather (zırh 12 + DEX)","base":12,"abilities":["DEX"],"armor":true}],"shield":2,"skillAbilities":{"Arcana":"WIS","Nature":"WIS"},"attacks":[{"name":"Unarmed Strike","kind":"unarmed","ability":"STR","dice":"1"}]};
+const ITEM_CFG = {"acFormulas":[{"name":"Studded Leather (zırh 12 + DEX)","base":12,"abilities":["DEX"],"armor":true}],"acShieldName":"Shield","shield":2,"skillAbilities":{"Arcana":"WIS","Nature":"WIS"},"attacks":[{"name":"Unarmed Strike","kind":"unarmed","ability":"STR","dice":"1"}]};
 const INV_KEY = 'mathias-inventory-v1';
 const inv = load(INV_KEY, { items: [], notes: [] });
 if (!Array.isArray(inv.items)) inv.items = [];
@@ -13532,8 +13585,6 @@ function effAt(path) {
   if (src) { const v = rest.reduce((o, x) => o == null ? o : o[x], src); if (v !== undefined) return v; }
   return path.split('.').reduce(rStep, RULES);
 }
-// names of the active items that move the AC, with their part
-const acItemsText = () => EFF.active.effective.filter(e => !e.c.base && (e.c.effects.some(f => f.stat.startsWith('ac:')) || e.c.type === 'armor' || e.c.type === 'shield')).map(e => e.c.name).join(', ') + ` ${sgn(acDelta())}`;
 // recompute after any item change: every number on the page that the items can move
 function syncItems(start) {
   EFF = ITEMRT.apply(IBASE, inv.items); WSB = ITEMRT.formBonus(inv.items);
@@ -13565,7 +13616,6 @@ const itemUseCard = ws => ITEMUI.useCard(inv.items.filter(e => e.c && e.c.uses &
 function renderItemFx() {
   const box = $('#itemFx'); if (!box || !EFF) return;
   const dm = EFF.damageModifiers, lines = [];
-  if (acDelta()) lines.push(`<p class="ifx-line">Eşyalarla <b>AC ${acNow()}</b> (${esc(acItemsText())})</p>`);
   for (const l of ITEMRT.LISTS) if (dm[l].length) lines.push(`<p class="ifx-line"><b>${ITEMUI.LIST_TR[l]}</b>: ${dm[l].map(t => `<span lang="en">${t[0].toUpperCase() + t.slice(1)}</span> (${esc(dm.sources[t].join(', '))})`).join(', ')}</p>`);
   box.innerHTML = lines.join('') + itemUseCard(false);
 }
@@ -13695,6 +13745,7 @@ $('#sheetIn').addEventListener('change', ev => {
 });
 function wizAction(a) {
   const d = WZ.draft;
+  if (ITEMUI.wizSign(d, a)) return WZ.redraw(`[data-wz="${a}"]`);
   if (a === 'save') return WZ.save();
   const [k, v] = a.split(':');
   if (k === 'type') { d.type = v; if (v !== 'armor') delete d.armorType; WZ.redraw(`[data-wz="${a}"]`); }
@@ -13751,12 +13802,11 @@ function invAction(t) {
 }
 document.addEventListener('keydown', e => {
   // Enter in the hit point box = damage (the usual case)
-  if (e.key === 'Enter' && e.target.id === 'acIn') { e.preventDefault(); acAction('save'); }
   if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('hpIn-')) { e.preventDefault(); hpAction('dmg', e.target.id.slice(5)); }
 });
 
 // Backup: every key this app writes, as one JSON file.
-const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1', CONC_KEY, AC_KEY, HD_KEY, PICK_KEY, MS_KEY];
+const BACKUP_KEYS = ['mathias-druid-prepared-v1', 'mathias-wildshape-selected-v1', INV_KEY, HP_KEY, 'mathias-slots-v1', 'mathias-wildshape-active-v1', CONC_KEY, HD_KEY, PICK_KEY, MS_KEY];
 function exportData() {
   const data = { app: 'mathias', v: 1, at: new Date().toISOString(), keys: {} };
   for (const k of BACKUP_KEYS) { try { const r = localStorage.getItem(k); if (r) data.keys[k] = JSON.parse(r); } catch (e) {} }
@@ -13865,7 +13915,7 @@ let tab = 'char';
 const scrollMem = {};
 const viewKey = () => !CATS[tab] ? tab : tab + CATS[tab].sub;
 
-const charStats = () => `<button class="st acst" id="acBtn" data-acopen aria-label="AC ${acNow()}. Dokun: elle değiştir"><span>AC</span><b>${acNow()}</b></button><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
+const charStats = () => `<button class="st acst" id="acBtn" data-acopen aria-label="AC ${acNow()}. Dokun: döküm"><span>AC</span><b>${acNow()}</b></button><button class="st hpst ${hpTone(HP.cur, HP.max)}" id="hpBtn" data-hpopen aria-label="Can ${HP.cur} / ${HP.max}. Dokun: hasar ya da iyileşme yaz"><span>Can</span><b>${HP.cur}<small>/${HP.max}</small></b></button>`;
 function syncChrome() {
   document.documentElement.dataset.tab = tab;
   try { syncFloat(); } catch (e) {}
@@ -14065,7 +14115,7 @@ document.addEventListener('click', e => {
     if (a || !e.target.closest('.ask-box')) closeAsk(!!a && a.dataset.ask === 'yes');
     return;
   }
-  const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-ac],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],[data-wsfloat],[data-sum],[data-sumf],[data-basis],[data-wz],[data-pk],[data-pk-open],#scrim');
+  const t = e.target.closest('[data-portrait],[data-pick],[data-open],[data-gold],[data-f],[data-mv],[data-close],[data-lim],[data-clear],[data-tab],[data-sub],[data-inv],[data-backup],[data-install],[data-update],[data-hpopen],[data-hp],[data-acopen],[data-slot],[data-conc],[data-rest],[data-cws],[data-shift],[data-act],[data-wsfloat],[data-sum],[data-sumf],[data-basis],[data-wz],[data-pk],[data-pk-open],#scrim');
   if (t && t.dataset.basis) return openSheet(RBS, t.dataset.basis);
   if (t && t.dataset.wz) return wizAction(t.dataset.wz);
   // H6c: the player's picks (languages, skills)
@@ -14078,7 +14128,6 @@ document.addEventListener('click', e => {
   if (t.hasAttribute('data-portrait')) return openLightbox();
   if (t.hasAttribute('data-hpopen')) return openSheet(HPS, 'hp');
   if (t.hasAttribute('data-acopen')) return openSheet(ACS, 'ac');
-  if (t.dataset.ac) return acAction(t.dataset.ac);
   if (t.dataset.rest) {
     const r = t.dataset.rest;
     if (r === 'yes') return longRest();
